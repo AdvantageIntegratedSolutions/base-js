@@ -53,19 +53,19 @@ record = api.find("bdjwmnj33", "12")
 ```
 
 ###Add Record
-**addRecord(dbid, newData)** => **[string] New Record Id**
+**addRecord(dbid, newRecord)** => **[string] New Record Id**
 
 ```javascript
-newData = {6 => "Book", 7 => "My New Title", 8 => "John Smith"}
-newRid = api.addRecord("abcd1234", newData)
+newRecord = {6 => "Book", 7 => "My New Title", 8 => "John Smith"}
+newRid = api.addRecord("abcd1234", newRecord)
 ````
 
 ###Edit Record
-**editRecord(dbid, rid, newData )** => **[bool] Success?**
+**editRecord(dbid, rid, updatedRecord )** => **[bool] Success?**
 
 ```javascript
-newData = {7 => "My Second Title", 8 => "John Smith"}
-callSuccessful = api.editRecord("abcd1234", 136, newData)
+updatedRecord = {7 => "My Second Title", 8 => "John Smith"}
+callSuccessful = api.editRecord("abcd1234", 136, updatedRecord)
 ````
 
 ###Delete Record
@@ -104,5 +104,6 @@ new_data = [
   {"7": "A Tale of Two Cities", "8": "Charles Dickens"},
   {"7": "Animal Farm", "8": "George Orwell"}
 ]
+
 rids = api.importRecords("abcd1234", new_data )
 ````
