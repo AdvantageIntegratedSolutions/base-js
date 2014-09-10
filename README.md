@@ -11,7 +11,7 @@ https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.js
 var client = new Base();
 
 //Get Ticket
-client.GetTicket();
+var ticket = client.GetTicket();
 
 //Add Record
 var newRecordHash = { 8: "Mike", 9: "Johnson" }
