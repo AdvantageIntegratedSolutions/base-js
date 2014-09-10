@@ -26,7 +26,7 @@ qbApi = new Base();
 ```
 
 ###Do Query
-**doQuery(dbid, queryOptions) => [json] record
+**doQuery(dbid, queryOptions) => [Array] records
 
 "queryOptions" expects a hash containing any of the following options:
 
