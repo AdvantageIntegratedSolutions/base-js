@@ -37,7 +37,7 @@ qbApi = new Base();
 * "options" - string of additional options. ex: `"num-200.skp-#{records_processed}"`
 
 ```javascript
-records = qbApi.doQuery('bdjwmnj33', {"query": "{3.EX.'123'}", "clist": "3.6.10"})
+records = qbApi.doQuery("bdjwmnj33", {"query": "{3.EX.'123'}", "clist": "3.6.10"})
 ```
 
 ###Do Query Count
@@ -57,23 +57,23 @@ record = qbApi.find("bdjwmnj33", "12")
 **addRecord(dbid, newData)** => **[string] New Record Id**
 
 ```javascript
-newData = {6 => 'Book', 7 => 'My New Title', 8 => 'John Smith'}
-newRecordId = qbApi.addRecord('abcd1234', newData)
+newData = {6 => "Book", 7 => "My New Title", 8 => "John Smith"}
+newRid = qbApi.addRecord("abcd1234", newData)
 ````
 
 ###Edit Record
 **editRecord(dbid, rid, newData )** => **[bool] Success?**
 
 ```javascript
-newData = {7 => 'My Second Title', 8 => 'John Smith'}
-callSuccessful = qbApi.editRecord('abcd1234', 136, newData)
+newData = {7 => "My Second Title", 8 => "John Smith"}
+callSuccessful = qbApi.editRecord("abcd1234", 136, newData)
 ````
 
 ###Delete Record
 **deleteRecord(dbid, rid)** => **[bool] Success?**
 
 ```javascript
-callSuccessful = qbApi.deleteRecord('abcd1234', 136)
+callSuccessful = qbApi.deleteRecord("abcd1234", 136)
 ````
 
 ###Purge Records
@@ -93,7 +93,7 @@ Get the complete list of fields for a table
 **getTableFields(dbid)**
 
 ```javascript
-fields = qbApi.getTableFields( 'abcd1234' )
+fields = qbApi.getTableFields("abcd1234")
 ````
 
 ###Import From CSV
@@ -101,9 +101,9 @@ fields = qbApi.getTableFields( 'abcd1234' )
 
 ```javascript
 new_data = [
-  {'7': 'Lord of the Flies', '8': 'William Golding'},
-  {'7': 'A Tale of Two Cities', '8': 'Charles Dickens'},
-  {'7': 'Animal Farm', '8': 'George Orwell'}
+  {"7": "Lord of the Flies", "8": "William Golding"},
+  {"7": "A Tale of Two Cities", "8": "Charles Dickens"},
+  {"7": "Animal Farm", "8": "George Orwell"}
 ]
-record_ids = qbApi.importFromCSV( 'abcd1234', new_data )
+rids = qbApi.importFromCSV("abcd1234", new_data )
 ````
