@@ -25,7 +25,7 @@ api = new Base();
 ```
 
 ###Query Records
-**doQuery(dbid, queryOptions) => [Array] records
+**doQuery(dbid, queryOptions) => [Array] records**
 
 "queryOptions" expects a hash containing any of the following options:
 
