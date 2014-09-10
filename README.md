@@ -21,23 +21,25 @@ var rid = client.AddRecord(demoDbid, newRecordHash);
 var editRecordHash = { 8: "Stephan", 9: "Smith" }
 var response = client.EditRecord(demoDbid, rid, editRecordHash);
 
-//Find
+//Find Single Record
 var response = client.Find(demoDbid, rid);
 
-//DoQuery
+//Query Records
 var query = "{'3'.XEX.''}"
 var response = client.DoQuery(demoDbid, {"query": query})
 
 var qid = "1"
 var response = client.DoQuery(demoDbid, {"qid": qid, "clist": "1.2.3.4.5"})
 
-//DoQueryCount
+//Count Queried Records
 var query = "{'3'.XEX.''}"
 var response = client.DoQueryCount(demoDbid, query)
 
 //Delete Record
 var response = client.DeleteRecord(demoDbid, rid);
 
+
+//Import Records
 var csvArray = [
 	{ 8: 'Mike"s', 9: "John" },
 	{ 8: "Step,hani'e", 9: "Wallace" },
@@ -46,10 +48,10 @@ var csvArray = [
 ]
 var response = client.ImportFromCSV(demoDbid, csvArray);
 
-//Purge Records
+//Delete Mass Records
 var response = client.PurgeRecords(demoDbid, "{'3'.XEX.''}")
 
-//Get Schema
+//Get Table Fields
 var response = client.GetTableFields(demoDbid);
 ```
 
