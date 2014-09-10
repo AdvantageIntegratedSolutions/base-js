@@ -100,7 +100,6 @@ numberOfRecordsDeleted = api.purgeRecords('abcd1234', "{3.EX.'123'}")
 ````
 
 ###Get Table Fields
-Get the complete list of fields for a table
 **getTableFields(dbid)** => **[array] json fields**
 
 ```javascript
