@@ -44,6 +44,11 @@ qbApi.DoQueryCount( 'bdjwmnj33', {"query": "{3.EX.'123'}"} )
 newRecordId = qbApi.AddRecord( 'abcd1234', newData )
 ````
 
+###Find
+**Find(dbid, rid) => [json] record
+record = qbApi.Find( 'bdjwmnj33', '12')
+```
+
 ###Add Record
 **AddRecord( dbid, newData)** => **[string] New Record Id**
 

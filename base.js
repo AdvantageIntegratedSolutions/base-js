@@ -38,6 +38,16 @@ function Base(apptoken){
     }
   }
 
+  this.Find = function(dbid, rid){
+    var records = this.DoQuery(dbid, {"query": "{'3'.EX.'"+rid+"'}"});
+
+    if(records.length > 0){
+      return records[0];
+    }else{
+      return {};
+    };
+  };
+
   this.DoQuery = function(dbid, params){
     var queryParams = {"fmt": "structured"}
 

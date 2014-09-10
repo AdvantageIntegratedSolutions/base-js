@@ -28,6 +28,10 @@
 				var response = client.EditRecord(demoDbid, rid, editRecordHash);
 				$scope.numberOfUpdatedFields = response;
 
+				//Find
+				var response = client.Find(demoDbid, rid);
+				$scope.singleRecord = response;
+
 				//DoQuery
 				var query = "{'3'.XEX.''}"
 				var response = client.DoQuery(demoDbid, {"query": query})
@@ -83,6 +87,10 @@
 						<tr>
 							<td># of Edited Fields</td>
 							<td>{{numberOfUpdatedFields}}</td>
+						</tr>
+						<tr>
+							<td>Find Single Record</td>
+							<td>{{singleRecord}}</td>
 						</tr>
 						<tr>
 							<td>Query 1 Results</td>
