@@ -60,6 +60,13 @@ var response = client.GetTableFields(demoDbid);
 api = new Base();
 ```
 
+###Get Ticket
+**getTicket() => [string] ticket**
+
+```javascript
+var ticket = api.getTicket();
+```
+
 ###Query Records
 **doQuery(dbid, queryOptions) => [array] records**
 
@@ -72,27 +79,27 @@ api = new Base();
 * "options" - string of additional options. ex: `"num-200.skp-#{records_processed}"`
 
 ```javascript
-records = api.doQuery("bdjwmnj33", {"query": "{3.EX.'123'}", "clist": "3.6.10"})
+var records = api.doQuery("bdjwmnj33", {"query": "{3.EX.'123'}", "clist": "3.6.10"})
 ```
 
 ###Count Queried Records
 **doQueryCount(dbid, query)** => **[int] # of records in query**
 
 ```javascript
-count = api.doQueryCount("bdjwmnj33", "{'3'.EX.'123'}")
+var count = api.doQueryCount("bdjwmnj33", "{'3'.EX.'123'}")
 ```
 
 ###Find Single Record
 **find(dbid, rid)** => **[json] record**
 ```javascript
-record = api.find("bdjwmnj33", "12")
+var record = api.find("bdjwmnj33", "12")
 ```
 
 ###Import Records
 **importRecords(dbid, data)** => **[array] new rids**
 
 ```javascript
-new_data = [
+var new_data = [
   {"7": "Lord of the Flies", "8": "William Golding"},
   {"7": "A Tale of Two Cities", "8": "Charles Dickens"},
   {"7": "Animal Farm", "8": "George Orwell"}
@@ -105,23 +112,23 @@ rids = api.importRecords("abcd1234", new_data )
 **addRecord(dbid, newRecord)** => **[string] new rid**
 
 ```javascript
-newRecord = {6 => "Book", 7 => "My New Title", 8 => "John Smith"}
-newRid = api.addRecord("abcd1234", newRecord)
+var newRecord = {6 => "Book", 7 => "My New Title", 8 => "John Smith"}
+var newRid = api.addRecord("abcd1234", newRecord)
 ````
 
 ###Edit Record
 **editRecord(dbid, rid, updatedRecord )** => **[bool] success?**
 
 ```javascript
-updatedRecord = {7 => "My Second Title", 8 => "John Smith"}
-callSuccessful = api.editRecord("abcd1234", 136, updatedRecord)
+var updatedRecord = {7 => "My Second Title", 8 => "John Smith"}
+var callSuccessful = api.editRecord("abcd1234", 136, updatedRecord)
 ````
 
 ###Delete Record
 **deleteRecord(dbid, rid)** => **[bool] success?**
 
 ```javascript
-callSuccessful = api.deleteRecord("abcd1234", 136)
+var callSuccessful = api.deleteRecord("abcd1234", 136)
 ````
 
 ###Delete Mass Records
@@ -132,12 +139,12 @@ callSuccessful = api.deleteRecord("abcd1234", 136)
 * `query` - typical Quickbase query string. ex: `"{3.EX.'123'}"`
 
 ```javascript
-numberOfRecordsDeleted = api.purgeRecords('abcd1234', "{3.EX.'123'}")
+var numberOfRecordsDeleted = api.purgeRecords('abcd1234', "{3.EX.'123'}")
 ````
 
 ###Get Table Fields
 **getTableFields(dbid)** => **[array] fields**
 
 ```javascript
-fields = api.getTableFields("abcd1234")
+var fields = api.getTableFields("abcd1234")
 ````
