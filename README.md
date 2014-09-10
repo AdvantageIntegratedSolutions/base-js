@@ -41,12 +41,11 @@ records = qbApi.doQuery( 'bdjwmnj33', {"query": "{3.EX.'123'}", "clist": "3.6.10
 **doQueryCount( dbid, queryOptions)** => **[string] Number of found in Query**
 
 ```javascript
-qbApi.doQueryCount( 'bdjwmnj33', {"query": "{3.EX.'123'}"} )
-newRecordId = qbApi.addRecord( 'abcd1234', newData )
+count = qbApi.doQueryCount( 'bdjwmnj33', {"query": "{3.EX.'123'}"} )
 ```
 
 ###Find
-**find(dbid, rid) => [json] record
+**find(dbid, rid) => [json] record**
 ```javascript
 record = qbApi.Find( 'bdjwmnj33', '12')
 ```
