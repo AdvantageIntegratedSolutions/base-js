@@ -15,7 +15,7 @@ queryOptions = {"query": "{6.EX.'Book'}", "clist": "7"}
 books = qbApi.doQuery('booksDbid', queryOptions)
 
 console.log(books)
-# => [ {"7" => "Lord of the Flies"}, {"7" => "The Giver"} ]
+# => [{"7" => "Lord of the Flies"}, {"7" => "The Giver"}]
 ```
 
 ##API Documentation
@@ -37,68 +37,67 @@ qbApi = new Base();
 * "options" - string of additional options. ex: `"num-200.skp-#{records_processed}"`
 
 ```javascript
-records = qbApi.doQuery( 'bdjwmnj33', {"query": "{3.EX.'123'}", "clist": "3.6.10"} )
+records = qbApi.doQuery('bdjwmnj33', {"query": "{3.EX.'123'}", "clist": "3.6.10"})
 ```
 
 ###Do Query Count
-**doQueryCount( dbid, query)** => **[string] Number of found in Query**
+**doQueryCount(dbid, query)** => **[string] Number of found in Query**
 
 ```javascript
-count = qbApi.doQueryCount( 'bdjwmnj33', "{3.EX.'123'}" )
+count = qbApi.doQueryCount("bdjwmnj33", "{'3'.EX.'123'}")
 ```
 
 ###Find
 **find( dbid, rid)** => **[json] record**
 ```javascript
-record = qbApi.find( 'bdjwmnj33', '12')
+record = qbApi.find("bdjwmnj33", "12")
 ```
 
 ###Add Record
-**addRecord( dbid, newData)** => **[string] New Record Id**
+**addRecord(dbid, newData)** => **[string] New Record Id**
 
 ```javascript
-newData = { 6 => 'Book', 7 => 'My New Title', 8 => 'John Smith'}
-newRecordId = qbApi.addRecord( 'abcd1234', newData )
+newData = {6 => 'Book', 7 => 'My New Title', 8 => 'John Smith'}
+newRecordId = qbApi.addRecord('abcd1234', newData)
 ````
 
 ###Edit Record
-**editRecord( dbid, recordID, newData )** => **[bool] Success?**
+**editRecord(dbid, rid, newData )** => **[bool] Success?**
 
 ```javascript
-newData = { 7 => 'My Second Title', 8 => 'John Smith'}
-callSuccessful = qbApi.editRecord( 'abcd1234', 136, newData )
+newData = {7 => 'My Second Title', 8 => 'John Smith'}
+callSuccessful = qbApi.editRecord('abcd1234', 136, newData)
 ````
 
 ###Delete Record
-**deleteRecord( dbid, recordID )** => **[bool] Success?**
+**deleteRecord(dbid, rid)** => **[bool] Success?**
 
 ```javascript
-callSuccessful = qbApi.deleteRecord( 'abcd1234', 136 )
+callSuccessful = qbApi.deleteRecord('abcd1234', 136)
 ````
 
 ###Purge Records
-**purgeRecords( dbid, options )** => **[string] # of records deleted**
+**purgeRecords(dbid, options)** => **[string] # of records deleted**
 
 `options` expects a hash containing any of the following options:
 
 * `query` - typical Quickbase query string. ex: `"{3.EX.'123'}"`
 
 ```javascript
-numberOfRecordsDeleted = qbApi.purgeRecords( 'abcd1234', "{3.EX.'123'}" )
+numberOfRecordsDeleted = qbApi.purgeRecords('abcd1234', "{3.EX.'123'}")
 ````
 
 ###Get Table Fields
 Get the complete list of fields for a table
 
-
-**GetTableFields(dbid)**
+**getTableFields(dbid)**
 
 ```javascript
 fields = qbApi.getTableFields( 'abcd1234' )
 ````
 
 ###Import From CSV
-**importFromCSV( dbid, data)** => **[array] New Record Ids**
+**importFromCSV(dbid, data)** => **[array] New Record Ids**
 
 ```javascript
 new_data = [
