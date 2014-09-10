@@ -1,0 +1,111 @@
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+		<script type="text/javascript" src="https://ais.quickbase.com/db/bjbsgxy2r?a=dbpage&pageID=3"></script>
+		<link rel="stylesheet" type="text/css" href="https://ais.quickbase.com/db/bjbsgxy2r?a=dbpage&pageID=4">
+
+		<script>
+			var demoApp = angular.module('demoApp', []);
+			
+			demoApp.controller('DemoAppCtrl', function ($scope) {
+				var demoDbid = "bjbsgxy3t";
+				
+				//Initiate connection to application
+				var client = new Base();
+
+				//Get Ticket
+				var response = client.GetTicket();
+				$scope.ticket = response;
+
+				//Add Record
+				var newRecordHash = { 8: "Mike", 9: "Johnson" }
+				var rid = client.AddRecord(demoDbid, newRecordHash);
+				$scope.newAddRecordId = rid;
+
+				//Edit Record
+				var editRecordHash = { 8: "Stephan", 9: "Smith" }
+				var response = client.EditRecord(demoDbid, rid, editRecordHash);
+				$scope.numberOfUpdatedFields = response;
+
+				//DoQuery
+				var query = "{'3'.XEX.''}"
+				var response = client.DoQuery(demoDbid, {"query": query})
+				$scope.query1 = response;
+
+				var qid = "1"
+				var response = client.DoQuery(demoDbid, {"qid": qid, "clist": "1.2.3.4.5"})
+				$scope.query2 = response;
+
+				//Delete Record
+				var response = client.DeleteRecord(demoDbid, rid);
+				$scope.deletedRecordId = response;
+
+				var csvArray = [
+					{ 8: 'Mike"s', 9: "John>s&o<n" },
+					{ 8: "Step,hani'e", 9: "Wallace" },
+					{ 8: "Jackson", 9: "Williams" },
+					{ 8: "Martin", 9: "Douglas" }
+				]
+				var response = client.ImportFromCSV(demoDbid, csvArray);
+				$scope.importedRids = response;
+
+				//Purge Records
+				var response = client.PurgeRecords(demoDbid, "{'3'.XEX.''}")
+				$scope.numberOfRecordsDeleted = response;
+
+				//Get Schema
+				var response = client.GetTableFields(demoDbid);
+				$scope.fields = response;
+			});
+		</script>
+	</head>
+
+	<body ng-app="demoApp">
+		<div class="container">
+			<br>
+			<div ng-controller="DemoAppCtrl">
+				<table class="table table-bordered">
+					<tbody>
+						<tr>
+							<td class="col-md-6">Ticket</td>
+							<td class="col-md-6">{{ticket}}</td>
+						</tr>
+						<tr>
+							<td>Added Record ID</td>
+							<td>{{newAddRecordId}}</td>
+						</tr>
+						<tr>
+							<td># of Edited Fields</td>
+							<td>{{numberOfUpdatedFields}}</td>
+						</tr>
+						<tr>
+							<td>Query 1 Results</td>
+							<td>{{query1}}</td>
+						</tr>
+						<tr>
+							<td>Query 2 Results</td>
+							<td>{{query2}}</td>
+						</tr>
+						<tr>
+							<td>Deleted Record ID</td>
+							<td>{{deletedRecordId}}</td>
+						</tr>
+						<tr>
+							<td>Imported Rids</td>
+							<td>{{importedRids}}</td>
+						</tr>
+						<tr>
+							<td># of Records Deleted</td>
+							<td>{{numberOfRecordsDeleted}}</td>
+						</tr>
+						<tr>
+							<td>Table Fields</td>
+							<td>{{fields}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</body>
+</html>
