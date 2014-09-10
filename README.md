@@ -38,7 +38,6 @@ var response = client.DoQueryCount(demoDbid, query)
 //Delete Record
 var response = client.DeleteRecord(demoDbid, rid);
 
-
 //Import Records
 var csvArray = [
 	{ 8: 'Mike"s', 9: "John" },
