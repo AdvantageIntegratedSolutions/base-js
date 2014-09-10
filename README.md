@@ -9,7 +9,7 @@ qbApi = new Base();
 
 # Load all of the Books in our table
 query_options = {"query": "{6.EX.'Book'}", "clist": "7"}
-books = qbApi.DoQuery('books_db_id', query_options)
+books = qbApi.DoQuery('booksDbid', query_options)
 
 console.log(books)
 # => [ {"7" => "Lord of the Flies"}, {"7" => "The Giver"} ]
@@ -24,18 +24,16 @@ qbApi = new Base();
 ###Do Query
 
 **DoQuery(dbid, queryOptions) => [json] record
-**do\_query( db\_id, query\_options )** => **[json] records**
 
-`query_options` expects a hash containing any of the following options:
+"queryOptions" expects a hash containing any of the following options:
 
-* `query` - typical Quickbase query string. ex: `"{3.EX.'123'}"`
-* `qid` - report or query id to load (should not be used with `query` or `qname`)
-* `clist` - a list (Array or period-separated string) of fields to return
-* `slist` - a list (Array or period-separated string) of fields to sort by
-* `options` - string of additional options. ex: `"num-200.skp-#{records_processed}"`
+* "query" - typical Quickbase query string. ex: `"{3.EX.'123'}"`
+* "qid" - report or query id to load (should not be used with `query` or `qname`)
+* "clist" - a list (Array or period-separated string) of fields to return
+* "slist" - a list (Array or period-separated string) of fields to sort by
+* "options" - string of additional options. ex: `"num-200.skp-#{records_processed}"`
 
 
-```javascript
 records = qbApi.DoQuery( 'bdjwmnj33', {query: "{3.EX.'123'}", clist: "3.6.10"} )
 ```
 
@@ -70,7 +68,7 @@ callSuccessful = qbApi.DeleteRecord( 'abcd1234', 136 )
 * `query` - typical Quickbase query string. ex: `"{3.EX.'123'}"`
 
 ```javascript
-recordDeleted = qbApi.PurgeRecords( 'abcd1234', {query: "{3.EX.'123'}"} )
+numberOfRecordsDeleted = qbApi.PurgeRecords( 'abcd1234', {query: "{3.EX.'123'}"} )
 ````
 
 ###Get Table Fields
@@ -88,7 +86,7 @@ fields = qbApi.GetTableFields( 'abcd1234' )
 
 ```javascript
 new_data = [
-  {'7': 'Lord of the Flies', '8': William Golding'],
+  {'7': 'Lord of the Flies', '8': 'William Golding'],
   {'7': 'A Tale of Two Cities', '8': 'Charles Dickens'],
   {'7': 'Animal Farm', '8': 'George Orwell']
 ]
