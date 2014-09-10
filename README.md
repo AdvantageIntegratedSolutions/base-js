@@ -8,11 +8,11 @@ https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.js
 ##Example
 ```javascript
 //Create a new API connection
-qbApi = new Base();
+api = new Base();
 
 # Load all of the Books in our table
 queryOptions = {"query": "{6.EX.'Book'}", "clist": "7"}
-books = qbApi.doQuery('booksDbid', queryOptions)
+books = api.doQuery('booksDbid', queryOptions)
 
 console.log(books)
 # => [{"7" => "Lord of the Flies"}, {"7" => "The Giver"}]
@@ -22,7 +22,7 @@ console.log(books)
 ###New Connection
 
 ```javascript
-qbApi = new Base();
+api = new Base();
 ```
 
 ###Do Query
@@ -37,20 +37,20 @@ qbApi = new Base();
 * "options" - string of additional options. ex: `"num-200.skp-#{records_processed}"`
 
 ```javascript
-records = qbApi.doQuery("bdjwmnj33", {"query": "{3.EX.'123'}", "clist": "3.6.10"})
+records = api.doQuery("bdjwmnj33", {"query": "{3.EX.'123'}", "clist": "3.6.10"})
 ```
 
 ###Do Query Count
 **doQueryCount(dbid, query)** => **[string] Number of found in Query**
 
 ```javascript
-count = qbApi.doQueryCount("bdjwmnj33", "{'3'.EX.'123'}")
+count = api.doQueryCount("bdjwmnj33", "{'3'.EX.'123'}")
 ```
 
 ###Find
 **find( dbid, rid)** => **[json] record**
 ```javascript
-record = qbApi.find("bdjwmnj33", "12")
+record = api.find("bdjwmnj33", "12")
 ```
 
 ###Add Record
@@ -58,7 +58,7 @@ record = qbApi.find("bdjwmnj33", "12")
 
 ```javascript
 newData = {6 => "Book", 7 => "My New Title", 8 => "John Smith"}
-newRid = qbApi.addRecord("abcd1234", newData)
+newRid = api.addRecord("abcd1234", newData)
 ````
 
 ###Edit Record
@@ -66,14 +66,14 @@ newRid = qbApi.addRecord("abcd1234", newData)
 
 ```javascript
 newData = {7 => "My Second Title", 8 => "John Smith"}
-callSuccessful = qbApi.editRecord("abcd1234", 136, newData)
+callSuccessful = api.editRecord("abcd1234", 136, newData)
 ````
 
 ###Delete Record
 **deleteRecord(dbid, rid)** => **[bool] Success?**
 
 ```javascript
-callSuccessful = qbApi.deleteRecord("abcd1234", 136)
+callSuccessful = api.deleteRecord("abcd1234", 136)
 ````
 
 ###Purge Records
@@ -84,7 +84,7 @@ callSuccessful = qbApi.deleteRecord("abcd1234", 136)
 * `query` - typical Quickbase query string. ex: `"{3.EX.'123'}"`
 
 ```javascript
-numberOfRecordsDeleted = qbApi.purgeRecords('abcd1234', "{3.EX.'123'}")
+numberOfRecordsDeleted = api.purgeRecords('abcd1234', "{3.EX.'123'}")
 ````
 
 ###Get Table Fields
@@ -93,7 +93,7 @@ Get the complete list of fields for a table
 **getTableFields(dbid)**
 
 ```javascript
-fields = qbApi.getTableFields("abcd1234")
+fields = api.getTableFields("abcd1234")
 ````
 
 ###Import From CSV
@@ -105,5 +105,5 @@ new_data = [
   {"7": "A Tale of Two Cities", "8": "Charles Dickens"},
   {"7": "Animal Farm", "8": "George Orwell"}
 ]
-rids = qbApi.importFromCSV("abcd1234", new_data )
+rids = api.importFromCSV("abcd1234", new_data )
 ````
