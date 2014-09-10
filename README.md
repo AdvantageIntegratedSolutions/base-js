@@ -2,6 +2,9 @@
 
 QuickBase API Javascript Library w/ JSON
 
+version 1.0
+https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.js
+
 ##Example
 ```javascript
 //Create a new API connection
