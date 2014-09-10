@@ -4,19 +4,19 @@ function Base(apptoken){
 
   BaseHelpers.initHttpConnection();
 
-  this.GetTicket = function(){
+  this.getTicket = function(){
     var response = BaseHelpers.post("main", "GetOneTimeTicket")
     var ticket = BaseHelpers.getNode(response, "ticket");
     return ticket;
   }
 
-  this.AddRecord = function(dbid, fieldParams){
+  this.addRecord = function(dbid, fieldParams){
     var response = BaseHelpers.post(dbid, "AddRecord", fieldParams);
     var rid = BaseHelpers.getNode(response, "rid");
     return rid;
   }
 
-  this.EditRecord = function(dbid, rid, fieldParams){
+  this.editRecord = function(dbid, rid, fieldParams){
     var response = BaseHelpers.post(dbid, "EditRecord", fieldParams, {"rid": rid});
     var rid = BaseHelpers.getNode(response, "rid");
 
@@ -27,7 +27,7 @@ function Base(apptoken){
     }
   }
 
-  this.DeleteRecord = function(dbid, rid){
+  this.deleteRecord = function(dbid, rid){
     var response = BaseHelpers.post(dbid, "DeleteRecord", {}, {"rid": rid})
     var rid = BaseHelpers.getNode(response, "rid");
 
@@ -38,7 +38,7 @@ function Base(apptoken){
     }
   }
 
-  this.Find = function(dbid, rid){
+  this.find = function(dbid, rid){
     var records = this.DoQuery(dbid, {"query": "{'3'.EX.'"+rid+"'}"});
 
     if(records.length > 0){
@@ -48,7 +48,7 @@ function Base(apptoken){
     };
   };
 
-  this.DoQuery = function(dbid, params){
+  this.doQuery = function(dbid, params){
     var queryParams = {"fmt": "structured"}
 
     if(params.query || params.qid){
@@ -70,18 +70,18 @@ function Base(apptoken){
     return records;
   }
 
-  this.DoQueryCount= function(dbid, params){
+  this.doQueryCount= function(dbid, params){
     var records = this.DoQuery(dbid, params);
     return records.length;
   };
 
-  this.PurgeRecords = function(dbid, query){
+  this.purgeRecords = function(dbid, query){
     var response = BaseHelpers.post(dbid, "PurgeRecords", {}, {"query": query});
     var numberOfRecordDeleted = BaseHelpers.getNode(response, "num_records_deleted");
     return numberOfRecordDeleted;
   }
 
-  this.ImportFromCSV = function(dbid, csvArray){
+  this.importFromCSV = function(dbid, csvArray){
     var csv = "";
     var clist = [];
 
@@ -112,7 +112,7 @@ function Base(apptoken){
     return rids;
   }
 
-  this.GetTableFields = function(dbid){
+  this.getTableFields = function(dbid){
     var response = BaseHelpers.post(dbid, "GetSchema");
     var fields = BaseHelpers.getFields(response);
     return fields;
