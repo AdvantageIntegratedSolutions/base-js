@@ -33,6 +33,7 @@ qbApi = new Base();
 * "slist" - a list (Array or period-separated string) of fields to sort by
 * "options" - string of additional options. ex: `"num-200.skp-#{records_processed}"`
 
+```javascript
 records = qbApi.DoQuery( 'bdjwmnj33', {"query": "{3.EX.'123'}", "clist": "3.6.10"} )
 ```
 
