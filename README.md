@@ -1,6 +1,6 @@
 #BaseJS
 
-QuickBase API Javascript Library
+QuickBase API Javascript Library w/ JSON
 
 ##Example
 ```javascript
