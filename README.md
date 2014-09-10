@@ -25,7 +25,7 @@ api = new Base();
 ```
 
 ###Query Records
-**doQuery(dbid, queryOptions) => [Array] records**
+**doQuery(dbid, queryOptions) => [array] records**
 
 "queryOptions" expects a hash containing any of the following options:
 
@@ -74,7 +74,7 @@ newRid = api.addRecord("abcd1234", newRecord)
 ````
 
 ###Edit Record
-**editRecord(dbid, rid, updatedRecord )** => **[bool] Success?**
+**editRecord(dbid, rid, updatedRecord )** => **[bool] success?**
 
 ```javascript
 updatedRecord = {7 => "My Second Title", 8 => "John Smith"}
@@ -82,7 +82,7 @@ callSuccessful = api.editRecord("abcd1234", 136, updatedRecord)
 ````
 
 ###Delete Record
-**deleteRecord(dbid, rid)** => **[bool] Success?**
+**deleteRecord(dbid, rid)** => **[bool] success?**
 
 ```javascript
 callSuccessful = api.deleteRecord("abcd1234", 136)
@@ -100,7 +100,7 @@ numberOfRecordsDeleted = api.purgeRecords('abcd1234', "{3.EX.'123'}")
 ````
 
 ###Get Table Fields
-**getTableFields(dbid)** => **[array] json fields**
+**getTableFields(dbid)** => **[array] fields**
 
 ```javascript
 fields = api.getTableFields("abcd1234")
