@@ -10,11 +10,11 @@ https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.js
 //Create a new API connection
 api = new Base();
 
-# Load all of the Books in our table
+// Load all of the Books in our table
 queryOptions = {"query": "{6.EX.'Book'}", "clist": "7"}
 books = api.doQuery('booksDbid', queryOptions)
 
-# => [{"7" => "Lord of the Flies"}, {"7" => "The Giver"}]
+// => [{"7" => "Lord of the Flies"}, {"7" => "The Giver"}]
 ```
 
 ##API Documentation
