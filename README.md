@@ -39,7 +39,7 @@ api = new Base();
 records = api.doQuery("bdjwmnj33", {"query": "{3.EX.'123'}", "clist": "3.6.10"})
 ```
 
-###Count Queried Record
+###Count Queried Records
 **doQueryCount(dbid, query)** => **[int] # of records in query**
 
 ```javascript
