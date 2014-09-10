@@ -60,6 +60,11 @@ function Base(apptoken){
     return records;
   }
 
+  this.DoQueryCount= function(dbid, params){
+    var records = this.DoQuery(dbid, params);
+    return records.length;
+  };
+
   this.PurgeRecords = function(dbid, query){
     var response = BaseHelpers.post(dbid, "PurgeRecords", {}, {"query": query});
     var numberOfRecordDeleted = BaseHelpers.getNode(response, "num_records_deleted");

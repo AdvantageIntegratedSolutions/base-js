@@ -20,9 +20,9 @@ console.log(books)
 
 ```javascript
 qbApi = new Base();
+```
 
 ###Do Query
-
 **DoQuery(dbid, queryOptions) => [json] record
 
 "queryOptions" expects a hash containing any of the following options:
@@ -33,9 +33,16 @@ qbApi = new Base();
 * "slist" - a list (Array or period-separated string) of fields to sort by
 * "options" - string of additional options. ex: `"num-200.skp-#{records_processed}"`
 
-
-records = qbApi.DoQuery( 'bdjwmnj33', {query: "{3.EX.'123'}", clist: "3.6.10"} )
+records = qbApi.DoQuery( 'bdjwmnj33', {"query": "{3.EX.'123'}", "clist": "3.6.10"} )
 ```
+
+###Do Query Count
+**DoQueryCount( dbid, queryOptions)** => **[string] Number of found in Query**
+
+```javascript
+qbApi.DoQueryCount( 'bdjwmnj33', {"query": "{3.EX.'123'}"} )
+newRecordId = qbApi.AddRecord( 'abcd1234', newData )
+````
 
 ###Add Record
 **AddRecord( dbid, newData)** => **[string] New Record Id**

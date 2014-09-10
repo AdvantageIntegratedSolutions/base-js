@@ -37,6 +37,11 @@
 				var response = client.DoQuery(demoDbid, {"qid": qid, "clist": "1.2.3.4.5"})
 				$scope.query2 = response;
 
+				//DoQueryCount
+				var query = "{'3'.XEX.''}"
+				var response = client.DoQueryCount(demoDbid, {"query": query})
+				$scope.queryCount = response;
+
 				//Delete Record
 				var response = client.DeleteRecord(demoDbid, rid);
 				$scope.deletedRecordId = response;
@@ -86,6 +91,10 @@
 						<tr>
 							<td>Query 2 Results</td>
 							<td>{{query2}}</td>
+						</tr>
+						<tr>
+							<td>Query 1 Count</td>
+							<td>{{queryCount}}</td>
 						</tr>
 						<tr>
 							<td>Deleted Record ID</td>
