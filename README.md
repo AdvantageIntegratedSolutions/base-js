@@ -7,14 +7,50 @@ https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.js
 
 ##Example
 ```javascript
-//Create a new API connection
-api = new Base();
+//Initiate connection to application
+var client = new Base();
 
-// Load all of the Books in our table
-queryOptions = {"query": "{6.EX.'Book'}", "clist": "7"}
-books = api.doQuery('booksDbid', queryOptions)
+//Get Ticket
+client.GetTicket();
 
-// => [{"7" => "Lord of the Flies"}, {"7" => "The Giver"}]
+//Add Record
+var newRecordHash = { 8: "Mike", 9: "Johnson" }
+var rid = client.AddRecord(demoDbid, newRecordHash);
+
+//Edit Record
+var editRecordHash = { 8: "Stephan", 9: "Smith" }
+var response = client.EditRecord(demoDbid, rid, editRecordHash);
+
+//Find
+var response = client.Find(demoDbid, rid);
+
+//DoQuery
+var query = "{'3'.XEX.''}"
+var response = client.DoQuery(demoDbid, {"query": query})
+
+var qid = "1"
+var response = client.DoQuery(demoDbid, {"qid": qid, "clist": "1.2.3.4.5"})
+
+//DoQueryCount
+var query = "{'3'.XEX.''}"
+var response = client.DoQueryCount(demoDbid, query)
+
+//Delete Record
+var response = client.DeleteRecord(demoDbid, rid);
+
+var csvArray = [
+	{ 8: 'Mike"s', 9: "John" },
+	{ 8: "Step,hani'e", 9: "Wallace" },
+	{ 8: "Jackson", 9: "Williams" },
+	{ 8: "Martin", 9: "Douglas" }
+]
+var response = client.ImportFromCSV(demoDbid, csvArray);
+
+//Purge Records
+var response = client.PurgeRecords(demoDbid, "{'3'.XEX.''}")
+
+//Get Schema
+var response = client.GetTableFields(demoDbid);
 ```
 
 ##API Documentation
