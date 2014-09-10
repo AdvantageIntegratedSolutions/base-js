@@ -40,20 +40,20 @@ records = api.doQuery("bdjwmnj33", {"query": "{3.EX.'123'}", "clist": "3.6.10"})
 ```
 
 ###Count Queried Record
-**doQueryCount(dbid, query)** => **[string] Number of found in Query**
+**doQueryCount(dbid, query)** => **[int] # of records in query**
 
 ```javascript
 count = api.doQueryCount("bdjwmnj33", "{'3'.EX.'123'}")
 ```
 
 ###Find Single Record
-**find( dbid, rid)** => **[json] record**
+**find(dbid, rid)** => **[json] record**
 ```javascript
 record = api.find("bdjwmnj33", "12")
 ```
 
 ###Add Record
-**addRecord(dbid, newRecord)** => **[string] New Record Id**
+**addRecord(dbid, newRecord)** => **[string] new rid**
 
 ```javascript
 newRecord = {6 => "Book", 7 => "My New Title", 8 => "John Smith"}
@@ -76,7 +76,7 @@ callSuccessful = api.deleteRecord("abcd1234", 136)
 ````
 
 ###Delete Mass Records
-**purgeRecords(dbid, options)** => **[string] # of records deleted**
+**purgeRecords(dbid, options)** => **[int] # of records deleted**
 
 `options` expects a hash containing any of the following options:
 
@@ -96,7 +96,7 @@ fields = api.getTableFields("abcd1234")
 ````
 
 ###Import Records
-**importRecords(dbid, data)** => **[array] New Record Ids**
+**importRecords(dbid, data)** => **[array] new rids**
 
 ```javascript
 new_data = [

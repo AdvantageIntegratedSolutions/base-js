@@ -78,7 +78,7 @@ function Base(apptoken){
   this.purgeRecords = function(dbid, query){
     var response = BaseHelpers.post(dbid, "PurgeRecords", {}, {"query": query});
     var numberOfRecordDeleted = BaseHelpers.getNode(response, "num_records_deleted");
-    return numberOfRecordDeleted;
+    return parseInt(numberOfRecordDeleted);
   }
 
   this.importRecords = function(dbid, csvArray){
