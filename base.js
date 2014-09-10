@@ -18,14 +18,24 @@ function Base(apptoken){
 
   this.EditRecord = function(dbid, rid, fieldParams){
     var response = BaseHelpers.post(dbid, "EditRecord", fieldParams, {"rid": rid});
-    var numOfFieldsChanged = BaseHelpers.getNode(response, "num_fields_changed");
-    return numOfFieldsChanged;
+    var rid = BaseHelpers.getNode(response, "rid");
+
+    if(rid){
+      return true;
+    }else{
+      return false;
+    }
   }
 
   this.DeleteRecord = function(dbid, rid){
     var response = BaseHelpers.post(dbid, "DeleteRecord", {}, {"rid": rid})
     var rid = BaseHelpers.getNode(response, "rid");
-    return rid;
+
+    if(rid){
+      return true;
+    }else{
+      return false;
+    }
   }
 
   this.DoQuery = function(dbid, params){
