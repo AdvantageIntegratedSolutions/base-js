@@ -14,7 +14,6 @@ api = new Base();
 queryOptions = {"query": "{6.EX.'Book'}", "clist": "7"}
 books = api.doQuery('booksDbid', queryOptions)
 
-console.log(books)
 # => [{"7" => "Lord of the Flies"}, {"7" => "The Giver"}]
 ```
 
@@ -25,7 +24,7 @@ console.log(books)
 api = new Base();
 ```
 
-###Do Query
+###Query Records
 **doQuery(dbid, queryOptions) => [Array] records
 
 "queryOptions" expects a hash containing any of the following options:
@@ -40,14 +39,14 @@ api = new Base();
 records = api.doQuery("bdjwmnj33", {"query": "{3.EX.'123'}", "clist": "3.6.10"})
 ```
 
-###Do Query Count
+###Count Queried Record
 **doQueryCount(dbid, query)** => **[string] Number of found in Query**
 
 ```javascript
 count = api.doQueryCount("bdjwmnj33", "{'3'.EX.'123'}")
 ```
 
-###Find
+###Find Single Record
 **find( dbid, rid)** => **[json] record**
 ```javascript
 record = api.find("bdjwmnj33", "12")
@@ -76,7 +75,7 @@ callSuccessful = api.editRecord("abcd1234", 136, newData)
 callSuccessful = api.deleteRecord("abcd1234", 136)
 ````
 
-###Purge Records
+###Delete Mass Records
 **purgeRecords(dbid, options)** => **[string] # of records deleted**
 
 `options` expects a hash containing any of the following options:
@@ -96,8 +95,8 @@ Get the complete list of fields for a table
 fields = api.getTableFields("abcd1234")
 ````
 
-###Import From CSV
-**importFromCSV(dbid, data)** => **[array] New Record Ids**
+###Import Records
+**importRecords(dbid, data)** => **[array] New Record Ids**
 
 ```javascript
 new_data = [
@@ -105,5 +104,5 @@ new_data = [
   {"7": "A Tale of Two Cities", "8": "Charles Dickens"},
   {"7": "Animal Farm", "8": "George Orwell"}
 ]
-rids = api.importFromCSV("abcd1234", new_data )
+rids = api.importRecords("abcd1234", new_data )
 ````

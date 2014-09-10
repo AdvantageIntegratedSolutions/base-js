@@ -81,7 +81,7 @@ function Base(apptoken){
     return numberOfRecordDeleted;
   }
 
-  this.importFromCSV = function(dbid, csvArray){
+  this.importRecords = function(dbid, csvArray){
     var csv = "";
     var clist = [];
 
