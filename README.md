@@ -52,6 +52,19 @@ count = api.doQueryCount("bdjwmnj33", "{'3'.EX.'123'}")
 record = api.find("bdjwmnj33", "12")
 ```
 
+###Import Records
+**importRecords(dbid, data)** => **[array] new rids**
+
+```javascript
+new_data = [
+  {"7": "Lord of the Flies", "8": "William Golding"},
+  {"7": "A Tale of Two Cities", "8": "Charles Dickens"},
+  {"7": "Animal Farm", "8": "George Orwell"}
+]
+
+rids = api.importRecords("abcd1234", new_data )
+````
+
 ###Add Record
 **addRecord(dbid, newRecord)** => **[string] new rid**
 
@@ -93,17 +106,4 @@ Get the complete list of fields for a table
 
 ```javascript
 fields = api.getTableFields("abcd1234")
-````
-
-###Import Records
-**importRecords(dbid, data)** => **[array] new rids**
-
-```javascript
-new_data = [
-  {"7": "Lord of the Flies", "8": "William Golding"},
-  {"7": "A Tale of Two Cities", "8": "Charles Dickens"},
-  {"7": "Animal Farm", "8": "George Orwell"}
-]
-
-rids = api.importRecords("abcd1234", new_data )
 ````
