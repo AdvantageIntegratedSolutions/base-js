@@ -70,8 +70,8 @@ function Base(apptoken){
     return records;
   }
 
-  this.doQueryCount= function(dbid, params){
-    var records = this.DoQuery(dbid, params);
+  this.doQueryCount= function(dbid, query){
+    var records = this.DoQuery(dbid, {"query": query});
     return records.length;
   };
 

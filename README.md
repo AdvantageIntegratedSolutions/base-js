@@ -8,8 +8,8 @@ QuickBase API Javascript Library w/ JSON
 qbApi = new Base();
 
 # Load all of the Books in our table
-query_options = {"query": "{6.EX.'Book'}", "clist": "7"}
-books = qbApi.doQuery('booksDbid', query_options)
+queryOptions = {"query": "{6.EX.'Book'}", "clist": "7"}
+books = qbApi.doQuery('booksDbid', queryOptions)
 
 console.log(books)
 # => [ {"7" => "Lord of the Flies"}, {"7" => "The Giver"} ]
@@ -29,8 +29,8 @@ qbApi = new Base();
 
 * "query" - typical Quickbase query string. ex: `"{3.EX.'123'}"`
 * "qid" - report or query id to load (should not be used with `query` or `qname`)
-* "clist" - a list (Array or period-separated string) of fields to return
-* "slist" - a list (Array or period-separated string) of fields to sort by
+* "clist" - a list (Period-separated string) of fields to return
+* "slist" - a list (Period-separated string) of fields to sort by
 * "options" - string of additional options. ex: `"num-200.skp-#{records_processed}"`
 
 ```javascript
@@ -38,16 +38,16 @@ records = qbApi.doQuery( 'bdjwmnj33', {"query": "{3.EX.'123'}", "clist": "3.6.10
 ```
 
 ###Do Query Count
-**doQueryCount( dbid, queryOptions)** => **[string] Number of found in Query**
+**doQueryCount( dbid, query)** => **[string] Number of found in Query**
 
 ```javascript
-count = qbApi.doQueryCount( 'bdjwmnj33', {"query": "{3.EX.'123'}"} )
+count = qbApi.doQueryCount( 'bdjwmnj33', "{3.EX.'123'}" )
 ```
 
 ###Find
-**find(dbid, rid) => [json] record**
+**find( dbid, rid)** => **[json] record**
 ```javascript
-record = qbApi.Find( 'bdjwmnj33', '12')
+record = qbApi.find( 'bdjwmnj33', '12')
 ```
 
 ###Add Record
@@ -74,14 +74,14 @@ callSuccessful = qbApi.deleteRecord( 'abcd1234', 136 )
 ````
 
 ###Purge Records
-**purgeRecords( dbid, options )** => **[string] Records Deleted**
+**purgeRecords( dbid, options )** => **[string] # of records deleted**
 
 `options` expects a hash containing any of the following options:
 
 * `query` - typical Quickbase query string. ex: `"{3.EX.'123'}"`
 
 ```javascript
-numberOfRecordsDeleted = qbApi.purgeRecords( 'abcd1234', {query: "{3.EX.'123'}"} )
+numberOfRecordsDeleted = qbApi.purgeRecords( 'abcd1234', "{3.EX.'123'}" )
 ````
 
 ###Get Table Fields
@@ -99,9 +99,9 @@ fields = qbApi.getTableFields( 'abcd1234' )
 
 ```javascript
 new_data = [
-  {'7': 'Lord of the Flies', '8': 'William Golding'],
-  {'7': 'A Tale of Two Cities', '8': 'Charles Dickens'],
-  {'7': 'Animal Farm', '8': 'George Orwell']
+  {'7': 'Lord of the Flies', '8': 'William Golding'},
+  {'7': 'A Tale of Two Cities', '8': 'Charles Dickens'},
+  {'7': 'Animal Farm', '8': 'George Orwell'}
 ]
 record_ids = qbApi.importFromCSV( 'abcd1234', new_data )
 ````
