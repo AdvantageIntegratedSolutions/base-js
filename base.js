@@ -202,7 +202,17 @@ var BaseConnect = {
       for(var j=0; j < fields.length; j++){
         var field = fields[j];
         var id = $(field).attr("id");
-        var value = $(field).text();
+
+        if($(field).find("url").text() != ""){
+          var url = $(field).find("url").text();
+          var sections = url.split("/");
+          var filename = sections[sections.length - 1];
+
+          var value = {"filename": filename, "url": url};
+        }else{
+          var value = $(field).text();
+        };
+
         record[id] = value;
       };
 
