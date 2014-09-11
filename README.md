@@ -5,55 +5,6 @@ QuickBase API Javascript Library w/ JSON
 version 1.0
 https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.js
 
-##Example
-```javascript
-//Initiate connection to application
-var client = new Base();
-
-//Get Ticket
-var ticket = client.GetTicket();
-
-//Add Record
-var newRecordHash = { 8: "Mike", 9: "Johnson" }
-var rid = client.AddRecord(demoDbid, newRecordHash);
-
-//Edit Record
-var editRecordHash = { 8: "Stephan", 9: "Smith" }
-var response = client.EditRecord(demoDbid, rid, editRecordHash);
-
-//Find Single Record
-var response = client.Find(demoDbid, rid);
-
-//Query Records
-var query = "{'3'.XEX.''}"
-var response = client.DoQuery(demoDbid, {"query": query})
-
-var qid = "1"
-var response = client.DoQuery(demoDbid, {"qid": qid, "clist": "1.2.3.4.5"})
-
-//Count Queried Records
-var query = "{'3'.XEX.''}"
-var response = client.DoQueryCount(demoDbid, query)
-
-//Delete Record
-var response = client.DeleteRecord(demoDbid, rid);
-
-//Import Records
-var csvArray = [
-	{ 8: 'Mike"s', 9: "John" },
-	{ 8: "Step,hani'e", 9: "Wallace" },
-	{ 8: "Jackson", 9: "Williams" },
-	{ 8: "Martin", 9: "Douglas" }
-]
-var response = client.ImportFromCSV(demoDbid, csvArray);
-
-//Delete Mass Records
-var response = client.PurgeRecords(demoDbid, "{'3'.XEX.''}")
-
-//Get Table Fields
-var response = client.GetTableFields(demoDbid);
-```
-
 ##API Documentation
 ###New Connection
 
@@ -140,12 +91,83 @@ var callSuccessful = api.deleteRecord("abcd1234", 136)
 * `query` - typical Quickbase query string. ex: `"{3.EX.'123'}"`
 
 ```javascript
-var numberOfRecordsDeleted = api.purgeRecords('abcd1234', "{3.EX.'123'}")
+var numberOfRecordsDeleted = api.purgeRecords('abcd1234', "{3.EX.'123'}");
 ````
 
 ###Get Table Fields
 **getTableFields(dbid)** => **[array] fields**
 
 ```javascript
-var fields = api.getTableFields("abcd1234")
+var fields = api.getTableFields("abcd1234");
 ````
+##Helpers
+
+###Get URL Parameter
+**Helpers.getUrlParam(name)** => **[string] param value**
+
+```javascript
+var name = Helpers.getUrlParam('name');
+````
+
+###DateToString
+**Helpers.dateToString(milliseconds)** => **[string] date format**
+
+```javascript
+var date = Helpers.dateToString("1410454590146");
+````
+
+###DateTimeToString
+**Helpers.dateTimeToString(milliseconds)** => **[string] date/time format**
+
+```javascript
+var dateTime = Helpers.dateTimeToString("1410454590146");
+````
+
+##Example
+```javascript
+//Initiate connection to application
+var client = new Base();
+
+//Get Ticket
+var ticket = client.getTicket();
+
+//Add Record
+var newRecordHash = { 8: "Mike", 9: "Johnson" }
+var rid = client.addRecord(demoDbid, newRecordHash);
+
+//Edit Record
+var editRecordHash = { 8: "Stephan", 9: "Smith" }
+var response = client.editRecord(demoDbid, rid, editRecordHash);
+
+//Find Single Record
+var response = client.find(demoDbid, rid);
+
+//Query Records
+var query = "{'3'.XEX.''}"
+var response = client.doQuery(demoDbid, {"query": query})
+
+var qid = "1"
+var response = client.doQuery(demoDbid, {"qid": qid, "clist": "1.2.3.4.5"})
+
+//Count Queried Records
+var query = "{'3'.XEX.''}"
+var response = client.doQueryCount(demoDbid, query)
+
+//Delete Record
+var response = client.deleteRecord(demoDbid, rid);
+
+//Import Records
+var csvArray = [
+	{ 8: 'Mike"s', 9: "John" },
+	{ 8: "Step,hani'e", 9: "Wallace" },
+	{ 8: "Jackson", 9: "Williams" },
+	{ 8: "Martin", 9: "Douglas" }
+]
+var response = client.importRecords(demoDbid, csvArray);
+
+//Delete Mass Records
+var response = client.purgeRecords(demoDbid, "{'3'.XEX.''}")
+
+//Get Table Fields
+var response = client.getTableFields(demoDbid);
+```

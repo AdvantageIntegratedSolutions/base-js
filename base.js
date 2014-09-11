@@ -2,23 +2,23 @@ function Base(apptoken){
   this.apptoken = apptoken;
   this.httpConnection = null;
 
-  BaseHelpers.initHttpConnection();
+  BaseConnect.initHttpConnection();
 
   this.getTicket = function(){
-    var response = BaseHelpers.post("main", "GetOneTimeTicket")
-    var ticket = BaseHelpers.getNode(response, "ticket");
+    var response = BaseConnect.post("main", "GetOneTimeTicket")
+    var ticket = BaseConnect.getNode(response, "ticket");
     return ticket;
   }
 
   this.addRecord = function(dbid, fieldParams){
-    var response = BaseHelpers.post(dbid, "AddRecord", fieldParams);
-    var rid = BaseHelpers.getNode(response, "rid");
+    var response = BaseConnect.post(dbid, "AddRecord", fieldParams);
+    var rid = BaseConnect.getNode(response, "rid");
     return rid;
   }
 
   this.editRecord = function(dbid, rid, fieldParams){
-    var response = BaseHelpers.post(dbid, "EditRecord", fieldParams, {"rid": rid});
-    var rid = BaseHelpers.getNode(response, "rid");
+    var response = BaseConnect.post(dbid, "EditRecord", fieldParams, {"rid": rid});
+    var rid = BaseConnect.getNode(response, "rid");
 
     if(rid){
       return true;
@@ -28,8 +28,8 @@ function Base(apptoken){
   }
 
   this.deleteRecord = function(dbid, rid){
-    var response = BaseHelpers.post(dbid, "DeleteRecord", {}, {"rid": rid})
-    var rid = BaseHelpers.getNode(response, "rid");
+    var response = BaseConnect.post(dbid, "DeleteRecord", {}, {"rid": rid})
+    var rid = BaseConnect.getNode(response, "rid");
 
     if(rid){
       return true;
@@ -39,7 +39,7 @@ function Base(apptoken){
   }
 
   this.find = function(dbid, rid){
-    var records = this.DoQuery(dbid, {"query": "{'3'.EX.'"+rid+"'}"});
+    var records = this.doQuery(dbid, {"query": "{'3'.EX.'"+rid+"'}"});
 
     if(records.length > 0){
       return records[0];
@@ -65,19 +65,19 @@ function Base(apptoken){
     queryParams.slist = params.slist
     queryParams.options = params.options
 
-    var response = BaseHelpers.post(dbid, "DoQuery", {}, queryParams);
-    var records = BaseHelpers.getRecords(response, "records");
+    var response = BaseConnect.post(dbid, "DoQuery", {}, queryParams);
+    var records = BaseConnect.getRecords(response, "records");
     return records;
   }
 
   this.doQueryCount= function(dbid, query){
-    var records = this.DoQuery(dbid, {"query": query});
+    var records = this.doQuery(dbid, {"query": query});
     return records.length;
   };
 
   this.purgeRecords = function(dbid, query){
-    var response = BaseHelpers.post(dbid, "PurgeRecords", {}, {"query": query});
-    var numberOfRecordDeleted = BaseHelpers.getNode(response, "num_records_deleted");
+    var response = BaseConnect.post(dbid, "PurgeRecords", {}, {"query": query});
+    var numberOfRecordDeleted = BaseConnect.getNode(response, "num_records_deleted");
     return parseInt(numberOfRecordDeleted);
   }
 
@@ -107,19 +107,53 @@ function Base(apptoken){
       csv += (rowValues);
     };
 
-    var response = BaseHelpers.post(dbid, "ImportFromCSV", {}, {"clist": clist}, csv);
-    var rids = BaseHelpers.getRids(response);
+    var response = BaseConnect.post(dbid, "ImportFromCSV", {}, {"clist": clist}, csv);
+    var rids = BaseConnect.getRids(response);
     return rids;
-  }
+  };
 
   this.getTableFields = function(dbid){
-    var response = BaseHelpers.post(dbid, "GetSchema");
-    var fields = BaseHelpers.getFields(response);
+    var response = BaseConnect.post(dbid, "GetSchema");
+    var fields = BaseConnect.getFields(response);
     return fields;
   };
 }
 
-var BaseHelpers = {
+var Helpers = {
+  getUrlParam: function(name){
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+  },
+
+  dateToString: function(milliseconds){
+    var date = new Date(parseInt(milliseconds));
+
+    var month = BaseConnect.formatDateElement((date.getMonth() + 1));
+    var day = BaseConnect.formatDateElement(date.getDate());
+
+    date = [month, day, date.getFullYear()].join("-");
+    return date;
+  },
+
+  dateTimeToString: function(milliseconds){
+    var date = new Date(parseInt(milliseconds));
+
+    var month = BaseConnect.formatDateElement((date.getMonth() + 1));
+    var day = BaseConnect.formatDateElement(date.getDate());
+    var hours = BaseConnect.formatDateElement(date.getHours());
+    var minutes = BaseConnect.formatDateElement(date.getMinutes());
+    var seconds = BaseConnect.formatDateElement(date.getSeconds());
+
+    var dateTime = [month, day, date.getFullYear()].join("-");
+    dateTime += " "
+    dateTime += [hours, minutes, seconds].join(":")
+    return dateTime;
+  }
+};
+
+var BaseConnect = {
   post: function(dbid, action, fieldParams, params, csvData){
     var request = this.buildRequest();
 
@@ -139,6 +173,15 @@ var BaseHelpers = {
 
     response = this.xmlPost(dbid, "API_" + action, request);
     return response
+  },
+
+  formatDateElement: function(element){
+    element = element.toString();
+    if(element.length == 1){
+      element = "0" + element;
+    };
+
+    return element;
   },
 
   getNode: function(response, tag){
@@ -279,12 +322,12 @@ var BaseHelpers = {
 
     var xml = Base.httpConnection.responseXML;
 
-    var errorCode = BaseHelpers.getNode(xml, "errcode");
+    var errorCode = BaseConnect.getNode(xml, "errcode");
     if(errorCode != "0"){
-      throw new Error("ERROR: code - " + errorCode + " message - " + BaseHelpers.getNode(xml, "errtext"));
+      throw new Error("ERROR: code - " + errorCode + " message - " + BaseConnect.getNode(xml, "errtext"));
     };
 
-    this.ticket = BaseHelpers.getNode(xml, "ticket");
+    this.ticket = BaseConnect.getNode(xml, "ticket");
     return xml;
   },
 

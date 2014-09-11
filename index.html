@@ -15,39 +15,42 @@
 				var client = new Base();
 
 				//Get Ticket
-				var response = client.GetTicket();
+				var response = client.getTicket();
 				$scope.ticket = response;
 
 				//Add Record
 				var newRecordHash = { 8: "Mike", 9: "Johnson" }
-				var rid = client.AddRecord(demoDbid, newRecordHash);
+				var rid = client.addRecord(demoDbid, newRecordHash);
 				$scope.newAddRecordId = rid;
 
 				//Edit Record
 				var editRecordHash = { 8: "Stephan", 9: "Smith" }
-				var response = client.EditRecord(demoDbid, rid, editRecordHash);
+				var response = client.editRecord(demoDbid, rid, editRecordHash);
 				$scope.numberOfUpdatedFields = response;
 
 				//Find
-				var response = client.Find(demoDbid, rid);
+				var response = client.find(demoDbid, rid);
 				$scope.singleRecord = response;
 
 				//DoQuery
 				var query = "{'3'.XEX.''}"
-				var response = client.DoQuery(demoDbid, {"query": query})
+				var response = client.doQuery(demoDbid, {"query": query})
 				$scope.query1 = response;
 
 				var qid = "1"
-				var response = client.DoQuery(demoDbid, {"qid": qid, "clist": "1.2.3.4.5"})
+				var response = client.doQuery(demoDbid, {"qid": qid, "clist": "1.2.3.4.5"})
 				$scope.query2 = response;
+
+				$scope.dateCreated = Helpers.dateToString(response[0]["1"]);
+				$scope.dateModified = Helpers.dateTimeToString(response[0]["2"]);
 
 				//DoQueryCount
 				var query = "{'3'.XEX.''}"
-				var response = client.DoQueryCount(demoDbid, query)
+				var response = client.doQueryCount(demoDbid, query)
 				$scope.queryCount = response;
 
 				//Delete Record
-				var response = client.DeleteRecord(demoDbid, rid);
+				var response = client.deleteRecord(demoDbid, rid);
 				$scope.deletedRecordId = response;
 
 				var csvArray = [
@@ -56,16 +59,21 @@
 					{ 8: "Jackson", 9: "Williams" },
 					{ 8: "Martin", 9: "Douglas" }
 				]
-				var response = client.ImportFromCSV(demoDbid, csvArray);
+				var response = client.importRecords(demoDbid, csvArray);
 				$scope.importedRids = response;
 
 				//Purge Records
-				var response = client.PurgeRecords(demoDbid, "{'3'.XEX.''}")
+				var response = client.purgeRecords(demoDbid, "{'3'.XEX.''}")
 				$scope.numberOfRecordsDeleted = response;
 
 				//Get Schema
-				var response = client.GetTableFields(demoDbid);
+				var response = client.getTableFields(demoDbid);
 				$scope.fields = response;
+
+				//Get URL Param
+				var param = Helpers.getUrlParam("name");
+				$scope.nameParam = param;
+
 			});
 		</script>
 	</head>
@@ -97,6 +105,14 @@
 							<td>{{query1}}</td>
 						</tr>
 						<tr>
+							<td>Date Created</td>
+							<td>{{dateCreated}}</td>
+						</tr>
+												<tr>
+							<td>Date Modified</td>
+							<td>{{dateModified}}</td>
+						</tr>
+						<tr>
 							<td>Query 2 Results</td>
 							<td>{{query2}}</td>
 						</tr>
@@ -119,6 +135,10 @@
 						<tr>
 							<td>Table Fields</td>
 							<td>{{fields}}</td>
+						</tr>
+						<tr>
+							<td>Name Param</td>
+							<td>{{nameParam}}</td>
 						</tr>
 					</tbody>
 				</table>
