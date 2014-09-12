@@ -18,6 +18,11 @@
 				var response = client.getTicket();
 				$scope.ticket = response;
 
+				//Get User Info
+				var response = client.getUserInfo();
+				console.log(response);
+				$scope.userInfo = response;
+
 				//Add Record
 				var newRecordHash = { 8: "Mike", 9: "Johnson" }
 				var rid = client.addRecord(demoDbid, newRecordHash);
@@ -99,6 +104,10 @@
 						<tr>
 							<td class="col-md-6">Ticket</td>
 							<td class="col-md-6">{{ticket}}</td>
+						</tr>
+						<tr>
+							<td>User Info</td>
+							<td>{{userInfo}}</td>
 						</tr>
 						<tr>
 							<td>Added Record ID</td>

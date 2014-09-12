@@ -10,6 +10,28 @@ function Base(apptoken){
     return ticket;
   }
 
+  this.getUserInfo = function(email){
+    if(!email){
+      email = "";
+    };
+
+    var response = BaseConnect.post("main", "GetUserInfo", {}, {"email": email});
+    var user = $(response).find("user");
+
+    user = {
+      "id": $(user).attr("id"),
+      "firstName": $(user).find("firstName").text(),
+      "lastName": $(user).find("lastName").text(),
+      "login": $(user).find("login").text(),
+      "email": $(user).find("email").text(),
+      "screenName": $(user).find("screenName").text(),
+      "isVerified": $(user).find("isVerified").text(),
+      "externalAuth": $(user).find("externalAuth").text()
+    }
+
+    return user;
+  }
+
   this.addRecord = function(dbid, fieldParams){
     var response = BaseConnect.post(dbid, "AddRecord", fieldParams);
     var rid = parseInt(BaseConnect.getNode(response, "rid"));

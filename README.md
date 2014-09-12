@@ -32,6 +32,9 @@ Related Libraries
   - [Delete Record](#delete-record)
   - [Delete Mass Records](#delete-mass-records)
 
+* **Users**
+  - [Get User Information](#get-user-info)
+
 * **Retrieving Schema**
   - [Get Table Fields](#get-table-fields)
 
@@ -152,6 +155,16 @@ var callSuccessful = api.deleteRecord("abcd1234", 136);
 ```javascript
 var numberOfRecordsDeleted = api.purgeRecords("abcd1234", "{3.EX.'123'}");
 => 9
+````
+
+##Users
+####Get User Information
+**getUserInfo(email)** => **[json] user**
+***Ignore email parameter to get current user info
+
+```javascript
+var userInfo = api.getUserInfo();
+=> {"id":"57527431.cnhu","firstName":"Kit","lastName":"Hensel","login":"kith","email":"khensel@advantagequickbase.com","screenName":"kith","isVerified":"1","externalAuth":"0"}
 ````
 
 ##Retrieving Schema
