@@ -6,6 +6,17 @@ version 1.0
 https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.min.js
 
 ##API Documentation
+*Get Ticket
+*Query Records
+*Count Queried Records
+*Find Single Record
+*Import Records
+*Add Record
+*Edit Record
+*Delete Record
+*Delete Mass Records
+*Get Table Fields
+
 ###New Connection
 
 ```javascript
@@ -33,7 +44,10 @@ var ticket = api.getTicket();
 
 ```javascript
 var records = api.doQuery("bdjwmnj33", {"query": "{3.EX.'123'}", "clist": "3.6.10"});
-=> [{1: "14029302955", 7: "Lord of the Flies", 8: "William Golding"}, {1: "1402930292", 7: "A Tale of Two Cities", 8: "Charles Dickens"}]
+=>  [
+     {1: "14029302955", 7: "Lord of the Flies", 8: "William Golding"}, 
+     {1: "14029302927", 7: "A Tale of Two Cities", 8: "Charles Dickens"}
+    ]
 ```
 
 ###Count Queried Records
