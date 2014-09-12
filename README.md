@@ -6,16 +6,16 @@ version 1.0
 https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.min.js
 
 ##API Documentation
-*Get Ticket
-*Query Records
-*Count Queried Records
-*Find Single Record
-*Import Records
-*Add Record
-*Edit Record
-*Delete Record
-*Delete Mass Records
-*Get Table Fields
+* Get Ticket
+* Query Records
+* Count Queried Records
+* Find Single Record
+* Import Records
+* Add Record
+* Edit Record
+* Delete Record
+* Delete Mass Records
+* Get Table Fields
 
 ###New Connection
 
