@@ -15,8 +15,8 @@ Related Libraries
 * **Main**
   - [New Connection](#new-connection)
   - [Get Ticket](#get-ticket)
-  - [Set Variable](#set-variable)
-  - [Get Variable](#get-variable)
+  - [Set Var](#set-var)
+  - [Get Var](#get-var)
 
 * **Retrieving Records**
   - [Query Records](#query-records)
@@ -60,19 +60,19 @@ var ticket = api.getTicket();
 => "6adfasdf8338adfadfbhkieoa874k494kadjff4774hfj334953"
 ```
 
-###Set Variable
-**setVariable(dbid, name, value) => [bool] success?**
+###Set Var
+**setVar(dbid, name, value) => [bool] success?**
 
 ```javascript
-var callSuccessful = api.setVariable("bdjwmnj33", "appName", "Project Manager");
+var callSuccessful = api.setVar("bdjwmnj33", "appName", "Project Manager");
 => true
 ```
 
-###Get Variable
-**getVariable(dbid, name) => [string] variable value**
+###Get Var
+**getVar(dbid, name) => [string] value**
 
 ```javascript
-var value = api.setVariable("bdjwmnj33", "appName");
+var value = api.getVar("bdjwmnj33", "appName");
 => "Project Manager"
 ```
 

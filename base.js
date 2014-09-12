@@ -10,12 +10,12 @@ function Base(apptoken){
     return ticket;
   };
 
-  this.getVariable = function(dbid, name){
+  this.getVar = function(dbid, name){
     var response = BaseConnect.post(dbid, "GetDBvar", {}, {"varname": name})
     return BaseConnect.getNode(response, "value");
   };
 
-  this.setVariable = function(dbid, name, value){
+  this.setVar = function(dbid, name, value){
     var params = {"varname": name, "value": value}
     var response = BaseConnect.post(dbid, "SetDBvar", {}, params)
     return true;
