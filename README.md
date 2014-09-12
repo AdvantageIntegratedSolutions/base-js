@@ -32,7 +32,7 @@ var ticket = api.getTicket();
 * "options" - string of additional options. ex: `"num-200.skp-#{records_processed}"`
 
 ```javascript
-var records = api.doQuery("bdjwmnj33", {"query": "{3.EX.'123'}", "clist": "3.6.10"})
+var records = api.doQuery("bdjwmnj33", {"query": "{3.EX.'123'}", "clist": "3.6.10"});
 => [{1: "14029302955", 7: "Lord of the Flies", 8: "William Golding"}, {1: "1402930292", 7: "A Tale of Two Cities", 8: "Charles Dickens"}]
 ```
 
@@ -40,14 +40,14 @@ var records = api.doQuery("bdjwmnj33", {"query": "{3.EX.'123'}", "clist": "3.6.1
 **doQueryCount(dbid, query)** => **[int] # of records in query**
 
 ```javascript
-var count = api.doQueryCount("bdjwmnj33", "{'3'.EX.'123'}")
+var count = api.doQueryCount("bdjwmnj33", "{'3'.EX.'123'}");
 => 39
 ```
 
 ###Find Single Record
 **find(dbid, rid)** => **[json] record**
 ```javascript
-var record = api.find("bdjwmnj33", "12")
+var record = api.find("bdjwmnj33", "12");
 => {1: "1402930292", 7: "Lord of the Flies", 8: "William Golding"}
 ```
 
@@ -59,9 +59,9 @@ var new_data = [
   {7: "Lord of the Flies", 8: "William Golding"},
   {7: "A Tale of Two Cities", 8: "Charles Dickens"},
   {7: "Animal Farm", 8: "George Orwell"}
-]
+];
 
-rids = api.importRecords("abcd1234", new_data)
+rids = api.importRecords("abcd1234", new_data);
 => [13, 14, 15]
 ````
 
@@ -69,8 +69,8 @@ rids = api.importRecords("abcd1234", new_data)
 **addRecord(dbid, newRecord)** => **[int] new rid**
 
 ```javascript
-var newRecord = {6 => "Book", 7 => "My New Title", 8 => "John Smith"}
-var newRid = api.addRecord("abcd1234", newRecord)
+var newRecord = {6 => "Book", 7 => "My New Title", 8 => "John Smith"};
+var newRid = api.addRecord("abcd1234", newRecord);
 => 13
 ````
 
@@ -78,8 +78,8 @@ var newRid = api.addRecord("abcd1234", newRecord)
 **editRecord(dbid, rid, updatedRecord )** => **[bool] success?**
 
 ```javascript
-var updatedRecord = {7 => "My Second Title", 8 => "John Smith"}
-var callSuccessful = api.editRecord("abcd1234", 136, updatedRecord)
+var updatedRecord = {7 => "My Second Title", 8 => "John Smith"};
+var callSuccessful = api.editRecord("abcd1234", 136, updatedRecord);
 => false
 ````
 
@@ -87,7 +87,7 @@ var callSuccessful = api.editRecord("abcd1234", 136, updatedRecord)
 **deleteRecord(dbid, rid)** => **[bool] success?**
 
 ```javascript
-var callSuccessful = api.deleteRecord("abcd1234", 136)
+var callSuccessful = api.deleteRecord("abcd1234", 136);
 => true
 ````
 
@@ -152,17 +152,17 @@ var response = client.find(demoDbid, rid);
 
 //DoQuery
 var query = "{'3'.XEX.''}"
-var response = client.doQuery(demoDbid, {"query": query})
+var response = client.doQuery(demoDbid, {"query": query});
 
 var qid = "1"
-var response = client.doQuery(demoDbid, {"qid": qid, "clist": ["1", "2", "3", "4", "5"]})
+var response = client.doQuery(demoDbid, {"qid": qid, "clist": ["1", "2", "3", "4", "5"]});
 
 var dateCreated = BaseHelpers.dateToString(response[0]["1"]);
 var dateModified = BaseHelpers.dateTimeToString(response[0]["2"]);
 
 //DoQueryCount
 var query = "{'3'.XEX.''}"
-var response = client.doQueryCount(demoDbid, query)
+var response = client.doQueryCount(demoDbid, query);
 
 //Delete Record
 var response = client.deleteRecord(demoDbid, rid);
@@ -172,11 +172,11 @@ var csvArray = [
 	{ 8: "Step,hani'e", 9: "Wallace" },
 	{ 8: "Jackson", 9: "Williams" },
 	{ 8: "Martin", 9: "Douglas" }
-]
+];
 var response = client.importRecords(demoDbid, csvArray);
 
 //Delete Mass Records
-var response = client.purgeRecords(demoDbid, "{'3'.XEX.''}")
+var response = client.purgeRecords(demoDbid, "{'3'.XEX.''}");
 
 //Get Table Fields
 var response = client.getTableFields(demoDbid);
