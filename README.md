@@ -11,14 +11,14 @@ https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.min.js
 * [New Connection](#new-connection)
 * [Get Ticket](#get-ticket)
 
-#####Retrieving records from the Database
+#####Retrieving records
 * [Query Records](#query-records)
 * [Count # of Records](#count-queried-records)
 * [Find Single Record](#find-single-record)
 * [Find First Record](#find-first-record)
 * [Find Last Record](#find-last-record)
 
-#####Adding and Updating records
+#####Adding/Updating records
 * [Import Records](#import-records)
 * [Add Record](#add-record)
 * [Edit Record](#edit-record)
