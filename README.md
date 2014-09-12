@@ -96,7 +96,7 @@ var numberOfRecordsDeleted = api.purgeRecords('abcd1234', "{3.EX.'123'}");
 ```javascript
 var fields = api.getTableFields("abcd1234");
 ````
-##BaseHelpers
+##Base Helpers
 
 ###Get URL Parameter
 **BaseHelpers.getUrlParam(name)** => **[string] param value**
@@ -110,6 +110,7 @@ var name = BaseHelpers.getUrlParam('name');
 
 ```javascript
 var date = BaseHelpers.dateToString("1410454590146");
+=> "09-01-2014"
 ````
 
 ###DateTimeToString
