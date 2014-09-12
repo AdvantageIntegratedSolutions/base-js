@@ -7,7 +7,7 @@ https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.min.js
 
 ##API Documentation
 
-* #####*Main*
+* Main
   - [New Connection](#new-connection)
   - [Get Ticket](#get-ticket)
 
