@@ -8,11 +8,12 @@ https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.min.js
 ##API Documentation
 
 #####Main
+* [New Connection](#new-connnection)
 * [Get Ticket](#get-ticket)
 
 #####Querying
 * [Query Records](#query-records)
-* [Count Queried Records](#count-queried-records)
+* [Count # of Records](#count-queried-records)
 * [Find Single Record](#find-single-record)
 * [Find First Record](#find-first-record)
 * [Find Last Record](#find-last-record)
@@ -68,7 +69,7 @@ var records = api.doQuery("bdjwmnj33", {"query": "{3.EX.'123'}", "clist": "3.6.1
     ]
 ```
 
-###Count Queried Records
+###Count # of Records
 **doQueryCount(dbid, query)** => **[int] # of records in query**
 
 ```javascript
