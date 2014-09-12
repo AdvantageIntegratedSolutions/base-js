@@ -95,7 +95,7 @@ var callSuccessful = api.deleteRecord("abcd1234", 136)
 **purgeRecords(dbid, options)** => **[int] # of records deleted**
 
 ```javascript
-var numberOfRecordsDeleted = api.purgeRecords('abcd1234', "{3.EX.'123'}");
+var numberOfRecordsDeleted = api.purgeRecords("abcd1234", "{3.EX.'123'}");
 => 9
 ````
 
@@ -111,7 +111,7 @@ var fields = api.getTableFields("abcd1234");
 **BaseHelpers.getUrlParam(name)** => **[string] param value**
 
 ```javascript
-var name = BaseHelpers.getUrlParam('name');
+var name = BaseHelpers.getUrlParam("name");
 => "William Golding"
 ````
 
