@@ -154,7 +154,7 @@ var fields = api.getTableFields("abcd1234");
 ````
 ##Base Helpers
 
-###Get URL Parameter
+####Get URL Parameter
 **BaseHelpers.getUrlParam(name)** => **[string] param value**
 
 ```javascript
@@ -162,7 +162,7 @@ var name = BaseHelpers.getUrlParam("name");
 => "William Golding"
 ````
 
-###DateToString
+####DateToString
 **BaseHelpers.dateToString(milliseconds)** => **[string] date format**
 
 ```javascript
@@ -170,7 +170,7 @@ var date = BaseHelpers.dateToString("1410454590146");
 => "09-01-2014"
 ````
 
-###DateTimeToString
+####DateTimeToString
 **BaseHelpers.dateTimeToString(milliseconds)** => **[string] date/time format**
 
 ```javascript
