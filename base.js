@@ -71,7 +71,7 @@ function Base(apptoken){
   }
 
   this.doQueryCount= function(dbid, query){
-    var records = this.doQuery(dbid, {"query": query});
+    var records = this.doQuery(dbid, {"query": query, "clist": "3"});
     return records.length;
   };
 
@@ -158,7 +158,15 @@ var BaseConnect = {
     var request = this.buildRequest();
 
     for(key in params){
-      this.addParameter(request, key, params[key]);
+      var value = params[key];
+
+      if(key == "clist" || key == "slist" || key == "options"){
+        if(Object.prototype.toString.call(value) == "[object Array]"){
+          value = value.join(".");
+        };
+      };
+
+      this.addParameter(request, key, value);
     };
 
     for(key in fieldParams){

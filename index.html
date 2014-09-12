@@ -2,7 +2,7 @@
 	<head>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
-		<script type="text/javascript" src="https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.min.js"></script>
+		<script type="text/javascript" src="https://ais.quickbase.com/db/bjbsgxy2r?a=dbpage&pageID=3"></script>
 		<link rel="stylesheet" type="text/css" href="https://ais.quickbase.com/db/bjbsgxy2r?a=dbpage&pageID=4">
 
 		<script>
@@ -38,7 +38,7 @@
 				$scope.query1 = response;
 
 				var qid = "1"
-				var response = client.doQuery(demoDbid, {"qid": qid, "clist": "1.2.3.4.5"})
+				var response = client.doQuery(demoDbid, {"qid": qid, "clist": ["1", "2", "3", "4", "5"]})
 				$scope.query2 = response;
 
 				$scope.dateCreated = Helpers.dateToString(response[0]["1"]);

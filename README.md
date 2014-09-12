@@ -26,8 +26,8 @@ var ticket = api.getTicket();
 
 * "query" - typical Quickbase query string. ex: `"{3.EX.'123'}"`
 * "qid" - report or query id to load (should not be used with `query` or `qname`)
-* "clist" - a list (Period-separated string) of fields to return
-* "slist" - a list (Period-separated string) of fields to sort by
+* "clist" - a list (Array or Period-separated string) of fields to return
+* "slist" - a list (Array or Period-separated string) of fields to sort by
 * "options" - string of additional options. ex: `"num-200.skp-#{records_processed}"`
 
 ```javascript
@@ -147,7 +147,7 @@ var query = "{'3'.XEX.''}"
 var response = client.doQuery(demoDbid, {"query": query})
 
 var qid = "1"
-var response = client.doQuery(demoDbid, {"qid": qid, "clist": "1.2.3.4.5"})
+var response = client.doQuery(demoDbid, {"qid": qid, "clist": ["1", "2", "3", "4", "5"})
 
 //Count Queried Records
 var query = "{'3'.XEX.''}"
