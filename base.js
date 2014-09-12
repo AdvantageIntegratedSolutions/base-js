@@ -12,7 +12,7 @@ function Base(apptoken){
 
   this.addRecord = function(dbid, fieldParams){
     var response = BaseConnect.post(dbid, "AddRecord", fieldParams);
-    var rid = BaseConnect.getNode(response, "rid");
+    var rid = parseInt(BaseConnect.getNode(response, "rid"));
     return rid;
   }
 
@@ -209,7 +209,7 @@ var BaseConnect = {
 
       for(var j=0; j < fields.length; j++){
         var field = fields[j];
-        var id = $(field).attr("id");
+        var id = parseInt($(field).attr("id"));
 
         if($(field).find("url").text() != ""){
           var url = $(field).find("url").text();
@@ -235,7 +235,7 @@ var BaseConnect = {
     var ridsArray = [];
 
     for(var i=0; i < rids.length; i++){
-      var rid = $(rids[i]).text();
+      var rid = parseInt($(rids[i]).text());
       ridsArray.push(rid);
     };
 

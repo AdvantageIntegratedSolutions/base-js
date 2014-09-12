@@ -62,11 +62,11 @@
 				var response = client.importRecords(demoDbid, csvArray);
 				$scope.importedRids = response;
 
-				//Purge Records
+				//Delete Mass Records
 				var response = client.purgeRecords(demoDbid, "{'3'.XEX.''}")
 				$scope.numberOfRecordsDeleted = response;
 
-				//Get Schema
+				//Get Table Fields
 				var response = client.getTableFields(demoDbid);
 				$scope.fields = response;
 
