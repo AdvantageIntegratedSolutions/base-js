@@ -6,6 +6,7 @@ version 1.0
 https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.min.js
 
 ##API Documentation
+###Main Functions
 * [Get Ticket](#get-ticket)
 * [Query Records](#query-records)
 * [Count Queried Records](#count-queried-records)
@@ -16,7 +17,12 @@ https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.min.js
 * [Delete Record](#delete-record)
 * [Delete Mass Records](#delete-mass-records)
 * [Get Table Fields](#get-table-fields)
+###Helpers
+* [Get URL Parameter](#get-url-parameter)
+* [DateToString](#datetostring)
+* [DateTimeToString](#datetimetostring)
 
+##Main Functions
 ###New Connection
 
 ```javascript
