@@ -27,7 +27,7 @@ https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.min.js
 * [Delete Record](#delete-record)
 * [Delete Mass Records](#delete-mass-records)
 
-#####Retrieving Schema Data
+#####Retrieving Schema
 * [Get Table Fields](#get-table-fields)
 
 #####JS Helper Functions
@@ -35,8 +35,8 @@ https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.min.js
 * [DateToString](#datetostring)
 * [DateTimeToString](#datetimetostring)
 
-##API Calls
-###New Connection
+##Main
+####New Connection
 
 ```javascript
 var api = new Base();
@@ -50,6 +50,7 @@ var ticket = api.getTicket();
 => "6adfasdf8338adfadfbhkieoa874k494kadjff4774hfj334953"
 ```
 
+##Retrieving Records
 ####Query Records
 **doQuery(dbid, queryOptions) => [array] records**
 
@@ -98,6 +99,7 @@ var record = api.last("bdjwmnj33", "{'3'.XEX.''}", "3");
 => {1: "1402933332", 7: "Animal Farm", 8: "George Orwell"}
 ```
 
+##Adding/Updating Records
 ####Import Records
 **importRecords(dbid, data)** => **[array] new rids**
 
@@ -130,6 +132,7 @@ var callSuccessful = api.editRecord("abcd1234", 136, updatedRecord);
 => false
 ````
 
+##Deleting Records
 ####Delete Record
 **deleteRecord(dbid, rid)** => **[bool] success?**
 
@@ -146,14 +149,15 @@ var numberOfRecordsDeleted = api.purgeRecords("abcd1234", "{3.EX.'123'}");
 => 9
 ````
 
+##Retrieve Schema
 ####Get Table Fields
 **getTableFields(dbid)** => **[array] fields**
 
 ```javascript
 var fields = api.getTableFields("abcd1234");
 ````
-##Base Helpers
 
+##Base Helpers
 ####Get URL Parameter
 **BaseHelpers.getUrlParam(name)** => **[string] param value**
 
