@@ -7,15 +7,15 @@ https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.min.js
 
 ##API Documentation
 * [Get Ticket](#get-ticket)
-* Query Records
-* Count Queried Records
-* Find Single Record
-* Import Records
-* Add Record
-* Edit Record
-* Delete Record
-* Delete Mass Records
-* Get Table Fields
+* [Query Records](#query-records)
+* [Count Queried Records](#count-queried-records)
+* [Find Single Record](#find-single-record)
+* [Import Records](#import-records)
+* [Add Record](#add-record)
+* [Edit Record](#edit-record)
+* [Delete Record](#delete-record)
+* [Delete Mass Records](#delete-mass-records)
+* [Get Table Fields](#get-table-fields)
 
 ###New Connection
 
