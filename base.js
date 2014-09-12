@@ -119,7 +119,7 @@ function Base(apptoken){
   };
 }
 
-var Helpers = {
+var BaseHelpers = {
   getUrlParam: function(name){
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),

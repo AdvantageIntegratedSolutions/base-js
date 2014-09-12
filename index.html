@@ -41,8 +41,8 @@
 				var response = client.doQuery(demoDbid, {"qid": qid, "clist": ["1", "2", "3", "4", "5"]})
 				$scope.query2 = response;
 
-				$scope.dateCreated = Helpers.dateToString(response[0]["1"]);
-				$scope.dateModified = Helpers.dateTimeToString(response[0]["2"]);
+				$scope.dateCreated = BaseHelpers.dateToString(response[0]["1"]);
+				$scope.dateModified = BaseHelpers.dateTimeToString(response[0]["2"]);
 
 				//DoQueryCount
 				var query = "{'3'.XEX.''}"
@@ -71,7 +71,7 @@
 				$scope.fields = response;
 
 				//Get URL Param
-				var param = Helpers.getUrlParam("name");
+				var param = BaseHelpers.getUrlParam("name");
 				$scope.nameParam = param;
 
 			});

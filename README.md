@@ -9,7 +9,7 @@ https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.min.js
 ###New Connection
 
 ```javascript
-api = new Base();
+var api = new Base();
 ```
 
 ###Get Ticket
@@ -86,10 +86,6 @@ var callSuccessful = api.deleteRecord("abcd1234", 136)
 ###Delete Mass Records
 **purgeRecords(dbid, options)** => **[int] # of records deleted**
 
-`options` expects a hash containing any of the following options:
-
-* `query` - typical Quickbase query string. ex: `"{3.EX.'123'}"`
-
 ```javascript
 var numberOfRecordsDeleted = api.purgeRecords('abcd1234', "{3.EX.'123'}");
 ````
@@ -100,27 +96,27 @@ var numberOfRecordsDeleted = api.purgeRecords('abcd1234', "{3.EX.'123'}");
 ```javascript
 var fields = api.getTableFields("abcd1234");
 ````
-##Helpers
+##BaseHelpers
 
 ###Get URL Parameter
-**Helpers.getUrlParam(name)** => **[string] param value**
+**BaseHelpers.getUrlParam(name)** => **[string] param value**
 
 ```javascript
-var name = Helpers.getUrlParam('name');
+var name = BaseHelpers.getUrlParam('name');
 ````
 
 ###DateToString
-**Helpers.dateToString(milliseconds)** => **[string] date format**
+**BaseHelpers.dateToString(milliseconds)** => **[string] date format**
 
 ```javascript
-var date = Helpers.dateToString("1410454590146");
+var date = BaseHelpers.dateToString("1410454590146");
 ````
 
 ###DateTimeToString
-**Helpers.dateTimeToString(milliseconds)** => **[string] date/time format**
+**BaseHelpers.dateTimeToString(milliseconds)** => **[string] date/time format**
 
 ```javascript
-var dateTime = Helpers.dateTimeToString("1410454590146");
+var dateTime = BaseHelpers.dateTimeToString("1410454590146");
 ````
 
 ##Example
