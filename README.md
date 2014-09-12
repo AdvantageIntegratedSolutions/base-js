@@ -42,7 +42,7 @@ https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.min.js
 var api = new Base();
 ```
 
-####Get Ticket
+*####Get Ticket*
 **getTicket() => [string] ticket**
 
 ```javascript
