@@ -11,6 +11,8 @@ https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.min.js
 * [Query Records](#query-records)
 * [Count Queried Records](#count-queried-records)
 * [Find Single Record](#find-single-record)
+* [Find First Record](#find-first-record)
+* [Find Last Record](#find-last-record)
 * [Import Records](#import-records)
 * [Add Record](#add-record)
 * [Edit Record](#edit-record)
@@ -70,6 +72,20 @@ var count = api.doQueryCount("bdjwmnj33", "{'3'.EX.'123'}");
 ```javascript
 var record = api.find("bdjwmnj33", "12");
 => {1: "1402930292", 7: "Lord of the Flies", 8: "William Golding"}
+```
+
+###Find First Record
+**first(dbid, query, slist)** => **[json] record**
+```javascript
+var record = api.first("bdjwmnj33", "{'3'.XEX.''}", "3");
+=> {1: "1402930292", 7: "Lord of the Flies", 8: "William Golding"}
+```
+
+###Find Last Record
+**last(dbid, query, slist)** => **[json] record**
+```javascript
+var record = api.last("bdjwmnj33", "{'3'.XEX.''}", "3");
+=> {1: "1402933332", 7: "Animal Farm", 8: "George Orwell"}
 ```
 
 ###Import Records

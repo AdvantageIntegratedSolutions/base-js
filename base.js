@@ -39,10 +39,46 @@ function Base(apptoken){
   }
 
   this.find = function(dbid, rid){
-    var records = this.doQuery(dbid, {"query": "{'3'.EX.'"+rid+"'}"});
+    var query = [];
+    
+    if(Object.prototype.toString.call(rid) == "[object Array]"){
+      for(var i=0; i < rid.length; i++){
+        query.push("{'3'.EX.'"+rid[i]+"'}");
+      };
+    }else{
+      query.push("{'3'.EX.'"+rid+"'}");
+    }
+
+    query = query.join("OR");
+
+    var records = this.doQuery(dbid, {"query": query});
+
+    if(records.length > 0){
+      if(records.length > 1){
+        return records;
+      }else{
+        return records[0];
+      };
+    }else{
+      return {};
+    };
+  };
+
+  this.first = function(dbid, query, slist){
+    var records = this.doQuery(dbid, {"query": query, "slist": slist})
 
     if(records.length > 0){
       return records[0];
+    }else{
+      return {};
+    };
+  };
+
+  this.last = function(dbid, query, slist){
+    var records = this.doQuery(dbid, {"query": query, "slist": slist})
+
+    if(records.length > 0){
+      return records[records.length - 1];
     }else{
       return {};
     };

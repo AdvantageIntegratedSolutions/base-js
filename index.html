@@ -23,6 +23,9 @@
 				var rid = client.addRecord(demoDbid, newRecordHash);
 				$scope.newAddRecordId = rid;
 
+				var newRecordHash = { 8: "Mike", 9: "Johnson" }
+				var rid2 = client.addRecord(demoDbid, newRecordHash);
+
 				//Edit Record
 				var editRecordHash = { 8: "Stephan", 9: "Smith" }
 				var response = client.editRecord(demoDbid, rid, editRecordHash);
@@ -31,6 +34,15 @@
 				//Find
 				var response = client.find(demoDbid, rid);
 				$scope.singleRecord = response;
+
+				var response = client.find(demoDbid, [rid, rid2]);
+				$scope.twoRecords = response;
+
+				var response = client.first(demoDbid, "{'3'.XEX.''}", "3");
+				$scope.first = response;
+
+				var response = client.last(demoDbid, "{'3'.XEX.''}", "3");
+				$scope.last = response;
 
 				//DoQuery
 				var query = "{'3'.XEX.''}"
@@ -101,6 +113,18 @@
 							<td>{{singleRecord}}</td>
 						</tr>
 						<tr>
+							<td>Find Two Records</td>
+							<td>{{twoRecords}}</td>
+						</tr>
+						<tr>
+							<td>First</td>
+							<td>{{first}}</td>
+						</tr>
+						<tr>
+							<td>Last</td>
+							<td>{{last}}</td>
+						</tr>
+						<tr>
 							<td>Query 1 Results</td>
 							<td>{{query1}}</td>
 						</tr>
@@ -108,7 +132,7 @@
 							<td>Date Created</td>
 							<td>{{dateCreated}}</td>
 						</tr>
-												<tr>
+						<tr>
 							<td>Date Modified</td>
 							<td>{{dateModified}}</td>
 						</tr>
