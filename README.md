@@ -17,19 +17,19 @@ https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.min.js
 * [Find First Record](#find-first-record)
 * [Find Last Record](#find-last-record)
 
-###Adding/Editing
+####Adding/Editing
 * [Import Records](#import-records)
 * [Add Record](#add-record)
 * [Edit Record](#edit-record)
 
-###Deleting
+####Deleting
 * [Delete Record](#delete-record)
 * [Delete Mass Records](#delete-mass-records)
 
-###Schema
+####Schema
 * [Get Table Fields](#get-table-fields)
 
-###Helpers
+####Helpers
 * [Get URL Parameter](#get-url-parameter)
 * [DateToString](#datetostring)
 * [DateTimeToString](#datetimetostring)
