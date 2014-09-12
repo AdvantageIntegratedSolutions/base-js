@@ -6,18 +6,27 @@ version 1.0
 https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.min.js
 
 ##API Documentation
-###API Calls
+
+###Main
 * [Get Ticket](#get-ticket)
+
+###Querying
 * [Query Records](#query-records)
 * [Count Queried Records](#count-queried-records)
 * [Find Single Record](#find-single-record)
 * [Find First Record](#find-first-record)
 * [Find Last Record](#find-last-record)
+
+#Adding/Editing
 * [Import Records](#import-records)
 * [Add Record](#add-record)
 * [Edit Record](#edit-record)
+
+###Deleting
 * [Delete Record](#delete-record)
 * [Delete Mass Records](#delete-mass-records)
+
+###Schema
 * [Get Table Fields](#get-table-fields)
 
 ###Helpers
