@@ -113,7 +113,7 @@ var callSuccessful = api.deleteRecord("abcd1234", 136);
 ````
 
 ###Delete Mass Records
-**purgeRecords(dbid, options)** => **[int] # of records deleted**
+**purgeRecords(dbid, query)** => **[int] # of records deleted**
 
 ```javascript
 var numberOfRecordsDeleted = api.purgeRecords("abcd1234", "{3.EX.'123'}");
