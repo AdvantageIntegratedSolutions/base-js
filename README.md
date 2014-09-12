@@ -12,8 +12,8 @@ https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.min.js
   - [Get Ticket](#get-ticket)
 
 * **Retrieving Records**
-[Query Records](#query-records)
-[Count # of Records](#count-queried-records)
+  - [Query Records](#query-records)
+  - [Count # of Records](#count-queried-records)
   - [Find Single Record](#find-single-record)
   - [Find First Record](#find-first-record)
   - [Find Last Record](#find-last-record)
