@@ -44,13 +44,13 @@ Related Libraries
   - [DateTimeToString](#datetimetostring)
 
 ##Main
-####New Connection
+###New Connection
 
 ```javascript
 var api = new Base();
 ```
 
-####Get Ticket
+###Get Ticket
 **getTicket() => [string] ticket**
 
 ```javascript
@@ -59,7 +59,7 @@ var ticket = api.getTicket();
 ```
 
 ##Retrieving Records
-####Query Records
+###Query Records
 **doQuery(dbid, queryOptions) => [array] records**
 
 "queryOptions" expects a hash containing any of the following options:
@@ -78,7 +78,7 @@ var records = api.doQuery("bdjwmnj33", {"query": "{3.EX.'123'}", "clist": "3.6.1
     ]
 ```
 
-####Count # of Records
+###Count # of Records
 **doQueryCount(dbid, query)** => **[int] # of records in query**
 
 ```javascript
@@ -86,21 +86,21 @@ var count = api.doQueryCount("bdjwmnj33", "{'3'.EX.'123'}");
 => 39
 ```
 
-####Find Single Record
+###Find Single Record
 **find(dbid, rid)** => **[json] record**
 ```javascript
 var record = api.find("bdjwmnj33", "12");
 => {1: "1402930292", 7: "Lord of the Flies", 8: "William Golding"}
 ```
 
-####Find First Record
+###Find First Record
 **first(dbid, query, slist)** => **[json] record**
 ```javascript
 var record = api.first("bdjwmnj33", "{'3'.XEX.''}", "3");
 => {1: "1402930292", 7: "Lord of the Flies", 8: "William Golding"}
 ```
 
-####Find Last Record
+###Find Last Record
 **last(dbid, query, slist)** => **[json] record**
 ```javascript
 var record = api.last("bdjwmnj33", "{'3'.XEX.''}", "3");
@@ -108,7 +108,7 @@ var record = api.last("bdjwmnj33", "{'3'.XEX.''}", "3");
 ```
 
 ##Adding/Updating Records
-####Import Records
+###Import Records
 **importRecords(dbid, data)** => **[array] new rids**
 
 ```javascript
@@ -122,7 +122,7 @@ rids = api.importRecords("abcd1234", new_data);
 => [13, 14, 15]
 ````
 
-####Add Record
+###Add Record
 **addRecord(dbid, newRecord)** => **[int] new rid**
 
 ```javascript
@@ -131,7 +131,7 @@ var newRid = api.addRecord("abcd1234", newRecord);
 => 13
 ````
 
-####Edit Record
+###Edit Record
 **editRecord(dbid, rid, updatedRecord )** => **[bool] success?**
 
 ```javascript
@@ -141,7 +141,7 @@ var callSuccessful = api.editRecord("abcd1234", 136, updatedRecord);
 ````
 
 ##Deleting Records
-####Delete Record
+###Delete Record
 **deleteRecord(dbid, rid)** => **[bool] success?**
 
 ```javascript
@@ -149,7 +149,7 @@ var callSuccessful = api.deleteRecord("abcd1234", 136);
 => true
 ````
 
-####Delete Mass Records
+###Delete Mass Records
 **purgeRecords(dbid, query)** => **[int] # of records deleted**
 
 ```javascript
@@ -158,7 +158,7 @@ var numberOfRecordsDeleted = api.purgeRecords("abcd1234", "{3.EX.'123'}");
 ````
 
 ##Users
-####Get User Information
+###Get User Information
 **getUserInfo(email)** => **[json] user**
 ######Ignore email parameter to get current user info
 
@@ -168,7 +168,7 @@ var userInfo = api.getUserInfo();
 ````
 
 ##Retrieving Schema
-####Get Table Fields
+###Get Table Fields
 **getTableFields(dbid)** => **[array] fields**
 
 ```javascript
@@ -176,7 +176,7 @@ var fields = api.getTableFields("abcd1234");
 ````
 
 ##Base Helpers
-####Get URL Parameter
+###Get URL Parameter
 **BaseHelpers.getUrlParam(name)** => **[string] param value**
 
 ```javascript
@@ -184,7 +184,7 @@ var name = BaseHelpers.getUrlParam("name");
 => "William Golding"
 ````
 
-####DateToString
+###DateToString
 **BaseHelpers.dateToString(milliseconds)** => **[string] date format**
 
 ```javascript
@@ -192,7 +192,7 @@ var date = BaseHelpers.dateToString("1410454590146");
 => "09-01-2014"
 ````
 
-####DateTimeToString
+###DateTimeToString
 **BaseHelpers.dateTimeToString(milliseconds)** => **[string] date/time format**
 
 ```javascript
