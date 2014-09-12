@@ -313,12 +313,12 @@ var BaseConnect = {
     try{
       if(window.ActiveXObject !== undefined){
         return new ActiveXObject("Microsoft.XmlDom");
-      }
+      };
 
       if(document.implementation && document.implementation.createDocument){
-        var doc = document.implementation.createDocument( "", "", null );
+        var doc = document.implementation.createDocument("", "", null);
         return doc;
-      }
+      };
     }
     catch(ex){}
     throw new Error("Sorry. Your browser does not support Base.js.");
@@ -340,7 +340,7 @@ var BaseConnect = {
 
     if(this.apptoken){
       this.addParameter(request, "apptoken", this.apptoken);
-    }
+    };
 
     return request;
   },
@@ -356,7 +356,7 @@ var BaseConnect = {
   addFieldParameter: function (request, fid, value){
     var mainElement = request.documentElement;
     var fieldTag = request.createElement("field");
-    fieldTag.setAttribute("fid", fid)
+    fieldTag.setAttribute("fid", fid);
 
     var node = request.createTextNode(value);
     fieldTag.appendChild(node);
@@ -389,14 +389,14 @@ var BaseConnect = {
     try{
       if(!Base.httpConnection){
         Base.httpConnection = new XMLHttpRequest();
-      }
+      };
     }
     catch(e){
     }
     try{
       if(!Base.httpConnection){
         Base.httpConnection = new ActiveXObject("Msxml2.XMLHTTP");
-      } 
+      };
     }
     catch(e){
     }
@@ -406,7 +406,7 @@ var BaseConnect = {
       };
     }
     catch(e){
-      alert("Sorry. This browser does not support QuickBaseClient.");
-    }
+      alert("This browser does not support BaseJS.");
+    };
   }
 }
