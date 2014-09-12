@@ -228,29 +228,3 @@ var response = client.doQuery(demoDbid, {"qid": qid, "clist": ["1", "2", "3", "4
 
 var dateCreated = BaseHelpers.dateToString(response[0]["1"]);
 var dateModified = BaseHelpers.dateTimeToString(response[0]["2"]);
-
-//DoQueryCount
-var query = "{'3'.XEX.''}"
-var response = client.doQueryCount(demoDbid, query);
-
-//Delete Record
-var response = client.deleteRecord(demoDbid, rid);
-
-var csvArray = [
-	{ 8: 'Mike"s', 9: "Johnn" },
-	{ 8: "Step,hani'e", 9: "Wallace" },
-	{ 8: "Jackson", 9: "Williams" },
-	{ 8: "Martin", 9: "Douglas" }
-];
-var response = client.importRecords(demoDbid, csvArray);
-
-//Delete Mass Records
-var response = client.purgeRecords(demoDbid, "{'3'.XEX.''}");
-
-//Get Table Fields
-var response = client.getTableFields(demoDbid);
-$scope.fields = response;
-
-//Get URL Param
-var param = BaseHelpers.getUrlParam("name");
-```

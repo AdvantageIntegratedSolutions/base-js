@@ -8,57 +8,34 @@ function Base(apptoken){
     var response = BaseConnect.post("main", "GetOneTimeTicket")
     var ticket = BaseConnect.getNode(response, "ticket");
     return ticket;
-  }
+  };
 
-  this.getUserInfo = function(email){
-    if(!email){
-      email = "";
+  this.doQuery = function(dbid, params){
+    var queryParams = {"fmt": "structured"}
+
+    if(params.query || params.qid){
+      if(params.query){
+        queryParams.query = params.query;
+      }else{
+        queryParams.qid = params.qid;
+      };
+    }else{
+      queryParams.query = "{'3'.XEX.''}"
     };
 
-    var response = BaseConnect.post("main", "GetUserInfo", {}, {"email": email});
-    var user = $(response).find("user");
+    queryParams.clist = params.clist || "a"
+    queryParams.slist = params.slist
+    queryParams.options = params.options
 
-    user = {
-      "id": $(user).attr("id"),
-      "firstName": $(user).find("firstName").text(),
-      "lastName": $(user).find("lastName").text(),
-      "login": $(user).find("login").text(),
-      "email": $(user).find("email").text(),
-      "screenName": $(user).find("screenName").text(),
-      "isVerified": $(user).find("isVerified").text(),
-      "externalAuth": $(user).find("externalAuth").text()
-    }
+    var response = BaseConnect.post(dbid, "DoQuery", {}, queryParams);
+    var records = BaseConnect.getRecords(response, "records");
+    return records;
+  };
 
-    return user;
-  }
-
-  this.addRecord = function(dbid, fieldParams){
-    var response = BaseConnect.post(dbid, "AddRecord", fieldParams);
-    var rid = parseInt(BaseConnect.getNode(response, "rid"));
-    return rid;
-  }
-
-  this.editRecord = function(dbid, rid, fieldParams){
-    var response = BaseConnect.post(dbid, "EditRecord", fieldParams, {"rid": rid});
-    var rid = BaseConnect.getNode(response, "rid");
-
-    if(rid){
-      return true;
-    }else{
-      return false;
-    }
-  }
-
-  this.deleteRecord = function(dbid, rid){
-    var response = BaseConnect.post(dbid, "DeleteRecord", {}, {"rid": rid})
-    var rid = BaseConnect.getNode(response, "rid");
-
-    if(rid){
-      return true;
-    }else{
-      return false;
-    }
-  }
+  this.doQueryCount= function(dbid, query){
+    var records = this.doQuery(dbid, {"query": query, "clist": "3"});
+    return records.length;
+  };
 
   this.find = function(dbid, rid){
     var query = [];
@@ -106,39 +83,6 @@ function Base(apptoken){
     };
   };
 
-  this.doQuery = function(dbid, params){
-    var queryParams = {"fmt": "structured"}
-
-    if(params.query || params.qid){
-      if(params.query){
-        queryParams.query = params.query;
-      }else{
-        queryParams.qid = params.qid;
-      };
-    }else{
-      queryParams.query = "{'3'.XEX.''}"
-    };
-
-    queryParams.clist = params.clist || "a"
-    queryParams.slist = params.slist
-    queryParams.options = params.options
-
-    var response = BaseConnect.post(dbid, "DoQuery", {}, queryParams);
-    var records = BaseConnect.getRecords(response, "records");
-    return records;
-  }
-
-  this.doQueryCount= function(dbid, query){
-    var records = this.doQuery(dbid, {"query": query, "clist": "3"});
-    return records.length;
-  };
-
-  this.purgeRecords = function(dbid, query){
-    var response = BaseConnect.post(dbid, "PurgeRecords", {}, {"query": query});
-    var numberOfRecordDeleted = BaseConnect.getNode(response, "num_records_deleted");
-    return parseInt(numberOfRecordDeleted);
-  }
-
   this.importRecords = function(dbid, csvArray){
     var csv = "";
     var clist = [];
@@ -168,6 +112,62 @@ function Base(apptoken){
     var response = BaseConnect.post(dbid, "ImportFromCSV", {}, {"clist": clist}, csv);
     var rids = BaseConnect.getRids(response);
     return rids;
+  };
+
+  this.addRecord = function(dbid, fieldParams){
+    var response = BaseConnect.post(dbid, "AddRecord", fieldParams);
+    var rid = parseInt(BaseConnect.getNode(response, "rid"));
+    return rid;
+  };
+
+  this.editRecord = function(dbid, rid, fieldParams){
+    var response = BaseConnect.post(dbid, "EditRecord", fieldParams, {"rid": rid});
+    var rid = BaseConnect.getNode(response, "rid");
+
+    if(rid){
+      return true;
+    }else{
+      return false;
+    }
+  };
+
+  this.deleteRecord = function(dbid, rid){
+    var response = BaseConnect.post(dbid, "DeleteRecord", {}, {"rid": rid})
+    var rid = BaseConnect.getNode(response, "rid");
+
+    if(rid){
+      return true;
+    }else{
+      return false;
+    }
+  };
+
+  this.purgeRecords = function(dbid, query){
+    var response = BaseConnect.post(dbid, "PurgeRecords", {}, {"query": query});
+    var numberOfRecordDeleted = BaseConnect.getNode(response, "num_records_deleted");
+    return parseInt(numberOfRecordDeleted);
+  };
+
+  this.getUserInfo = function(email){
+    if(!email){
+      email = "";
+    };
+
+    var response = BaseConnect.post("main", "GetUserInfo", {}, {"email": email});
+    var user = $(response).find("user");
+
+    user = {
+      "id": $(user).attr("id"),
+      "firstName": $(user).find("firstName").text(),
+      "lastName": $(user).find("lastName").text(),
+      "login": $(user).find("login").text(),
+      "email": $(user).find("email").text(),
+      "screenName": $(user).find("screenName").text(),
+      "isVerified": $(user).find("isVerified").text(),
+      "externalAuth": $(user).find("externalAuth").text()
+    }
+
+    return user;
   };
 
   this.getTableFields = function(dbid){
