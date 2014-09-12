@@ -7,8 +7,8 @@ Versions
 
 Related Libraries
 * jQuery - https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js
-* boostrap.css - https://s3.amazonaws.com/ais_libraries/Bootstrap/3.2/css/bootstrap.min.css
-* boostrap.js - https://s3.amazonaws.com/ais_libraries/Bootstrap/3.2/js/bootstrap.min.js
+* bootstrap.css - https://s3.amazonaws.com/ais_libraries/Bootstrap/3.2/css/bootstrap.min.css
+* bootstrap.js - https://s3.amazonaws.com/ais_libraries/Bootstrap/3.2/js/bootstrap.min.js
 
 ##Documentation
 
