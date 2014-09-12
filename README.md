@@ -64,7 +64,7 @@ var ticket = api.getTicket();
 **setVariable(dbid, name, value) => [bool] success?**
 
 ```javascript
-var setVariableValue = api.setVariable("bdjwmnj33", name, "Project Manager");
+var setVariableValue = api.setVariable("bdjwmnj33", "appName", "Project Manager");
 => true
 ```
 
@@ -72,7 +72,7 @@ var setVariableValue = api.setVariable("bdjwmnj33", name, "Project Manager");
 **getVariable(dbid, name) => [string] variable value**
 
 ```javascript
-var value = api.setVariable("bdjwmnj33", name);
+var value = api.setVariable("bdjwmnj33", "appName");
 => "Project Manager"
 ```
 
