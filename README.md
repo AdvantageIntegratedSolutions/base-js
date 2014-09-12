@@ -6,7 +6,7 @@ version 1.0
 https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.min.js
 
 ##API Documentation
-###Main Functions
+###API Calls
 * [Get Ticket](#get-ticket)
 * [Query Records](#query-records)
 * [Count Queried Records](#count-queried-records)
@@ -23,7 +23,7 @@ https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.min.js
 * [DateToString](#datetostring)
 * [DateTimeToString](#datetimetostring)
 
-##Main Functions
+##API Calls
 ###New Connection
 
 ```javascript
