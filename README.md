@@ -17,7 +17,7 @@ https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.min.js
 * [Find First Record](#find-first-record)
 * [Find Last Record](#find-last-record)
 
-#Adding/Editing
+###Adding/Editing
 * [Import Records](#import-records)
 * [Add Record](#add-record)
 * [Edit Record](#edit-record)
