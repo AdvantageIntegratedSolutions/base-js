@@ -42,7 +42,7 @@ https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.min.js
 var api = new Base();
 ```
 
-###Get Ticket
+####Get Ticket
 **getTicket() => [string] ticket**
 
 ```javascript
@@ -50,7 +50,7 @@ var ticket = api.getTicket();
 => "6adfasdf8338adfadfbhkieoa874k494kadjff4774hfj334953"
 ```
 
-###Query Records
+####Query Records
 **doQuery(dbid, queryOptions) => [array] records**
 
 "queryOptions" expects a hash containing any of the following options:
@@ -69,7 +69,7 @@ var records = api.doQuery("bdjwmnj33", {"query": "{3.EX.'123'}", "clist": "3.6.1
     ]
 ```
 
-###Count # of Records
+####Count # of Records
 **doQueryCount(dbid, query)** => **[int] # of records in query**
 
 ```javascript
@@ -77,28 +77,28 @@ var count = api.doQueryCount("bdjwmnj33", "{'3'.EX.'123'}");
 => 39
 ```
 
-###Find Single Record
+####Find Single Record
 **find(dbid, rid)** => **[json] record**
 ```javascript
 var record = api.find("bdjwmnj33", "12");
 => {1: "1402930292", 7: "Lord of the Flies", 8: "William Golding"}
 ```
 
-###Find First Record
+####Find First Record
 **first(dbid, query, slist)** => **[json] record**
 ```javascript
 var record = api.first("bdjwmnj33", "{'3'.XEX.''}", "3");
 => {1: "1402930292", 7: "Lord of the Flies", 8: "William Golding"}
 ```
 
-###Find Last Record
+####Find Last Record
 **last(dbid, query, slist)** => **[json] record**
 ```javascript
 var record = api.last("bdjwmnj33", "{'3'.XEX.''}", "3");
 => {1: "1402933332", 7: "Animal Farm", 8: "George Orwell"}
 ```
 
-###Import Records
+####Import Records
 **importRecords(dbid, data)** => **[array] new rids**
 
 ```javascript
@@ -112,7 +112,7 @@ rids = api.importRecords("abcd1234", new_data);
 => [13, 14, 15]
 ````
 
-###Add Record
+####Add Record
 **addRecord(dbid, newRecord)** => **[int] new rid**
 
 ```javascript
@@ -121,7 +121,7 @@ var newRid = api.addRecord("abcd1234", newRecord);
 => 13
 ````
 
-###Edit Record
+####Edit Record
 **editRecord(dbid, rid, updatedRecord )** => **[bool] success?**
 
 ```javascript
@@ -130,7 +130,7 @@ var callSuccessful = api.editRecord("abcd1234", 136, updatedRecord);
 => false
 ````
 
-###Delete Record
+####Delete Record
 **deleteRecord(dbid, rid)** => **[bool] success?**
 
 ```javascript
@@ -138,7 +138,7 @@ var callSuccessful = api.deleteRecord("abcd1234", 136);
 => true
 ````
 
-###Delete Mass Records
+####Delete Mass Records
 **purgeRecords(dbid, query)** => **[int] # of records deleted**
 
 ```javascript
@@ -146,7 +146,7 @@ var numberOfRecordsDeleted = api.purgeRecords("abcd1234", "{3.EX.'123'}");
 => 9
 ````
 
-###Get Table Fields
+####Get Table Fields
 **getTableFields(dbid)** => **[array] fields**
 
 ```javascript
