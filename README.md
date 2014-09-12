@@ -33,7 +33,7 @@ Related Libraries
   - [Delete Mass Records](#delete-mass-records)
 
 * **Users**
-  - [Get User Information](#get-user-info)
+  - [Get User Information](#get-user-information)
 
 * **Retrieving Schema**
   - [Get Table Fields](#get-table-fields)
@@ -160,7 +160,7 @@ var numberOfRecordsDeleted = api.purgeRecords("abcd1234", "{3.EX.'123'}");
 ##Users
 ####Get User Information
 **getUserInfo(email)** => **[json] user**
-***Ignore email parameter to get current user info
+***Ignore email parameter to get current user info***
 
 ```javascript
 var userInfo = api.getUserInfo();
