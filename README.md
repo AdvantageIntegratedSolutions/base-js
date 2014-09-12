@@ -5,7 +5,7 @@ QuickBase API Javascript Library w/ JSON
 version 1.0
 https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.min.js
 
-##API Documentation
+##Documentation
 
 * **Main**
   - [New Connection](#new-connection)
