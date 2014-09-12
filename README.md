@@ -149,7 +149,7 @@ var numberOfRecordsDeleted = api.purgeRecords("abcd1234", "{3.EX.'123'}");
 => 9
 ````
 
-##Retrieve Schema
+##Retrieving Schema
 ####Get Table Fields
 **getTableFields(dbid)** => **[array] fields**
 
