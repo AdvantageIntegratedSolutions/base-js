@@ -6,7 +6,7 @@ version 1.0
 https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.min.js
 
 ##API Documentation
-* [Get Ticket]("/#get-ticket")
+* [Get Ticket]("https://github.com/AdvantageIntegratedSolutions/BaseJS#get-ticket")
 * Query Records
 * Count Queried Records
 * Find Single Record
