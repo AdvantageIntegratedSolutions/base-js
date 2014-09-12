@@ -17,6 +17,7 @@ https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.min.js
 * [Delete Record](#delete-record)
 * [Delete Mass Records](#delete-mass-records)
 * [Get Table Fields](#get-table-fields)
+
 ###Helpers
 * [Get URL Parameter](#get-url-parameter)
 * [DateToString](#datetostring)
