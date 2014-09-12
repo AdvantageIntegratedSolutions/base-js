@@ -11,29 +11,29 @@ https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.min.js
   - [New Connection](#new-connection)
   - [Get Ticket](#get-ticket)
 
-#####*Retrieving Records*
-* [Query Records](#query-records)
-* [Count # of Records](#count-queried-records)
-* [Find Single Record](#find-single-record)
-* [Find First Record](#find-first-record)
-* [Find Last Record](#find-last-record)
+* **Retrieving Records**
+[Query Records](#query-records)
+[Count # of Records](#count-queried-records)
+  - [Find Single Record](#find-single-record)
+  - [Find First Record](#find-first-record)
+  - [Find Last Record](#find-last-record)
 
-#####*Adding/Updating Records*
-* [Import Records](#import-records)
-* [Add Record](#add-record)
-* [Edit Record](#edit-record)
+* **Adding/Updating Records**
+  - [Import Records](#import-records)
+  - [Add Record](#add-record)
+  - [Edit Record](#edit-record)
 
-#####*Deleting Records*
-* [Delete Record](#delete-record)
-* [Delete Mass Records](#delete-mass-records)
+* **Deleting Records**
+  - [Delete Record](#delete-record)
+  - [Delete Mass Records](#delete-mass-records)
 
-#####*Retrieving Schema*
-* [Get Table Fields](#get-table-fields)
+* **Retrieving Schema**
+  - [Get Table Fields](#get-table-fields)
 
-#####*JS Helper Functions*
-* [Get URL Parameter](#get-url-parameter)
-* [DateToString](#datetostring)
-* [DateTimeToString](#datetimetostring)
+* **JS Helper Functions**
+  - [Get URL Parameter](#get-url-parameter)
+  - [DateToString](#datetostring)
+  - [DateTimeToString](#datetimetostring)
 
 ##Main
 ####New Connection
