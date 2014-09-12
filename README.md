@@ -7,10 +7,10 @@ https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.min.js
 
 ##API Documentation
 
-###Main
+####Main
 * [Get Ticket](#get-ticket)
 
-###Querying
+####Querying
 * [Query Records](#query-records)
 * [Count Queried Records](#count-queried-records)
 * [Find Single Record](#find-single-record)
