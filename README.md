@@ -15,6 +15,8 @@ Related Libraries
 * **Main**
   - [New Connection](#new-connection)
   - [Get Ticket](#get-ticket)
+  - [Set Variable](#set-variable)
+  - [Get Variable](#get-variable)
 
 * **Retrieving Records**
   - [Query Records](#query-records)
@@ -56,6 +58,22 @@ var api = new Base();
 ```javascript
 var ticket = api.getTicket();
 => "6adfasdf8338adfadfbhkieoa874k494kadjff4774hfj334953"
+```
+
+###Set Variable
+**setVariable(dbid, name, value) => [bool] success?**
+
+```javascript
+var setVariableValue = api.setVariable("bdjwmnj33", name, "Project Manager");
+=> true
+```
+
+###Get Variable
+**getVariable(dbid, name) => [string] variable value**
+
+```javascript
+var value = api.setVariable("bdjwmnj33", name);
+=> "Project Manager"
 ```
 
 ##Retrieving Records
