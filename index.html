@@ -18,8 +18,8 @@
 				var response = client.getTicket();
 				$scope.ticket = response;
 
-				var variable = client.setVariable("bjbsgxy2r", "test", "hello world");
-				var variableValue = client.getVariable("bjbsgxy2r", "test");
+				var variable = client.setVar("bjbsgxy2r", "test", "hello world");
+				var variableValue = client.getVar("bjbsgxy2r", "test");
 
 				//Get User Info
 				var response = client.getUserInfo();

@@ -215,7 +215,7 @@ var date = BaseHelpers.dateToString("1410454590146");
 
 ```javascript
 var dateTime = BaseHelpers.dateTimeToString("1410454590146");
-=> "09-01-2014 15:31:21"
+=> "09-01-2014 12:03 pm"
 ````
 
 ##Example

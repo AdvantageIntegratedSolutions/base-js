@@ -216,8 +216,14 @@ var BaseHelpers = {
     var seconds = BaseConnect.formatDateElement(date.getSeconds());
 
     var dateTime = [month, day, date.getFullYear()].join("-");
+    var ampm = parseInt(hours) >= 12 ? 'pm' : 'am';
+    
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+
     dateTime += " "
-    dateTime += [hours, minutes, seconds].join(":")
+    dateTime += [hours, minutes].join(":")
+    dateTime += " " + ampm
     return dateTime;
   }
 };
