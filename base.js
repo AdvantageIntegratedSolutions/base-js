@@ -1,5 +1,7 @@
-function Base(apptoken){
-  this.apptoken = apptoken;
+var apptoken;
+
+function Base(token){
+  apptoken = token;
   this.httpConnection = null;
 
   BaseConnect.initHttpConnection();
@@ -385,8 +387,8 @@ var BaseConnect = {
 
     request.appendChild(root);
 
-    if(this.apptoken){
-      this.addParameter(request, "apptoken", this.apptoken);
+    if(apptoken){
+      this.addParameter(request, "apptoken", apptoken);
     };
 
     return request;
