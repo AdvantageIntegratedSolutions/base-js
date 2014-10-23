@@ -24,6 +24,7 @@ Related Libraries
   - [Find Single Record](#find-single-record)
   - [Find First Record](#find-first-record)
   - [Find Last Record](#find-last-record)
+  - [Find All Records](#find-all-records)
 
 * **Adding/Updating Records**
   - [Import Records](#import-records)
@@ -44,6 +45,8 @@ Related Libraries
   - [Get URL Parameter](#get-url-parameter)
   - [DateToString](#datetostring)
   - [DateTimeToString](#datetimetostring)
+  - [DurationToString](#durationtostring)
+  - [TimeOfDayToString](#timeofdaytostring)
 
 ##Main
 ###New Connection
@@ -123,6 +126,13 @@ var record = api.first("bdjwmnj33", "{'3'.XEX.''}", "3");
 ```javascript
 var record = api.last("bdjwmnj33", "{'3'.XEX.''}", "3");
 => {1: "1402933332", 7: "Animal Farm", 8: "George Orwell"}
+```
+
+###Find All Records
+**all(dbid, slist)** => **[array] records**
+```javascript
+var record = api.all("bdjwmnj33", "3");
+=> [{1: "1402933332", 7: "Animal Farm", 8: "George Orwell"}]
 ```
 
 ##Adding/Updating Records
@@ -216,6 +226,22 @@ var date = BaseHelpers.dateToString("1410454590146");
 ```javascript
 var dateTime = BaseHelpers.dateTimeToString("1410454590146");
 => "09-01-2014 12:03 pm"
+````
+
+###DurationToString
+**BaseHelpers.durationToString(milliseconds)** => **[string] hour format**
+
+```javascript
+var duration = BaseHelpers.durationToString("1410454590146");
+=> "3 hours"
+````
+
+###TimeOfDayToString
+**BaseHelpers.timeOfDayToString(milliseconds)** => **[string] time of day format**
+
+```javascript
+var timeOfDay = BaseHelpers.timeOfDayToString("1410454590146");
+=> "3:00 pm"
 ````
 
 ##Example

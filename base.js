@@ -93,8 +93,8 @@ function Base(token){
     };
   };
 
-  this.all = function(dbid){
-    var records = this.doQuery(dbid, {"query": "{'3'.XEX.''}"});
+  this.all = function(dbid, slist){
+    var records = this.doQuery(dbid, {"query": "{'3'.XEX.''}",  "slist": slist});
 
     if(records.length > 0){
       return records;
@@ -281,7 +281,7 @@ var BaseHelpers = {
         minutes = "0" + minutes;
       };
 
-      timeOfDay = hours.toString() + ":" + minutes + zone
+      timeOfDay = hours.toString() + ":" + minutes + " " + zone
     };
 
     return timeOfDay;
