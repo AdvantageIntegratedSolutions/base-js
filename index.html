@@ -12,7 +12,7 @@
 				var demoDbid = "bjbsgxy3t";
 				
 				//Initiate connection to application
-				var client = new Base();
+				var client = new Base("cgfsmfcdc5vyp5k5s7h6b6v3m9v");
 
 				//Get Ticket
 				var response = client.getTicket();
@@ -26,11 +26,11 @@
 				$scope.userInfo = response;
 
 				//Add Record
-				var newRecordHash = { 8: "Mike", 9: "Johnson" }
+				var newRecordHash = { 8: "Mike", 9: "Johnson", 14: "4", 15: "2pm" }
 				var rid = client.addRecord(demoDbid, newRecordHash);
 				$scope.newAddRecordId = rid;
 
-				var newRecordHash = { 8: "Mike", 9: "Johnson" }
+				var newRecordHash = { 8: "Mike", 9: "Johnson", 14: "5", 15: "3pm" }
 				var rid2 = client.addRecord(demoDbid, newRecordHash);
 
 				//Edit Record
@@ -57,11 +57,16 @@
 				$scope.query1 = response;
 
 				var qid = "1"
-				var response = client.doQuery(demoDbid, {"qid": qid, "clist": ["1", "2", "3", "4", "5"]})
+				var response = client.doQuery(demoDbid, {"qid": qid, "clist": ["1", "2", "3", "4", "5", "14", "15"]})
 				$scope.query2 = response;
+
+				var response = client.all(demoDbid);
+				$scope.query3 = response;
 
 				$scope.dateCreated = BaseHelpers.dateToString(response[0]["1"]);
 				$scope.dateModified = BaseHelpers.dateTimeToString(response[0]["2"]);
+				$scope.totalHours = BaseHelpers.durationToString(response[0]["14"]);
+				$scope.timeOfDay = BaseHelpers.timeOfDayToString(response[0]["15"]);
 
 				//DoQueryCount
 				var query = "{'3'.XEX.''}"
@@ -69,8 +74,8 @@
 				$scope.queryCount = response;
 
 				//Delete Record
-				var response = client.deleteRecord(demoDbid, rid);
-				$scope.deletedRecordId = response;
+				//var response = client.deleteRecord(demoDbid, rid);
+				$scope.deletedRecordId = "";
 
 				var csvArray = [
 					{ 8: 'Mike"s', 9: "John>s&o<n" },
@@ -82,8 +87,8 @@
 				$scope.importedRids = response;
 
 				//Delete Mass Records
-				var response = client.purgeRecords(demoDbid, "{'3'.XEX.''}")
-				$scope.numberOfRecordsDeleted = response;
+				//var response = client.purgeRecords(demoDbid, "{'3'.XEX.''}")
+				$scope.numberOfRecordsDeleted = ""
 
 				//Get Table Fields
 				var response = client.getTableFields(demoDbid);
@@ -148,8 +153,20 @@
 							<td>{{dateModified}}</td>
 						</tr>
 						<tr>
+							<td>Total Hours</td>
+							<td>{{totalHours}}</td>
+						</tr>
+						<tr>
+							<td>Time Of Day</td>
+							<td>{{timeOfDay}}</td>
+						</tr>
+						<tr>
 							<td>Query 2 Results</td>
 							<td>{{query2}}</td>
+						</tr>
+						<tr>
+							<td>Query 3 Results</td>
+							<td>{{query3}}</td>
 						</tr>
 						<tr>
 							<td>Query 1 Count</td>

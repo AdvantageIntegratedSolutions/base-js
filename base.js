@@ -1,10 +1,7 @@
-var apptoken;
-
 function Base(token){
-  apptoken = token;
   this.httpConnection = null;
 
-  BaseConnect.initHttpConnection();
+  BaseConnect.initHttpConnection(token);
 
   this.getTicket = function(){
     var response = BaseConnect.post("main", "GetOneTimeTicket")
@@ -91,6 +88,16 @@ function Base(token){
 
     if(records.length > 0){
       return records[records.length - 1];
+    }else{
+      return {};
+    };
+  };
+
+  this.all = function(dbid){
+    var records = this.doQuery(dbid, {"query": "{'3'.XEX.''}"});
+
+    if(records.length > 0){
+      return records;
     }else{
       return {};
     };
@@ -235,10 +242,55 @@ var BaseHelpers = {
     };
 
     return milliseconds;
+  },
+
+  durationToString: function(milliseconds){
+    var duration = "0";
+
+    if(milliseconds){
+      duration = parseInt(milliseconds) / 3600000;
+    };
+
+    return duration.toString() + " hours";
+  },
+
+  timeOfDayToString: function(milliseconds){
+    var timeOfDay = "";
+
+    if(milliseconds){
+      timeOfDay = new Date();
+      timeOfDay.setHours("");
+      timeOfDay.setMinutes("");
+      timeOfDay.setSeconds("");
+      timeOfDay = timeOfDay.setMilliseconds(milliseconds);
+      timeOfDay = new Date(timeOfDay);
+
+      var hours = parseInt(timeOfDay.getHours());
+      var minutes = timeOfDay.getMinutes().toString();
+      var zone = "am";
+      
+      if(hours >= 12){
+        zone = "pm"
+
+        if(hours > 12){
+          hours = hours - 12
+        };
+      };
+
+      if(minutes.length == 1){
+        minutes = "0" + minutes;
+      };
+
+      timeOfDay = hours.toString() + ":" + minutes + zone
+    };
+
+    return timeOfDay;
   }
 };
 
 var BaseConnect = {
+  apptoken: null,
+
   post: function(dbid, action, fieldParams, params, csvData){
     var request = this.buildRequest();
 
@@ -387,8 +439,8 @@ var BaseConnect = {
 
     request.appendChild(root);
 
-    if(apptoken){
-      this.addParameter(request, "apptoken", apptoken);
+    if(this.apptoken){
+      this.addParameter(request, "apptoken", this.apptoken);
     };
 
     return request;
@@ -434,7 +486,9 @@ var BaseConnect = {
     return xml;
   },
 
-  initHttpConnection: function(){
+  initHttpConnection: function(token){
+    this.apptoken = token;
+
     try{
       if(!Base.httpConnection){
         Base.httpConnection = new XMLHttpRequest();

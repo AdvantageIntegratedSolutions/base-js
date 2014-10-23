@@ -144,7 +144,7 @@ rids = api.importRecords("abcd1234", new_data);
 **addRecord(dbid, newRecord)** => **[int] new rid**
 
 ```javascript
-var newRecord = {6 => "Book", 7 => "My New Title", 8 => "John Smith"};
+var newRecord = {6: "Book", 7: "My New Title", 8: "John Smith"};
 var newRid = api.addRecord("abcd1234", newRecord);
 => 13
 ````
@@ -153,7 +153,7 @@ var newRid = api.addRecord("abcd1234", newRecord);
 **editRecord(dbid, rid, updatedRecord )** => **[bool] success?**
 
 ```javascript
-var updatedRecord = {7 => "My Second Title", 8 => "John Smith"};
+var updatedRecord = {7: "My Second Title", 8: "John Smith"};
 var callSuccessful = api.editRecord("abcd1234", 136, updatedRecord);
 => false
 ````
