@@ -1,8 +1,9 @@
-#BaseJS
+#QuickBaseJS
 
 QuickBase API Javascript Library w/ JSON
 
 Versions
+* 2.0 - https://s3.amazonaws.com/ais_libraries/BaseJS/2.0/base.min.js
 * 1.1 - https://s3.amazonaws.com/ais_libraries/BaseJS/1.1/base.min.js
 * 1.0 - https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.min.js
 
@@ -53,7 +54,7 @@ Related Libraries
 ###New Connection
 
 ```javascript
-var api = new Base();
+var api = new Base(apptoken, async);
 ```
 
 ###Get Ticket
@@ -62,6 +63,12 @@ var api = new Base();
 ```javascript
 var ticket = api.getTicket();
 => "6adfasdf8338adfadfbhkieoa874k494kadjff4774hfj334953"
+```
+
+```javascript
+var ticket = api.getTicket(function(ticket){
+  console.log(ticket);
+});
 ```
 
 ###Set Var

@@ -1,28 +1,57 @@
-function Base(token){
-  this.httpConnection = null;
+function Base(token, async){
+  Base.httpConnection = BaseConnect.initHttpConnection();
+  BaseConnect.setVariables(token, async);
 
-  BaseConnect.initHttpConnection(token);
+  this.getTicket = function(callback){
+    this.handle = function(response){
+      return BaseConnect.getNode(response, "ticket");
+    };
 
-  this.getTicket = function(){
-    var response = BaseConnect.post("main", "GetOneTimeTicket")
-    var ticket = BaseConnect.getNode(response, "ticket");
-    return ticket;
+    var data = {
+      dbid: "main",
+      action: "GetOneTimeTicket",
+      fieldParams: null,
+      params: null,
+      csvData: null
+    };
+
+    return BaseConnect.post(data, callback, this.handle);
   };
 
-  this.getVar = function(dbid, name){
-    var response = BaseConnect.post(dbid, "GetDBvar", {}, {"varname": name})
-    return BaseConnect.getNode(response, "value");
+  this.getVar = function(dbid, name, callback){
+    this.handle = function(response){
+      return BaseConnect.getNode(response, "value");
+    };
+
+    var data = {
+      dbid: dbid,
+      action: "GetDBvar",
+      params: {"varname": name}
+    };
+
+    return BaseConnect.post(data, callback, this.handle)
   };
 
-  this.setVar = function(dbid, name, value){
-    var params = {"varname": name, "value": value}
-    var response = BaseConnect.post(dbid, "SetDBvar", {}, params)
-    return true;
+  this.setVar = function(dbid, name, value, callback){
+    this.handle = function(response){
+      return true;
+    };
+
+    var data = {
+      dbid: dbid,
+      action: "SetDBvar",
+      params: {"varname": name, "value": value}
+    };
+
+    return BaseConnect.post(data, callback, this.handle);
   };
 
-  this.doQuery = function(dbid, params){
+  this.doQuery = function(dbid, params, callback, handle){
+    this.handle = function(response){
+      return BaseConnect.getRecords(response, "records");
+    };
+
     var queryParams = {"fmt": "structured"}
-
     if(params.query || params.qid){
       if(params.query){
         queryParams.query = params.query;
@@ -37,17 +66,42 @@ function Base(token){
     queryParams.slist = params.slist
     queryParams.options = params.options
 
-    var response = BaseConnect.post(dbid, "DoQuery", {}, queryParams);
-    var records = BaseConnect.getRecords(response, "records");
-    return records;
+    var data = {
+      dbid: dbid,
+      action: "DoQuery",
+      params: queryParams
+    };
+
+    if(handle){
+      this.handle = handle;
+    };
+
+    return BaseConnect.post(data, callback, this.handle);
   };
 
-  this.doQueryCount= function(dbid, query){
-    var records = this.doQuery(dbid, {"query": query, "clist": "3"});
-    return records.length;
+  this.doQueryCount= function(dbid, query, callback){
+    this.handle = function(response){
+      var records = BaseConnect.getRecords(response, "records");
+      return records.length;
+    };
+
+    return this.doQuery(dbid, {"query": query, "clist": "3"}, callback, this.handle);
   };
 
-  this.find = function(dbid, rid){
+  this.find = function(dbid, rid, callback){
+    this.handle = function(response){
+      var records = BaseConnect.getRecords(response, "records");
+      if(records.length > 0){
+        if(records.length > 1){
+          return records;
+        }else{
+          return records[0];
+        };
+      }else{
+        return {};
+      };
+    };
+
     var query = [];
     
     if(Object.prototype.toString.call(rid) == "[object Array]"){
@@ -60,50 +114,53 @@ function Base(token){
 
     query = query.join("OR");
 
-    var records = this.doQuery(dbid, {"query": query});
+    return this.doQuery(dbid, {"query": query}, callback, this.handle);
+  };
 
-    if(records.length > 0){
-      if(records.length > 1){
+  this.first = function(dbid, query, slist, callback){
+    this.handle = function(response){
+      var records = BaseConnect.getRecords(response, "records");
+      if(records.length > 0){
+        return records[0];
+      }else{
+        return {};
+      };
+    };
+
+    return this.doQuery(dbid, {"query": query, "slist": slist}, callback, this.handle);
+  };
+
+  this.last = function(dbid, query, slist, callback){
+    this.handle = function(response){
+      var records = BaseConnect.getRecords(response, "records");
+      if(records.length > 0){
+        return records[records.length - 1];
+      }else{
+        return {};
+      };
+    };
+
+    return this.doQuery(dbid, {"query": query, "slist": slist}, callback, this.handle);
+  };
+
+  this.all = function(dbid, slist, callback){
+    this.handle = function(response){
+      var records = BaseConnect.getRecords(response, "records");
+      if(records.length > 0){
         return records;
       }else{
-        return records[0];
+        return {};
       };
-    }else{
-      return {};
     };
+
+    return this.doQuery(dbid, {"query": "{'3'.XEX.''}",  "slist": slist}, callback, this.handle);
   };
 
-  this.first = function(dbid, query, slist){
-    var records = this.doQuery(dbid, {"query": query, "slist": slist})
-
-    if(records.length > 0){
-      return records[0];
-    }else{
-      return {};
+  this.importRecords = function(dbid, csvArray, callback){
+    this.handle = function(response){
+      return BaseConnect.getRids(response);
     };
-  };
 
-  this.last = function(dbid, query, slist){
-    var records = this.doQuery(dbid, {"query": query, "slist": slist})
-
-    if(records.length > 0){
-      return records[records.length - 1];
-    }else{
-      return {};
-    };
-  };
-
-  this.all = function(dbid, slist){
-    var records = this.doQuery(dbid, {"query": "{'3'.XEX.''}",  "slist": slist});
-
-    if(records.length > 0){
-      return records;
-    }else{
-      return {};
-    };
-  };
-
-  this.importRecords = function(dbid, csvArray){
     var csv = "";
     var clist = [];
 
@@ -129,71 +186,128 @@ function Base(token){
       csv += (rowValues);
     };
 
-    var response = BaseConnect.post(dbid, "ImportFromCSV", {}, {"clist": clist}, csv);
-    var rids = BaseConnect.getRids(response);
-    return rids;
-  };
-
-  this.addRecord = function(dbid, fieldParams){
-    var response = BaseConnect.post(dbid, "AddRecord", fieldParams);
-    var rid = parseInt(BaseConnect.getNode(response, "rid"));
-    return rid;
-  };
-
-  this.editRecord = function(dbid, rid, fieldParams){
-    var response = BaseConnect.post(dbid, "EditRecord", fieldParams, {"rid": rid});
-    var rid = BaseConnect.getNode(response, "rid");
-
-    if(rid){
-      return true;
-    }else{
-      return false;
+    var data = {
+      dbid: dbid,
+      action: "ImportFromCSV",
+      params: {"clist": clist},
+      csvData: csv
     }
+
+    return BaseConnect.post(data, callback, this.handle);
   };
 
-  this.deleteRecord = function(dbid, rid){
-    var response = BaseConnect.post(dbid, "DeleteRecord", {}, {"rid": rid})
-    var rid = BaseConnect.getNode(response, "rid");
+  this.addRecord = function(dbid, fieldParams, callback){
+    this.handle = function(response){
+      return parseInt(BaseConnect.getNode(response, "rid"));
+    };
 
-    if(rid){
-      return true;
-    }else{
-      return false;
+    var data = {
+      dbid: dbid,
+      action: "AddRecord",
+      fieldParams: fieldParams
+    };
+
+    return BaseConnect.post(data, callback, this.handle);
+  };
+
+  this.editRecord = function(dbid, rid, fieldParams, callback){
+    this.handle = function(response){
+      var rid = BaseConnect.getNode(response, "rid");
+
+      if(rid){
+        return true;
+      }else{
+        return false;
+      }
+    };
+
+    var data = {
+      dbid: dbid,
+      action: "EditRecord",
+      fieldParams: fieldParams,
+      params: {"rid": rid}
     }
+
+    return BaseConnect.post(data, callback, this.handle);
   };
 
-  this.purgeRecords = function(dbid, query){
-    var response = BaseConnect.post(dbid, "PurgeRecords", {}, {"query": query});
-    var numberOfRecordDeleted = BaseConnect.getNode(response, "num_records_deleted");
-    return parseInt(numberOfRecordDeleted);
+  this.deleteRecord = function(dbid, rid, callback){
+    this.handle = function(response){
+      var rid = BaseConnect.getNode(response, "rid");
+
+      if(rid){
+        return true;
+      }else{
+        return false;
+      }
+    };
+
+    var data = {
+      dbid: dbid,
+      action: "DeleteRecord",
+      params: {"rid": rid}
+    };
+
+    return BaseConnect.post(data, callback, this.handle);
   };
 
-  this.getUserInfo = function(email){
+  this.purgeRecords = function(dbid, query, callback){
+    this.handle = function(response){
+      var numberOfRecordDeleted = BaseConnect.getNode(response, "num_records_deleted");
+      return parseInt(numberOfRecordDeleted);
+    };
+
+    var data = {
+      dbid: dbid,
+      action: "PurgeRecords",
+      params: {"query": query}
+    };
+
+    return BaseConnect.post(data, callback, this.handle);
+  };
+
+  this.getUserInfo = function(email, callback, handler){
+    this.handle = function(response){
+      var user = $(response).find("user");
+
+      user = {
+        "id": $(user).attr("id"),
+        "firstName": $(user).find("firstName").text(),
+        "lastName": $(user).find("lastName").text(),
+        "login": $(user).find("login").text(),
+        "email": $(user).find("email").text(),
+        "screenName": $(user).find("screenName").text(),
+        "isVerified": $(user).find("isVerified").text(),
+        "externalAuth": $(user).find("externalAuth").text()
+      };
+
+      return user;
+    };
+
     if(!email){
       email = "";
     };
 
-    var response = BaseConnect.post("main", "GetUserInfo", {}, {"email": email});
-    var user = $(response).find("user");
+    var data = {
+      dbid: "main",
+      action: "GetUserInfo",
+      params: {"email": email}
+    };
 
-    user = {
-      "id": $(user).attr("id"),
-      "firstName": $(user).find("firstName").text(),
-      "lastName": $(user).find("lastName").text(),
-      "login": $(user).find("login").text(),
-      "email": $(user).find("email").text(),
-      "screenName": $(user).find("screenName").text(),
-      "isVerified": $(user).find("isVerified").text(),
-      "externalAuth": $(user).find("externalAuth").text()
-    }
-
-    return user;
+    return BaseConnect.post(data, callback, this.handle);
   };
 
-  this.getTableFields = function(dbid){
-    var response = BaseConnect.post(dbid, "GetSchema");
-    var fields = BaseConnect.getFields(response);
-    return fields;
+  this.getTableFields = function(dbid, callback){
+    this.handle = function(response){
+      return BaseConnect.getFields(response);
+    };
+
+    var data = {
+      dbid: dbid,
+      action: "GetSchema"
+    };
+
+    return BaseConnect.post(data, callback, this.handle);
   };
 }
 
@@ -290,12 +404,13 @@ var BaseHelpers = {
 
 var BaseConnect = {
   apptoken: null,
+  async: null,
 
-  post: function(dbid, action, fieldParams, params, csvData){
+  post: function(data, callback, handler){
     var request = this.buildRequest();
 
-    for(key in params){
-      var value = params[key];
+    for(key in data.params){
+      var value = data.params[key];
 
       if(key == "clist" || key == "slist" || key == "options"){
         if(Object.prototype.toString.call(value) == "[object Array]"){
@@ -306,17 +421,17 @@ var BaseConnect = {
       this.addParameter(request, key, value);
     };
 
-    for(key in fieldParams){
-      this.addFieldParameter(request, key, fieldParams[key]);
+    for(key in data.fieldParams){
+      this.addFieldParameter(request, key, data.fieldParams[key]);
     };
 
-    if(csvData){
+    if(data.csvData){
       var records_csv = request.createElement("records_csv");
-      records_csv.appendChild(request.createCDATASection(csvData));
+      records_csv.appendChild(request.createCDATASection(data.csvData));
       request.documentElement.appendChild(records_csv);
     };
 
-    response = this.xmlPost(dbid, "API_" + action, request);
+    response = this.xmlPost(data.dbid, "API_" + data.action, request, callback, handler);
     return response
   },
 
@@ -380,7 +495,7 @@ var BaseConnect = {
   },
 
   getFields: function(schema){
-    var fields = $(response).find("fields").find("field");
+    var fields = $(schema).find("fields").find("field");
     var fieldsArray = [];
 
     for(var i=0; i < fields.length; i++){
@@ -427,7 +542,7 @@ var BaseConnect = {
 
   buildRequest: function(){
     var request = this.createDocument();
-    request.async = false;
+    request.async = this.async;
     request.resolveExternals = false;
 
     var root = request.createElement("qdbapi");
@@ -464,52 +579,86 @@ var BaseConnect = {
     mainElement.appendChild(fieldTag);
   },
 
-  xmlPost: function(dbid, action, request){
-    var script = "/db/" + dbid + "?act=" + action; 
-    Base.httpConnection.open("POST", script, false);
+  xmlPost: function(dbid, action, request, callback, handler){
+    var script = "/db/" + dbid + "?act=" + action;
 
-    if((/MSIE 1/i).test(navigator.appVersion) || window.ActiveXObject !== undefined){
-      try { Base.httpConnection.responseType = 'msxml-document'; } catch (e) { }
+    if(this.async == true){
+      var connection = BaseConnect.initHttpConnection();
+    }else{
+      var connection = Base.httpConnection;
     };
-        
-    Base.httpConnection.setRequestHeader("Content-Type", "text/xml");
-    Base.httpConnection.send(request);
 
-    var xml = Base.httpConnection.responseXML;
+    connection.open("POST", script, this.async);
+    
+    if((/MSIE 1/i).test(navigator.appVersion) || window.ActiveXObject !== undefined){
+      try { connection.responseType = 'msxml-document'; } catch (e) { }
+    };
 
+    if(this.async == true){
+      connection.onreadystatechange = function(){
+        if(connection.readyState == 4 && connection.status == 200){
+          var xml = BaseConnect.parseResponse(connection);
+          xml = handler(xml);
+          callback(xml);
+        }
+      };
+    };
+
+    connection.setRequestHeader("Content-Type", "text/xml");
+    connection.send(request);
+
+    if(this.async == false){
+      var xml = BaseConnect.parseResponse(connection);
+      return handler(xml);
+    };
+  },
+
+  parseResponse: function(connection){
+    var xml = connection.responseXML;
     var errorCode = BaseConnect.getNode(xml, "errcode");
+    
     if(errorCode != "0"){
-      throw new Error("ERROR: code - " + errorCode + " message - " + BaseConnect.getNode(xml, "errtext"));
+      console.log(
+        "*****ERROR*****: (" + BaseConnect.getNode(xml, "action") + ")" + "(CODE: " + errorCode + ")",
+        "MESSAGE: " + BaseConnect.getNode(xml, "errtext") + "-" + BaseConnect.getNode(xml, "errdetail")
+      );
     };
 
     this.ticket = BaseConnect.getNode(xml, "ticket");
     return xml;
   },
 
-  initHttpConnection: function(token){
+  setVariables: function(token, async){
     this.apptoken = token;
+    this.async = async || false;
+  },
+
+  initHttpConnection: function(){
+    var connection = null;
 
     try{
-      if(!Base.httpConnection){
-        Base.httpConnection = new XMLHttpRequest();
+      if(!connection){
+        connection = new XMLHttpRequest();
       };
     }
     catch(e){
     }
     try{
-      if(!Base.httpConnection){
-        Base.httpConnection = new ActiveXObject("Msxml2.XMLHTTP");
+      if(!connection){
+        connection = new ActiveXObject("Msxml2.XMLHTTP");
       };
     }
     catch(e){
     }
     try{
-      if(!Base.httpConnection){
-        Base.httpConnection = new ActiveXObject("Microsoft.XMLHTTP");
+      if(!connection){
+        connection = new ActiveXObject("Microsoft.XMLHTTP");
       };
     }
     catch(e){
       alert("This browser does not support BaseJS.");
     };
+
+    return connection;
   }
 }

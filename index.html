@@ -15,20 +15,22 @@
 				var client = new Base("cgfsmfcdc5vyp5k5s7h6b6v3m9v");
 
 				//Get Ticket
-				var response = client.getTicket();
-				$scope.ticket = response;
+				var ticket = client.getTicket();
+				console.log("TICKET: " + ticket);
 
 				var variable = client.setVar("bjbsgxy2r", "test", "hello world");
+				console.log("SET VAR: " + variable);
 				var variableValue = client.getVar("bjbsgxy2r", "test");
+				console.log("GET VAR: " + variableValue);
 
 				//Get User Info
 				var response = client.getUserInfo();
-				$scope.userInfo = response;
+				console.log("USER INFO: " + response);
 
 				//Add Record
 				var newRecordHash = { 8: "Mike", 9: "Johnson", 14: "4", 15: "2pm" }
 				var rid = client.addRecord(demoDbid, newRecordHash);
-				$scope.newAddRecordId = rid;
+				console.log("ADD RECORD: " + rid);
 
 				var newRecordHash = { 8: "Mike", 9: "Johnson", 14: "5", 15: "3pm" }
 				var rid2 = client.addRecord(demoDbid, newRecordHash);
@@ -36,46 +38,50 @@
 				//Edit Record
 				var editRecordHash = { 8: "Stephan", 9: "Smith" }
 				var response = client.editRecord(demoDbid, rid, editRecordHash);
-				$scope.numberOfUpdatedFields = response;
+				console.log("EDIT RECORD: " + response);
 
 				//Find
 				var response = client.find(demoDbid, rid);
-				$scope.singleRecord = response;
+				console.log("FIND: " + response);
 
 				var response = client.find(demoDbid, [rid, rid2]);
-				$scope.twoRecords = response;
+				console.log("FIND 2: " + response);
 
 				var response = client.first(demoDbid, "{'3'.XEX.''}", "3");
-				$scope.first = response;
+				console.log("FIRST: " + response);
 
 				var response = client.last(demoDbid, "{'3'.XEX.''}", "3");
-				$scope.last = response;
-
+				console.log("LAST: " + response);
 				//DoQuery
 				var query = "{'3'.XEX.''}"
 				var response = client.doQuery(demoDbid, {"query": query})
-				$scope.query1 = response;
+				console.log("QUERY 1: " + response);
 
 				var qid = "1"
 				var response = client.doQuery(demoDbid, {"qid": qid, "clist": ["1", "2", "3", "4", "5", "14", "15"]})
-				$scope.query2 = response;
+				console.log("QUERY 2: " + response);
 
 				var response = client.all(demoDbid);
-				$scope.query3 = response;
+				console.log("ALL: " + response);
 
-				$scope.dateCreated = BaseHelpers.dateToString(response[0]["1"]);
-				$scope.dateModified = BaseHelpers.dateTimeToString(response[0]["2"]);
-				$scope.totalHours = BaseHelpers.durationToString(response[0]["14"]);
-				$scope.timeOfDay = BaseHelpers.timeOfDayToString(response[0]["15"]);
+				var dateCreated = BaseHelpers.dateToString(response[0]["1"]);
+				var dateModified = BaseHelpers.dateTimeToString(response[0]["2"]);
+				var totalHours = BaseHelpers.durationToString(response[0]["14"]);
+				var timeOfDay = BaseHelpers.timeOfDayToString(response[0]["15"]);
+
+				console.log("DATE CREATED: " + dateCreated);
+				console.log("DATE MODIFIED: " + dateModified);
+				console.log("TOTAL HOURS: " + totalHours);
+				console.log("TIME OF DAY: " + timeOfDay);
 
 				//DoQueryCount
 				var query = "{'3'.XEX.''}"
 				var response = client.doQueryCount(demoDbid, query)
-				$scope.queryCount = response;
+				console.log("DO QUERY COUNT: " + response);
 
 				//Delete Record
-				//var response = client.deleteRecord(demoDbid, rid);
-				$scope.deletedRecordId = "";
+				var response = client.deleteRecord(demoDbid, rid);
+				console.log("DELETE: " + response);
 
 				var csvArray = [
 					{ 8: 'Mike"s', 9: "John>s&o<n" },
@@ -84,20 +90,111 @@
 					{ 8: "Martin", 9: "Douglas" }
 				]
 				var response = client.importRecords(demoDbid, csvArray);
-				$scope.importedRids = response;
+				console.log("IMPORT: " + response);
 
 				//Delete Mass Records
-				//var response = client.purgeRecords(demoDbid, "{'3'.XEX.''}")
-				$scope.numberOfRecordsDeleted = ""
+				var response = client.purgeRecords(demoDbid, "{'3'.XEX.''}")
+				console.log("PURGE: " + response);
 
 				//Get Table Fields
 				var response = client.getTableFields(demoDbid);
-				$scope.fields = response;
+				console.log("GET TABLE FIELDS: " + response);
 
-				//Get URL Param
-				var param = BaseHelpers.getUrlParam("name");
-				$scope.nameParam = param;
+				//ASYNC
+				var asyncClient = new Base("cgfsmfcdc5vyp5k5s7h6b6v3m9v", true);
 
+				//Get Ticket
+				asyncClient.getTicket(function(response){
+					console.log("TICKET: " + response);
+				});
+
+				asyncClient.setVar("bjbsgxy2r", "test", "hello world", function(response){
+					console.log("SET VAR: " + response);
+				});
+
+				asyncClient.getVar("bjbsgxy2r", "test", function(response){
+					console.log("GET VAR: " + response)
+				});
+
+				//Get User Info
+				asyncClient.getUserInfo("", function(response){
+					console.log("USER INFO: " + response);
+				});
+
+				//Add Record
+				var newRecordHash = { 8: "Mike", 9: "Johnson", 14: "4", 15: "2pm" }
+				asyncClient.addRecord(demoDbid, newRecordHash, function(rid){
+					console.log("ADD RECORD: " + rid);
+
+					//Edit Record
+					var editRecordHash = { 8: "Stephan", 9: "Smith" }
+					asyncClient.editRecord(demoDbid, rid, editRecordHash, function(response){
+						console.log("EDIT RECORD: " + response);
+					});
+				});
+
+				//Find
+				asyncClient.find(demoDbid, rid, function(response){
+					console.log("FIND: " + response);
+				});
+				
+				asyncClient.find(demoDbid, [rid, rid2], function(response){
+					console.log("FIND 2: " + response);
+				});
+				
+				asyncClient.first(demoDbid, "{'3'.XEX.''}", "3", function(response){
+					console.log("FIRST: " + response);
+				});
+				
+				asyncClient.last(demoDbid, "{'3'.XEX.''}", "3", function(response){
+					console.log("LAST: " + response);
+				});
+
+				//DoQuery
+				var query = "{'3'.XEX.''}"
+				asyncClient.doQuery(demoDbid, {"query": query}, function(response){
+					console.log("QUERY 1: " + response);
+				});
+
+				var qid = "1"
+				asyncClient.doQuery(demoDbid, {"qid": qid, "clist": ["1", "2", "3", "4", "5", "14", "15"]}, function(response){
+					console.log("QUERY 2: " + response);
+				});
+
+				asyncClient.all(demoDbid, null, function(response){
+					console.log("ALL: " + response);
+				});
+
+				//DoQueryCount
+				var query = "{'3'.XEX.''}"
+				client.doQueryCount(demoDbid, query, function(response){
+					console.log("DO QUERY COUNT: " + response);
+				});
+
+				//Delete Record
+				client.deleteRecord(demoDbid, rid, function(response){
+					console.log("DELETE: " + response);
+				});
+				
+				var csvArray = [
+					{ 8: 'Mike"s', 9: "John>s&o<n" },
+					{ 8: "Step,hani'e", 9: "Wallace" },
+					{ 8: "Jackson", 9: "Williams" },
+					{ 8: "Martin", 9: "Douglas" }
+				]
+				client.importRecords(demoDbid, csvArray, function(response){
+					console.log("IMPORT: " + response);
+				});
+				
+				//Delete Mass Records
+				client.purgeRecords(demoDbid, "{'3'.XEX.''}", function(response){
+					console.log("PURGE: " + response);
+				});
+
+				//Get Table Fields
+				client.getTableFields(demoDbid, function(response){
+					console.log("GET TABLE FIELDS: " + response);
+				});
 			});
 		</script>
 	</head>
@@ -107,93 +204,6 @@
 			<br>
 			<div ng-controller="DemoAppCtrl">
 				<table class="table table-bordered">
-					<tbody>
-						<tr>
-							<td class="col-md-6">Ticket</td>
-							<td class="col-md-6">{{ticket}}</td>
-						</tr>
-						<tr>
-							<td>User Info</td>
-							<td>{{userInfo}}</td>
-						</tr>
-						<tr>
-							<td>Added Record ID</td>
-							<td>{{newAddRecordId}}</td>
-						</tr>
-						<tr>
-							<td># of Edited Fields</td>
-							<td>{{numberOfUpdatedFields}}</td>
-						</tr>
-						<tr>
-							<td>Find Single Record</td>
-							<td>{{singleRecord}}</td>
-						</tr>
-						<tr>
-							<td>Find Two Records</td>
-							<td>{{twoRecords}}</td>
-						</tr>
-						<tr>
-							<td>First</td>
-							<td>{{first}}</td>
-						</tr>
-						<tr>
-							<td>Last</td>
-							<td>{{last}}</td>
-						</tr>
-						<tr>
-							<td>Query 1 Results</td>
-							<td>{{query1}}</td>
-						</tr>
-						<tr>
-							<td>Date Created</td>
-							<td>{{dateCreated}}</td>
-						</tr>
-						<tr>
-							<td>Date Modified</td>
-							<td>{{dateModified}}</td>
-						</tr>
-						<tr>
-							<td>Total Hours</td>
-							<td>{{totalHours}}</td>
-						</tr>
-						<tr>
-							<td>Time Of Day</td>
-							<td>{{timeOfDay}}</td>
-						</tr>
-						<tr>
-							<td>Query 2 Results</td>
-							<td>{{query2}}</td>
-						</tr>
-						<tr>
-							<td>Query 3 Results</td>
-							<td>{{query3}}</td>
-						</tr>
-						<tr>
-							<td>Query 1 Count</td>
-							<td>{{queryCount}}</td>
-						</tr>
-						<tr>
-							<td>Deleted Record ID</td>
-							<td>{{deletedRecordId}}</td>
-						</tr>
-						<tr>
-							<td>Imported Rids</td>
-							<td>{{importedRids}}</td>
-						</tr>
-						<tr>
-							<td># of Records Deleted</td>
-							<td>{{numberOfRecordsDeleted}}</td>
-						</tr>
-						<tr>
-							<td>Table Fields</td>
-							<td>{{fields}}</td>
-						</tr>
-						<tr>
-							<td>Name Param</td>
-							<td>{{nameParam}}</td>
-						</tr>
-					</tbody>
-				</table>
 			</div>
 		</div>
 	</body>
