@@ -323,10 +323,10 @@ var BaseHelpers = {
     if(milliseconds){
       var date = new Date(parseInt(milliseconds));
 
-      var month = BaseConnect.formatDateElement((date.getMonth() + 1));
-      var day = BaseConnect.formatDateElement(date.getDate());
+      var month = BaseConnect.formatDateElement((date.getUTCMonth() + 1));
+      var day = BaseConnect.formatDateElement(date.getUTCDate());
 
-      date = [month, day, date.getFullYear()].join("-");
+      date = [month, day, date.getUTCFullYear()].join("-");
       return date;
     };
 
@@ -337,13 +337,13 @@ var BaseHelpers = {
     if(milliseconds){
       var date = new Date(parseInt(milliseconds));
 
-      var month = BaseConnect.formatDateElement((date.getMonth() + 1));
-      var day = BaseConnect.formatDateElement(date.getDate());
-      var hours = BaseConnect.formatDateElement(date.getHours());
-      var minutes = BaseConnect.formatDateElement(date.getMinutes());
-      var seconds = BaseConnect.formatDateElement(date.getSeconds());
+      var month = BaseConnect.formatDateElement((date.getUTCMonth() + 1));
+      var day = BaseConnect.formatDateElement(date.getUTCDate());
+      var hours = BaseConnect.formatDateElement(date.getUTCHours());
+      var minutes = BaseConnect.formatDateElement(date.getUTCMinutes());
+      var seconds = BaseConnect.formatDateElement(date.getUTCSeconds());
 
-      var dateTime = [month, day, date.getFullYear()].join("-");
+      var dateTime = [month, day, date.getUTCFullYear()].join("-");
       var ampm = parseInt(hours) >= 12 ? 'pm' : 'am';
       
       hours = hours % 12;
