@@ -1,4 +1,4 @@
-#QuickBaseJS
+#AIS QuickBase JavaScript Library
 
 QuickBase API Javascript Library w/ JSON
 
