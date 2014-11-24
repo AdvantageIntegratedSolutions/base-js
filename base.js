@@ -79,13 +79,18 @@ function Base(token, async){
     return BaseConnect.post(data, callback, this.handle);
   };
 
-  this.doQueryCount= function(dbid, query, callback){
+  this.doQueryCount = function(dbid, query, callback){
     this.handle = function(response){
-      var records = BaseConnect.getRecords(response, "records");
-      return records.length;
+      return BaseConnect.getNode(response, "numMatches");;
     };
 
-    return this.doQuery(dbid, {"query": query, "clist": "3"}, callback, this.handle);
+    var data = {
+      dbid: dbid,
+      action: "DoQueryCount",
+      query: query
+    };
+
+    return BaseConnect.post(data, callback, this.handle);
   };
 
   this.find = function(dbid, rid, callback){
