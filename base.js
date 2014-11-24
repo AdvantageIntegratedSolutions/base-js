@@ -510,8 +510,8 @@ var BaseConnect = {
 
     for(var i=0; i < fields.length; i++){
       var field = fields[i];
-
       var fieldHash = {
+        "id": $(field).attr("id"),
         "label": $(field).find("label").text(),
         "nowrap": $(field).find("nowrap").text(),
         "bold": $(field).find("bold").text(),
@@ -527,7 +527,7 @@ var BaseConnect = {
         "fieldhelp": $(field).find("fieldhelp").text(),
         "display_user": $(field).find("display_user").text(),
         "default_kind": $(field).find("default_kind").text()
-      } 
+      }
 
       fieldsArray.push(fieldHash);
     };
