@@ -43,6 +43,7 @@ Related Libraries
 
 * **Retrieving Schema**
   - [Get Table Fields](#get-table-fields)
+  - [Get Table Reports](#get-table-reports)
 
 * **JS Helper Functions**
   - [Get URL Parameter](#get-url-parameter)
@@ -210,6 +211,13 @@ var userInfo = api.getUserInfo();
 
 ```javascript
 var fields = api.getTableFields("abcd1234");
+````
+
+###Get Table Reports
+**getTableReports(dbid)** => **{obj} fields**
+
+```javascript
+var reports = api.getTableReports("abcd1234");
 ````
 
 ##Base Helpers

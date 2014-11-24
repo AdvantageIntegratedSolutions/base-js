@@ -319,6 +319,19 @@ function Base(token, async){
 
     return BaseConnect.post(data, callback, this.handle);
   };
+
+  this.getTableReports = function(dbid, callback){
+    this.handle = function(response){
+      return BaseConnect.getReports(response);
+    };
+
+    var data = {
+      dbid: dbid,
+      action: "GetSchema"
+    };
+
+    return BaseConnect.post(data, callback, this.handle);
+  };
 }
 
 var BaseHelpers = {
@@ -532,6 +545,27 @@ var BaseConnect = {
     };
 
     return fieldsObj;
+  },
+
+  getReports: function(schema){
+    var reports = $(schema).find("queries").find("query");
+    var reportsObj = {};
+
+    for(var i=0; i < reports.length; i++){
+      var report = reports[i];
+      var reportHash = {
+        "name": $(report).find("qyname").text(),
+        "type": $(report).find("qytype").text(),
+        "criteria": $(report).find("qycrit").text(),
+        "clist": $(report).find("qyclst").text(),
+        "slist": $(report).find("qyslst").text(),
+        "options": $(report).find("qyopts").text()
+      }
+
+      reportsObj[$(report).attr("id")] = reportHash;
+    };
+
+    return reportsObj;
   },
 
   createDocument: function(){
