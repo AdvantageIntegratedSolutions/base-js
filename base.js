@@ -81,7 +81,7 @@ function Base(token, async){
 
   this.doQueryCount = function(dbid, query, callback){
     this.handle = function(response){
-      return BaseConnect.getNode(response, "numMatches");;
+      return BaseConnect.getNode(response, "numMatches");
     };
 
     var data = {
