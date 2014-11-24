@@ -123,23 +123,23 @@ var record = api.find("bdjwmnj33", "12");
 ```
 
 ###Find First Record
-**first(dbid, query, slist)** => **[json] record**
+**first(dbid, queryOptions)** => **[json] record**
 ```javascript
-var record = api.first("bdjwmnj33", "{'3'.XEX.''}", "3");
+var record = api.first("bdjwmnj33", {"query": "{'3'.XEX.''}", "slist" : "3"});
 => {1: "1402930292", 7: "Lord of the Flies", 8: "William Golding"}
 ```
 
 ###Find Last Record
-**last(dbid, query, slist)** => **[json] record**
+**last(dbid, queryOptions)** => **[json] record**
 ```javascript
-var record = api.last("bdjwmnj33", "{'3'.XEX.''}", "3");
+var record = api.last("bdjwmnj33", {"query": "{'3'.XEX.''}", "slist": "3"});
 => {1: "1402933332", 7: "Animal Farm", 8: "George Orwell"}
 ```
 
 ###Find All Records
-**all(dbid, slist)** => **[array] records**
+**all(dbid, queryOptions)** => **[array] records**
 ```javascript
-var record = api.all("bdjwmnj33", "3");
+var record = api.all("bdjwmnj33", {"slist": "3"});
 => [{1: "1402933332", 7: "Animal Farm", 8: "George Orwell"}]
 ```
 

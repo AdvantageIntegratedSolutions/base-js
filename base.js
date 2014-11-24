@@ -122,7 +122,7 @@ function Base(token, async){
     return this.doQuery(dbid, {"query": query}, callback, this.handle);
   };
 
-  this.first = function(dbid, query, slist, callback){
+  this.first = function(dbid, params, callback){
     this.handle = function(response){
       var records = BaseConnect.getRecords(response, "records");
       if(records.length > 0){
@@ -132,10 +132,10 @@ function Base(token, async){
       };
     };
 
-    return this.doQuery(dbid, {"query": query, "slist": slist}, callback, this.handle);
+    return this.doQuery(dbid, params, callback, this.handle);
   };
 
-  this.last = function(dbid, query, slist, callback){
+  this.last = function(dbid, params, callback){
     this.handle = function(response){
       var records = BaseConnect.getRecords(response, "records");
       if(records.length > 0){
@@ -145,10 +145,10 @@ function Base(token, async){
       };
     };
 
-    return this.doQuery(dbid, {"query": query, "slist": slist}, callback, this.handle);
+    return this.doQuery(dbid, params, callback, this.handle);
   };
 
-  this.all = function(dbid, slist, callback){
+  this.all = function(dbid, params, callback){
     this.handle = function(response){
       var records = BaseConnect.getRecords(response, "records");
       if(records.length > 0){
@@ -158,7 +158,12 @@ function Base(token, async){
       };
     };
 
-    return this.doQuery(dbid, {"query": "{'3'.XEX.''}",  "slist": slist}, callback, this.handle);
+    if(!params){
+      params = {};
+    };
+
+    params["query"] = "{'3'.XEX.''}";
+    return this.doQuery(dbid, params, callback, this.handle);
   };
 
   this.importRecords = function(dbid, csvArray, callback){
@@ -181,7 +186,7 @@ function Base(token, async){
 
       for(key in row){
         value = row[key];
-        value = value.replace(/"/g, '""');
+        value = value.toString().replace(/"/g, '""');
         rowValues.push('"' + value + '"');
       };
 
@@ -625,7 +630,7 @@ var BaseConnect = {
     if(errorCode != "0"){
       console.log(
         "*****ERROR*****: (" + BaseConnect.getNode(xml, "action") + ")" + "(CODE: " + errorCode + ")",
-        "MESSAGE: " + BaseConnect.getNode(xml, "errtext") + "-" + BaseConnect.getNode(xml, "errdetail")
+        "MESSAGE: " + BaseConnect.getNode(xml, "errtext") + " - " + BaseConnect.getNode(xml, "errdetail")
       );
     };
 

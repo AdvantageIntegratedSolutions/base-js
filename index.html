@@ -47,10 +47,10 @@
 				var response = client.find(demoDbid, [rid, rid2]);
 				console.log("FIND 2: " + response);
 
-				var response = client.first(demoDbid, "{'3'.XEX.''}", "3");
+				var response = client.first(demoDbid, {"query": "{'3'.XEX.''}", "slist": "3"});
 				console.log("FIRST: " + response);
 
-				var response = client.last(demoDbid, "{'3'.XEX.''}", "3");
+				var response = client.last(demoDbid, {"query": "{'3'.XEX.''}", "slist": "3"});
 				console.log("LAST: " + response);
 				//DoQuery
 				var query = "{'3'.XEX.''}"
@@ -142,11 +142,11 @@
 					console.log("FIND 2: " + response);
 				});
 				
-				asyncClient.first(demoDbid, "{'3'.XEX.''}", "3", function(response){
+				asyncClient.first(demoDbid, {"query": "{'3'.XEX.''}", "slist": "3"}, function(response){
 					console.log("FIRST: " + response);
 				});
 				
-				asyncClient.last(demoDbid, "{'3'.XEX.''}", "3", function(response){
+				asyncClient.last(demoDbid, {"query": "{'3'.XEX.''}", "slist": "3"}, function(response){
 					console.log("LAST: " + response);
 				});
 
