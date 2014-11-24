@@ -206,7 +206,7 @@ var userInfo = api.getUserInfo();
 
 ##Retrieving Schema
 ###Get Table Fields
-**getTableFields(dbid)** => **[array] fields**
+**getTableFields(dbid)** => **{obj} fields**
 
 ```javascript
 var fields = api.getTableFields("abcd1234");

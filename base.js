@@ -87,7 +87,7 @@ function Base(token, async){
     var data = {
       dbid: dbid,
       action: "DoQueryCount",
-      query: query
+      params: {"query": query}
     };
 
     return BaseConnect.post(data, callback, this.handle);
