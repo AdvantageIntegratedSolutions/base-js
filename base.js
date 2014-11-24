@@ -506,12 +506,11 @@ var BaseConnect = {
 
   getFields: function(schema){
     var fields = $(schema).find("fields").find("field");
-    var fieldsArray = [];
+    var fieldsObj = {};
 
     for(var i=0; i < fields.length; i++){
       var field = fields[i];
       var fieldHash = {
-        "id": $(field).attr("id"),
         "label": $(field).find("label").text(),
         "nowrap": $(field).find("nowrap").text(),
         "bold": $(field).find("bold").text(),
@@ -529,10 +528,10 @@ var BaseConnect = {
         "default_kind": $(field).find("default_kind").text()
       }
 
-      fieldsArray.push(fieldHash);
+      fieldsObj[$(field).attr("id")] = fieldHash;
     };
 
-    return fieldsArray;
+    return fieldsObj;
   },
 
   createDocument: function(){
