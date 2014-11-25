@@ -33,6 +33,7 @@ Related Libraries
   - [Import Records](#import-records)
   - [Add Record](#add-record)
   - [Edit Record](#edit-record)
+  - [Copy Records](#copy-records)
 
 * **Deleting Records**
   - [Delete Record](#delete-record)
@@ -171,6 +172,18 @@ var newRid = api.addRecord("abcd1234", newRecord);
 
 ###Edit Record
 **editRecord(dbid, rid, updatedRecord )** => **[bool] success?**
+
+```javascript
+var updatedRecord = {7: "My Second Title", 8: "John Smith"};
+var callSuccessful = api.editRecord("abcd1234", 136, updatedRecord);
+=> false
+````
+
+###Copy Records
+**copyRecords(dbid, options)** => **[int] # of records copied**
+var numberCopied = api.copyRecords("abcd1234", {destrid: "0", sourcerid: rid, copyfid: "8"});
+=> 1
+````
 
 ```javascript
 var updatedRecord = {7: "My Second Title", 8: "John Smith"};

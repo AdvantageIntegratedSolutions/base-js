@@ -40,6 +40,9 @@
 				var response = client.editRecord(demoDbid, rid, editRecordHash);
 				console.log("EDIT RECORD: " + response);
 
+				var response = client.copyRecords(demoDbid, {destrid: "0", sourcerid: rid, copyfid: "8"});
+				console.log("COPY RECORDS: " + response);
+
 				//Find
 				var response = client.find(demoDbid, rid);
 				console.log("FIND: " + response);

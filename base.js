@@ -241,6 +241,20 @@ function Base(token, async){
     return BaseConnect.post(data, callback, this.handle);
   };
 
+  this.copyRecords = function(dbid, params, callback){
+    this.handle = function(response){
+      return BaseConnect.getNode(response, "numCreated");
+    };
+
+    var data = {
+      dbid: dbid,
+      action: "CopyMasterDetail",
+      params: params
+    };
+
+    return BaseConnect.post(data, callback, this.handle);
+  };
+
   this.deleteRecord = function(dbid, rid, callback){
     this.handle = function(response){
       var rid = BaseConnect.getNode(response, "rid");
