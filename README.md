@@ -28,6 +28,7 @@ Related Libraries
   - [Find First Record](#find-first-record)
   - [Find Last Record](#find-last-record)
   - [Find All Records](#find-all-records)
+  - [Find RID's](#find-rids)
 
 * **Adding/Updating Records**
   - [Import Records](#import-records)
@@ -146,6 +147,13 @@ var record = api.last("bdjwmnj33", {"query": "{'3'.XEX.''}", "slist": "3"});
 ```javascript
 var record = api.all("bdjwmnj33", {"slist": "3"});
 => [{1: "1402933332", 7: "Animal Farm", 8: "George Orwell"}]
+```
+
+###Find Rids
+**findRids(dbid, queryOptions)** => **[array] rids**
+```javascript
+var rids = api.findRids("bdjwmnj33", {"query": "{'3'.GT.'100'}"});
+=> ["101", "102", "103", "104"]
 ```
 
 ##Adding/Updating Records

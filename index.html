@@ -55,6 +55,7 @@
 
 				var response = client.last(demoDbid, {"query": "{'3'.XEX.''}", "slist": "3"});
 				console.log("LAST: " + response);
+
 				//DoQuery
 				var query = "{'3'.XEX.''}"
 				var response = client.doQuery(demoDbid, {"query": query})
@@ -66,6 +67,9 @@
 
 				var response = client.all(demoDbid);
 				console.log("ALL: " + response);
+
+				var response = client.findRids(demoDbid)
+				console.log("FIND RIDS: " + response);
 
 				var dateCreated = BaseHelpers.dateToString(response[0]["1"]);
 				var dateModified = BaseHelpers.dateTimeToString(response[0]["2"]);

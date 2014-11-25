@@ -166,9 +166,22 @@ function Base(token, async){
     return this.doQuery(dbid, params, callback, this.handle);
   };
 
-  this.importRecords = function(dbid, csvArray, callback){
+  this.findRids = function(dbid, params, callback){
     this.handle = function(response){
       return BaseConnect.getRids(response);
+    };
+
+    if(!params){
+      params = {};
+    }
+
+    params["clist"] = "3";
+    return this.doQuery(dbid, params, callback, this.handle);
+  };
+
+  this.importRecords = function(dbid, csvArray, callback){
+    this.handle = function(response){
+      return BaseConnect.getNewRids(response);
     };
 
     var csv = "";
@@ -527,7 +540,19 @@ var BaseConnect = {
     return recordsArray;
   },
 
-  getRids: function(response){
+  getRids: function(response){    
+    var records = $(response).find("records").find("record");
+    var ridsArray = [];
+
+    for(var i=0; i < records.length; i++){
+      var record = records[i];
+      ridsArray.push($(record).find('f[id="3"]').text());
+    };
+
+    return ridsArray;
+  },
+
+  getNewRids: function(response){
     var rids = $(response).find("rids").find("rid");
     var ridsArray = [];
 
