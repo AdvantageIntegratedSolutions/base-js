@@ -52,6 +52,8 @@ Related Libraries
   - [DateTimeToString](#datetimetostring)
   - [DurationToString](#durationtostring)
   - [TimeOfDayToString](#timeofdaytostring)
+  - [RedirectToEditForm](#redirecttoeditform)
+  - [RedirectToViewForm](#redirecttoviewform)
 
 ##Main
 ###New Connection
@@ -277,7 +279,7 @@ BaseHelpers.redirectToEditForm("abcd1234", 12);
 ````
 
 ###RedirectToViewForm
-**BaseHelpers.redirectViewForm(dbid, rid)**
+**BaseHelpers.redirectToViewForm(dbid, rid)**
 
 ```javascript
 BaseHelpers.redirectToViewForm("abcd1234", 12);
