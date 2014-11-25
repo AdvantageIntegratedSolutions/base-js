@@ -186,12 +186,6 @@ var numberCopied = api.copyRecords("abcd1234", {destrid: "0", sourcerid: rid, co
 => 1
 ````
 
-```javascript
-var updatedRecord = {7: "My Second Title", 8: "John Smith"};
-var callSuccessful = api.editRecord("abcd1234", 136, updatedRecord);
-=> false
-````
-
 ##Deleting Records
 ###Delete Record
 **deleteRecord(dbid, rid)** => **[bool] success?**
