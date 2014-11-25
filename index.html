@@ -23,6 +23,12 @@
 				var variableValue = client.getVar("bjbsgxy2r", "test");
 				console.log("GET VAR: " + variableValue);
 
+				var pageId = client.uploadPage("bjbsgxy2r", null, "test.txt", "");
+				console.log("UPLOAD PAGE: " + pageId);
+
+				var success = client.deletePage("bjbsgxy2r", pageId);
+				console.log("DELETE PAGE: " + success);
+
 				//Get User Info
 				var response = client.getUserInfo();
 				console.log("USER INFO: " + response);

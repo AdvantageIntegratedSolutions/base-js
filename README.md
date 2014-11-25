@@ -20,6 +20,8 @@ Related Libraries
   - [Get Ticket](#get-ticket)
   - [Set Var](#set-var)
   - [Get Var](#get-var)
+  - [Upload Page](#upload-page)
+  - [Delete Page](#delete-page)
 
 * **Retrieving Records**
   - [Query Records](#query-records)
@@ -91,6 +93,22 @@ var callSuccessful = api.setVar("bdjwmnj33", "appName", "Project Manager");
 ```javascript
 var value = api.getVar("bdjwmnj33", "appName");
 => "Project Manager"
+```
+
+###Upload Page
+**uploadPage(dbid, id, name, body) => [string] pageId**
+
+```javascript
+var pageId = api.uploadPage("bdjwmnj33", null, "test.txt", "hello world");
+=> "6"
+```
+
+###Delete Page
+**deletePage(dbid, id) => [bool] success?**
+
+```javascript
+var deleted = api.deletePage("bdjwmnj33", "6");
+=> true
 ```
 
 ##Retrieving Records

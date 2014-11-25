@@ -9,10 +9,7 @@ function Base(token, async){
 
     var data = {
       dbid: "main",
-      action: "GetOneTimeTicket",
-      fieldParams: null,
-      params: null,
-      csvData: null
+      action: "GetOneTimeTicket"
     };
 
     return BaseConnect.post(data, callback, this.handle);
@@ -41,6 +38,51 @@ function Base(token, async){
       dbid: dbid,
       action: "SetDBvar",
       params: {"varname": name, "value": value}
+    };
+
+    return BaseConnect.post(data, callback, this.handle);
+  };
+
+  this.uploadPage = function(dbid, id, name, body, callback){
+    this.handle = function(response){
+      return BaseConnect.getNode(response, "pageID");
+    };
+
+    var params = {
+      "pagetype": "1", 
+      "pagebody": body
+    };
+
+    if(id){
+      params["pageid"] = id;
+    }else if(name){
+      params["pagename"] = name;
+    };
+
+    var data = {
+      dbid: dbid,
+      action: "AddReplaceDBPage",
+      params: params
+    };
+
+    return BaseConnect.post(data, callback, this.handle);
+  };
+
+  this.deletePage = function(dbid, pageId, callback){
+    this.handle = function(response){
+      var error = BaseConnect.getNode(response, "errcode");
+      if(error == "0"){
+        return true;
+      }else{
+        return false;
+      }; 
+    };
+
+    var data = {
+      dbid: dbid,
+      action: "PageDelete",
+      type: "QBI",
+      params: {"pageid": pageId}
     };
 
     return BaseConnect.post(data, callback, this.handle);
@@ -466,6 +508,7 @@ var BaseConnect = {
 
   post: function(data, callback, handler){
     var request = this.buildRequest();
+    var type = "API";
 
     for(key in data.params){
       var value = data.params[key];
@@ -483,13 +526,17 @@ var BaseConnect = {
       this.addFieldParameter(request, key, data.fieldParams[key]);
     };
 
+    if(data.type){
+      type = data.type;
+    };
+
     if(data.csvData){
       var records_csv = request.createElement("records_csv");
       records_csv.appendChild(request.createCDATASection(data.csvData));
       request.documentElement.appendChild(records_csv);
     };
 
-    response = this.xmlPost(data.dbid, "API_" + data.action, request, callback, handler);
+    response = this.xmlPost(data.dbid, type + "_" + data.action, request, callback, handler);
     return response
   },
 
