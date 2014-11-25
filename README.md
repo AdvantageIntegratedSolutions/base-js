@@ -181,6 +181,7 @@ var callSuccessful = api.editRecord("abcd1234", 136, updatedRecord);
 
 ###Copy Records
 **copyRecords(dbid, options)** => **[int] # of records copied**
+```javascript
 var numberCopied = api.copyRecords("abcd1234", {destrid: "0", sourcerid: rid, copyfid: "8"});
 => 1
 ````
