@@ -436,6 +436,14 @@ var BaseHelpers = {
     };
 
     return timeOfDay;
+  },
+
+  redirectToEditForm: function(dbid, rid){
+    window.location = "/db/"+dbid+"?a=er&rid=" + rid;
+  },
+
+  redirectToViewForm: function(dbid, rid){
+    window.location = "/db/"+dbid+"?a=dr&rid=" + rid;
   }
 };
 

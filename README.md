@@ -269,6 +269,20 @@ var timeOfDay = BaseHelpers.timeOfDayToString("1410454590146");
 => "3:00 pm"
 ````
 
+###RedirectToEditForm
+**BaseHelpers.redirectToEditForm(dbid, rid)**
+
+```javascript
+BaseHelpers.redirectToEditForm("abcd1234", 12);
+````
+
+###RedirectToViewForm
+**BaseHelpers.redirectViewForm(dbid, rid)**
+
+```javascript
+BaseHelpers.redirectToViewForm("abcd1234", 12);
+````
+
 ##Example
 ```javascript
 //Initiate connection to application
