@@ -3,10 +3,9 @@
 QuickBase API Javascript Library w/ JSON
 
 Versions
+* 2.2 - https://s3.amazonaws.com/ais_libraries/BaseJS/2.2/base.min.js
 * 2.1 - https://s3.amazonaws.com/ais_libraries/BaseJS/2.1/base.min.js
 * 2.0 - https://s3.amazonaws.com/ais_libraries/BaseJS/2.0/base.min.js
-* 1.1 - https://s3.amazonaws.com/ais_libraries/BaseJS/1.1/base.min.js
-* 1.0 - https://s3.amazonaws.com/ais_libraries/BaseJS/1.0/base.min.js
 
 Related Libraries
 * jQuery - https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js
@@ -320,7 +319,7 @@ var client = new Base();
 var response = client.getTicket();
 
 //Add Record
-var newRecordHash = { 8: "Mike", 9: "Johnson" }
+var newRecordHash = { 8: "Mike", 9: "Johnson", 10: {filename: "test.csv", body: "hello world"} }
 var rid = client.addRecord(demoDbid, newRecordHash);
 
 //Edit Record
