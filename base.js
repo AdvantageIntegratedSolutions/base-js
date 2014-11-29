@@ -503,7 +503,7 @@ var BaseHelpers = {
 
   downloadFile: function(dbid, rid, fid, version){
     if(!version){
-      version = "0";
+      version = 0;
     };
 
     window.location = "https://www.quickbase.com/up/"+dbid+"/a/r"+rid+"/e"+fid+"/v" + version;
