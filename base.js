@@ -501,6 +501,14 @@ var BaseHelpers = {
     window.location = "/db/"+dbid+"?a=dr&rid=" + rid;
   },
 
+  downloadFile: function(dbid, rid, fid, version){
+    if(!version){
+      version = 0;
+    };
+
+    window.open("https://quickbase.com/up/"+dbid+"/a/r"+rid+"/e"+fid+"/v" + version);
+  },
+
   base64Encode: function(input){
     var output = "";
     var keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";

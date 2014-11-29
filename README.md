@@ -56,6 +56,7 @@ Related Libraries
   - [TimeOfDayToString](#timeofdaytostring)
   - [RedirectToEditForm](#redirecttoeditform)
   - [RedirectToViewForm](#redirecttoviewform)
+  - [Download File](#download-file)
 
 ##Main
 ###New Connection
@@ -308,6 +309,13 @@ BaseHelpers.redirectToEditForm("abcd1234", 12);
 
 ```javascript
 BaseHelpers.redirectToViewForm("abcd1234", 12);
+````
+
+###DownloadFile
+**BaseHelpers.downloadFile(dbid, rid, fid, version)**
+
+```javascript
+BaseHelpers.downloadFile("abcd1234", 12, 5);
 ````
 
 ##Example
