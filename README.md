@@ -311,7 +311,7 @@ BaseHelpers.redirectToEditForm("abcd1234", 12);
 BaseHelpers.redirectToViewForm("abcd1234", 12);
 ````
 
-###DownloadFile
+###Download File
 **BaseHelpers.downloadFile(dbid, rid, fid, version)**
 
 ```javascript
