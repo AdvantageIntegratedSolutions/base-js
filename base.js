@@ -506,7 +506,7 @@ var BaseHelpers = {
       version = 0;
     };
 
-    window.open("https://quickbase.com/up/"+dbid+"/a/r"+rid+"/e"+fid+"/v" + version);
+    window.location("https://quickbase.com/up/"+dbid+"/a/r"+rid+"/e"+fid+"/v" + version);
   },
 
   base64Encode: function(input){
