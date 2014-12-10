@@ -376,6 +376,38 @@ function Base(token, async){
     return BaseConnect.post(data, callback, this.handle);
   };
 
+  this.getUserRoles = function(dbid, callback){
+    this.handle = function(response){
+      return BaseConnect.formatUserRoles(response);
+    };
+
+    var data = {
+      dbid: dbid,
+      action: "UserRoles"
+    };
+
+    return BaseConnect.post(data, callback, this.handle);
+  };
+
+  this.changeUserRole = function(dbid, userId, roleId, newRoleId, callback){
+    this.handle = function(response){
+      return true;
+    };
+
+    var data = {
+      dbid: dbid,
+      userId: userId,
+      roleId: roleId,
+      action: "ChangeUserRole"
+    };
+
+    if(newRoleId){
+      data["newRoleId"] = newRoleId
+    };
+
+    return BaseConnect.post(data, callback, this.handle);
+  };
+
   this.getTableFields = function(dbid, callback){
     this.handle = function(response){
       return BaseConnect.getFields(response);
@@ -721,6 +753,42 @@ var BaseConnect = {
     };
 
     return reportsObj;
+  },
+
+  formatUserRoles: function(schema){
+    var users = $(schema).find("users").find("user");
+    var allUsers = [];
+
+    for(var i=0; i < users.length; i++){
+      var user = users[i];
+      var roles = $(user).find("roles").find("role");
+
+      var userRoles = [];
+      for(var j=0; j < roles.length; j++){
+        var role = roles[j];
+        var roleHash = {
+          "id": $(role).attr("id"),
+          "name": $(role).find("name").text(),
+          "accessId": $(role).find("access").attr("id"),
+          "access": $(role).find("access").text() 
+        }
+
+        userRoles.push(roleHash);
+      };
+
+      var userHash = {
+        "id": $(user).attr("id"),
+        "firstName": $(user).find("firstName").text(),
+        "lastName": $(user).find("lastName").text(),
+        "lastAccess": $(user).find("lastAccess").text(),
+        "lastAccessAppLocal": $(user).find("lastAccessAppLocal").text(),
+        "roles": userRoles
+      };
+
+      allUsers.push(userHash);
+    };
+
+    return allUsers;
   },
 
   createDocument: function(){

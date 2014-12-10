@@ -6,9 +6,8 @@
 		<link rel="stylesheet" type="text/css" href="https://ais.quickbase.com/db/bjbsgxy2r?a=dbpage&pageID=4">
 
 		<script>
-			var demoApp = angular.module('demoApp', []);
-			
-			demoApp.controller('DemoAppCtrl', function ($scope) {
+			$(document).ready(function(){		
+				var mainDbid = "bjbsgxy2r";
 				var demoDbid = "bjbsgxy3t";
 				
 				//Initiate connection to application
@@ -32,6 +31,13 @@
 				//Get User Info
 				var response = client.getUserInfo();
 				console.log("USER INFO: " + response);
+
+				//Get User Roles
+				var response = client.getUserRoles(mainDbid);
+				console.log(response);
+
+				var response = client.changeUserRole(mainDbid, "58755660.cwj9", "12", "11");
+				console.log(response);
 
 				//Add Record
 				var newRecordHash = { 8: "Mike", 9: "Johnson", 14: "4", 15: "2pm" }
@@ -209,15 +215,9 @@
 					console.log("GET TABLE FIELDS: " + response);
 				});
 			});
+
 		</script>
 	</head>
 
-	<body ng-app="demoApp">
-		<div class="container">
-			<br>
-			<div ng-controller="DemoAppCtrl">
-				<table class="table table-bordered">
-			</div>
-		</div>
-	</body>
+	<body></body>
 </html>

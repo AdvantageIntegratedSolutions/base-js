@@ -43,6 +43,8 @@ Related Libraries
 
 * **Users**
   - [Get User Information](#get-user-information)
+  - [Get User Roles](#get-user-roles)
+  - [Change User Role](#change-user-role)
 
 * **Retrieving Schema**
   - [Get Table Fields](#get-table-fields)
@@ -239,6 +241,31 @@ var numberOfRecordsDeleted = api.purgeRecords("abcd1234", "{3.EX.'123'}");
 ```javascript
 var userInfo = api.getUserInfo();
 => {"id":"57527431.cnhu","firstName":"Kit","lastName":"Hensel","login":"kith","email":"khensel@advantagequickbase.com","screenName":"kith","isVerified":"1","externalAuth":"0"}
+````
+
+###Get User Roles
+**getUserInfo(dbid)** => **[array] users & roles**
+
+```javascript
+var userInfo = api.getUserRoles("abcd1234");
+=> [
+    {
+      "id", "57527431.cnhu", 
+      "firstName": "Kit", 
+      "lastName": "Hensel", 
+      "lastAccess": "1418230947817", 
+      "lastAccessAppLocal": "12-10-2014 10:02 AM", 
+      "roles": [{"id": "12", "access": "Administrator", "name": "Administrator"}]
+    }
+  ]
+````
+
+###Change User Role
+**changeUserRole(dbid, userId, roleId, newRoleId, callback)** => **[bool] success?**
+
+```javascript
+var userInfo = api.changeUserRole("abcd1234", "57527431.cnhu", "12", "11");
+=> true
 ````
 
 ##Retrieving Schema
