@@ -47,6 +47,7 @@ Related Libraries
   - [Change User Role](#change-user-role)
 
 * **Retrieving Schema**
+  - [Get Record Info](#get-record-info)
   - [Get Table Fields](#get-table-fields)
   - [Get Table Reports](#get-table-reports)
 
@@ -269,6 +270,16 @@ var userInfo = api.changeUserRole("abcd1234", "57527431.cnhu", "12", "11");
 ````
 
 ##Retrieving Schema
+###Get Record Info
+**getRecordInfo(dbid, rid)** => **{obj} fid's and values**
+
+```javascript
+var fields = api.getRecordInfo("abcd1234", "098");
+=>  { 
+      "fid" : "value"... 
+    }
+````
+
 ###Get Table Fields
 **getTableFields(dbid)** => **{obj} fields**
 

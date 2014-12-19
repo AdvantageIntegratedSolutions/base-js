@@ -396,13 +396,37 @@ function Base(token, async){
 
     var data = {
       dbid: dbid,
-      userId: userId,
-      roleId: roleId,
-      action: "ChangeUserRole"
+      action: "ChangeUserRole",
+      params: {
+        userId: userId,
+        roleId: roleId
+      }
     };
 
     if(newRoleId){
-      data["newRoleId"] = newRoleId
+      data["params"]["newRoleId"] = newRoleId;
+    };
+
+    return BaseConnect.post(data, callback, this.handle);
+  };
+
+  this.getRecordInfo = function(dbid, rid, callback){
+    this.handle = function(response){
+      var fields = $(response).find("field");
+      var fieldObj = {};
+      for(var i=0; i < fields.length; i++){
+        var field = fields[i];
+        fieldObj[$(field).find("fid").text()] = $(field).find("value").text();
+      }
+      return fieldObj;
+    };
+
+    var data = {
+      dbid: dbid,
+      action: "GetRecordInfo",
+      params: {
+        "rid": rid
+      }
     };
 
     return BaseConnect.post(data, callback, this.handle);
