@@ -1,10 +1,347 @@
+function BaseConnect(){
+  this.apptoken = null;
+  this.async = null;
+
+  this.post = function(data, callback, handler){
+    var request = this.buildRequest();
+    var type = "API";
+
+    for(key in data.params){
+      var value = data.params[key];
+
+      if(key == "clist" || key == "slist" || key == "options"){
+        if(Object.prototype.toString.call(value) == "[object Array]"){
+          value = value.join(".");
+        };
+      };
+
+      this.addParameter(request, key, value);
+    };
+
+    for(key in data.fieldParams){
+      this.addFieldParameter(request, key, data.fieldParams[key]);
+    };
+
+    if(data.type){
+      type = data.type;
+    };
+
+    if(data.csvData){
+      var records_csv = request.createElement("records_csv");
+      records_csv.appendChild(request.createCDATASection(data.csvData));
+      request.documentElement.appendChild(records_csv);
+    };
+
+    response = this.xmlPost(data.dbid, type + "_" + data.action, request, callback, handler);
+    return response
+  }
+
+  this.getNode = function(response, tag){
+    return $(response).find(tag).text();
+  }
+
+  this.getRecords = function(response){    
+    var records = $(response).find("records").find("record");
+
+    var recordsArray = [];
+
+    for(var i=0; i < records.length; i++){
+      var record = records[i];
+      var fields = $(record).find("f");
+
+      record = {}
+
+      for(var j=0; j < fields.length; j++){
+        var field = fields[j];
+        var id = parseInt($(field).attr("id"));
+
+        if($(field).find("url").text() != ""){
+          var url = $(field).find("url").text();
+          var sections = url.split("/");
+          var filename = sections[sections.length - 1];
+
+          var value = {"filename": filename, "url": url};
+        }else{
+          var value = $(field).text();
+        };
+
+        record[id] = value;
+      };
+
+      recordsArray.push(record);
+    };
+
+    return recordsArray;
+  }
+
+  this.getRids = function(response){    
+    var records = $(response).find("records").find("record");
+    var ridsArray = [];
+
+    for(var i=0; i < records.length; i++){
+      var record = records[i];
+      ridsArray.push($(record).find('f[id="3"]').text());
+    };
+
+    return ridsArray;
+  }
+
+  this.getNewRids = function(response){
+    var rids = $(response).find("rids").find("rid");
+    var ridsArray = [];
+
+    for(var i=0; i < rids.length; i++){
+      var rid = parseInt($(rids[i]).text());
+      ridsArray.push(rid);
+    };
+
+    return ridsArray;
+  }
+
+  this.getFields = function(schema){
+    var fields = $(schema).find("fields").find("field");
+    var fieldsObj = {};
+
+    for(var i=0; i < fields.length; i++){
+      var field = fields[i];
+      var fieldHash = {
+        "label": $(field).find("label").text(),
+        "nowrap": $(field).find("nowrap").text(),
+        "bold": $(field).find("bold").text(),
+        "required": $(field).find("required").text(),
+        "appears_by_default": $(field).find("appears_by_default").text(),
+        "find_enabled": $(field).find("find_enabled").text(),
+        "allow_new_choices": $(field).find("allow_new_choices").text(),
+        "sort_as_given": $(field).find("sort_as_given").text(),
+        "carrychoices": $(field).find("carrychoices").text(),
+        "foreignkey": $(field).find("foreignkey").text(),
+        "unique": $(field).find("unique").text(),
+        "doesdatacopy": $(field).find("doesdatacopy").text(),
+        "fieldhelp": $(field).find("fieldhelp").text(),
+        "display_user": $(field).find("display_user").text(),
+        "default_kind": $(field).find("default_kind").text()
+      }
+
+      fieldsObj[$(field).attr("id")] = fieldHash;
+    };
+
+    return fieldsObj;
+  }
+
+  this.getReports = function(schema){
+    var reports = $(schema).find("queries").find("query");
+    var reportsObj = {};
+
+    for(var i=0; i < reports.length; i++){
+      var report = reports[i];
+      var reportHash = {
+        "name": $(report).find("qyname").text(),
+        "type": $(report).find("qytype").text(),
+        "criteria": $(report).find("qycrit").text(),
+        "clist": $(report).find("qyclst").text(),
+        "slist": $(report).find("qyslst").text(),
+        "options": $(report).find("qyopts").text()
+      }
+
+      reportsObj[$(report).attr("id")] = reportHash;
+    };
+
+    return reportsObj;
+  }
+
+  this.formatUserRoles = function(schema){
+    var users = $(schema).find("users").find("user");
+    var allUsers = [];
+
+    for(var i=0; i < users.length; i++){
+      var user = users[i];
+      var roles = $(user).find("roles").find("role");
+
+      var userRoles = [];
+      for(var j=0; j < roles.length; j++){
+        var role = roles[j];
+        var roleHash = {
+          "id": $(role).attr("id"),
+          "name": $(role).find("name").text(),
+          "accessId": $(role).find("access").attr("id"),
+          "access": $(role).find("access").text() 
+        }
+
+        userRoles.push(roleHash);
+      };
+
+      var userHash = {
+        "id": $(user).attr("id"),
+        "firstName": $(user).find("firstName").text(),
+        "lastName": $(user).find("lastName").text(),
+        "lastAccess": $(user).find("lastAccess").text(),
+        "lastAccessAppLocal": $(user).find("lastAccessAppLocal").text(),
+        "roles": userRoles
+      };
+
+      allUsers.push(userHash);
+    };
+
+    return allUsers;
+  }
+
+  this.createDocument = function(){
+    try{
+      if(window.ActiveXObject !== undefined){
+        return new ActiveXObject("Microsoft.XmlDom");
+      };
+
+      if(document.implementation && document.implementation.createDocument){
+        var doc = document.implementation.createDocument("", "", null);
+        return doc;
+      };
+    }
+    catch(ex){}
+    throw new Error("Sorry. Your browser does not support Base.js.");
+  }
+
+  this.buildRequest = function(){
+    var request = this.createDocument();
+    request.async = this.async;
+    request.resolveExternals = false;
+
+    var root = request.createElement("qdbapi");
+
+    try{
+      request.removeChild(request.documentElement);
+    }
+    catch(e){}
+
+    request.appendChild(root);
+
+    if(this.apptoken){
+      this.addParameter(request, "apptoken", this.apptoken);
+    };
+
+    return request;
+  }
+
+  this.addParameter = function (request, name, value){
+    var mainElement = request.documentElement;
+    var nameTag = request.createElement(name);
+    var node = request.createTextNode(value);
+    nameTag.appendChild(node);
+    mainElement.appendChild(nameTag);
+  },
+
+  this.addFieldParameter = function (request, fid, value){
+    var mainElement = request.documentElement;
+    var fieldTag = request.createElement("field");
+    fieldTag.setAttribute("fid", fid);
+
+    if(value){
+      if(value.filename){
+        fieldTag.setAttribute("filename", value.filename);
+        value = BaseHelpers.base64Encode(value.body);
+      };
+    };
+
+    var node = request.createTextNode(value);
+    fieldTag.appendChild(node);
+    mainElement.appendChild(fieldTag);
+  }
+
+  this.xmlPost = function(dbid, action, request, callback, handler){
+    var script = "/db/" + dbid + "?act=" + action;
+
+    if(this.async == true){
+      var connection = this.initHttpConnection();
+    }else{
+      var connection = this.context.httpConnection;
+    };
+
+    connection.open("POST", script, this.async);
+    
+    if((/MSIE 1/i).test(navigator.appVersion) || window.ActiveXObject !== undefined){
+      try { connection.responseType = 'msxml-document'; } catch (e) { }
+    };
+
+    if(this.async == true){
+      var parseResponse = this.parseResponse;
+      var BaseConnectInstance = this;
+
+      connection.onreadystatechange = function(){
+        if(connection.readyState == 4 && connection.status == 200){
+          var xml = parseResponse.call(BaseConnectInstance, connection);
+          xml = handler(xml);
+          callback(xml);
+        }
+      };
+    };
+
+    connection.setRequestHeader("Content-Type", "text/xml");
+    connection.send(request);
+
+    if(this.async == false){
+      var xml = this.parseResponse(connection);
+      return handler(xml);
+    };
+  }
+
+  this.parseResponse = function(connection){
+    var xml = connection.responseXML;
+    var errorCode = this.getNode(xml, "errcode");
+    
+    if(errorCode != "0"){
+      console.log(
+        "*****ERROR*****: (" + this.getNode(xml, "action") + ")" + "(CODE: " + errorCode + ")",
+        "MESSAGE: " + this.getNode(xml, "errtext") + " - " + this.getNode(xml, "errdetail")
+      );
+    };
+
+    this.ticket = this.getNode(xml, "ticket");
+    return xml;
+  }
+
+  this.setVariables = function(token, async){
+    this.apptoken = token;
+    this.async = async || false;
+  }
+
+  this.initHttpConnection = function(context){
+    var connection = null;
+    this.context = context;
+
+    try{
+      if(!connection){
+        connection = new XMLHttpRequest();
+      };
+    }
+    catch(e){
+    }
+    try{
+      if(!connection){
+        connection = new ActiveXObject("Msxml2.XMLHTTP");
+      };
+    }
+    catch(e){
+    }
+    try{
+      if(!connection){
+        connection = new ActiveXObject("Microsoft.XMLHTTP");
+      };
+    }
+    catch(e){
+      alert("This browser does not support BaseJS.");
+    };
+
+    return connection;
+  }
+}
+
 function Base(token, async){
-  Base.httpConnection = BaseConnect.initHttpConnection();
-  BaseConnect.setVariables(token, async);
+  var BaseConnectInstance = new BaseConnect();
+  this.httpConnection = BaseConnectInstance.initHttpConnection(this);
+  BaseConnectInstance.setVariables(token, async);
 
   this.getTicket = function(callback){
     this.handle = function(response){
-      return BaseConnect.getNode(response, "ticket");
+      return BaseConnectInstance.getNode(response, "ticket");
     };
 
     var data = {
@@ -12,12 +349,12 @@ function Base(token, async){
       action: "GetOneTimeTicket"
     };
 
-    return BaseConnect.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data, callback, this.handle);
   };
 
   this.getVar = function(dbid, name, callback){
     this.handle = function(response){
-      return BaseConnect.getNode(response, "value");
+      return BaseConnectInstance.getNode(response, "value");
     };
 
     var data = {
@@ -26,7 +363,7 @@ function Base(token, async){
       params: {"varname": name}
     };
 
-    return BaseConnect.post(data, callback, this.handle)
+    return BaseConnectInstance.post(data, callback, this.handle)
   };
 
   this.setVar = function(dbid, name, value, callback){
@@ -40,12 +377,12 @@ function Base(token, async){
       params: {"varname": name, "value": value}
     };
 
-    return BaseConnect.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data, callback, this.handle);
   };
 
   this.uploadPage = function(dbid, id, name, body, callback){
     this.handle = function(response){
-      return BaseConnect.getNode(response, "pageID");
+      return BaseConnectInstance.getNode(response, "pageID");
     };
 
     var params = {
@@ -65,12 +402,12 @@ function Base(token, async){
       params: params
     };
 
-    return BaseConnect.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data, callback, this.handle);
   };
 
   this.deletePage = function(dbid, pageId, callback){
     this.handle = function(response){
-      var error = BaseConnect.getNode(response, "errcode");
+      var error = BaseConnectInstance.getNode(response, "errcode");
       if(error == "0"){
         return true;
       }else{
@@ -85,12 +422,12 @@ function Base(token, async){
       params: {"pageid": pageId}
     };
 
-    return BaseConnect.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data, callback, this.handle);
   };
 
   this.doQuery = function(dbid, params, callback, handle){
     this.handle = function(response){
-      return BaseConnect.getRecords(response, "records");
+      return BaseConnectInstance.getRecords(response, "records");
     };
 
     var queryParams = {"fmt": "structured"}
@@ -118,12 +455,12 @@ function Base(token, async){
       this.handle = handle;
     };
 
-    return BaseConnect.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data, callback, this.handle);
   };
 
   this.doQueryCount = function(dbid, query, callback){
     this.handle = function(response){
-      return BaseConnect.getNode(response, "numMatches");
+      return BaseConnectInstance.getNode(response, "numMatches");
     };
 
     var data = {
@@ -132,12 +469,12 @@ function Base(token, async){
       params: {"query": query}
     };
 
-    return BaseConnect.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data, callback, this.handle);
   };
 
   this.find = function(dbid, rid, callback){
     this.handle = function(response){
-      var records = BaseConnect.getRecords(response, "records");
+      var records = BaseConnectInstance.getRecords(response, "records");
       if(records.length > 0){
         if(records.length > 1){
           return records;
@@ -166,7 +503,7 @@ function Base(token, async){
 
   this.first = function(dbid, params, callback){
     this.handle = function(response){
-      var records = BaseConnect.getRecords(response, "records");
+      var records = BaseConnectInstance.getRecords(response, "records");
       if(records.length > 0){
         return records[0];
       }else{
@@ -179,7 +516,7 @@ function Base(token, async){
 
   this.last = function(dbid, params, callback){
     this.handle = function(response){
-      var records = BaseConnect.getRecords(response, "records");
+      var records = BaseConnectInstance.getRecords(response, "records");
       if(records.length > 0){
         return records[records.length - 1];
       }else{
@@ -192,7 +529,7 @@ function Base(token, async){
 
   this.all = function(dbid, params, callback){
     this.handle = function(response){
-      var records = BaseConnect.getRecords(response, "records");
+      var records = BaseConnectInstance.getRecords(response, "records");
       if(records.length > 0){
         return records;
       }else{
@@ -210,7 +547,7 @@ function Base(token, async){
 
   this.findRids = function(dbid, params, callback){
     this.handle = function(response){
-      return BaseConnect.getRids(response);
+      return BaseConnectInstance.getRids(response);
     };
 
     if(!params){
@@ -223,7 +560,7 @@ function Base(token, async){
 
   this.importRecords = function(dbid, csvArray, callback){
     this.handle = function(response){
-      return BaseConnect.getNewRids(response);
+      return BaseConnectInstance.getNewRids(response);
     };
 
     var csv = "";
@@ -258,12 +595,12 @@ function Base(token, async){
       csvData: csv
     }
 
-    return BaseConnect.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data, callback, this.handle);
   };
 
   this.addRecord = function(dbid, fieldParams, callback){
     this.handle = function(response){
-      return parseInt(BaseConnect.getNode(response, "rid"));
+      return parseInt(BaseConnectInstance.getNode(response, "rid"));
     };
 
     var data = {
@@ -272,12 +609,12 @@ function Base(token, async){
       fieldParams: fieldParams
     };
 
-    return BaseConnect.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data, callback, this.handle);
   };
 
   this.editRecord = function(dbid, rid, fieldParams, callback){
     this.handle = function(response){
-      var rid = BaseConnect.getNode(response, "rid");
+      var rid = BaseConnectInstance.getNode(response, "rid");
 
       if(rid){
         return true;
@@ -293,12 +630,12 @@ function Base(token, async){
       params: {"rid": rid}
     }
 
-    return BaseConnect.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data, callback, this.handle);
   };
 
   this.copyRecords = function(dbid, params, callback){
     this.handle = function(response){
-      return BaseConnect.getNode(response, "numCreated");
+      return BaseConnectInstance.getNode(response, "numCreated");
     };
 
     var data = {
@@ -307,12 +644,12 @@ function Base(token, async){
       params: params
     };
 
-    return BaseConnect.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data, callback, this.handle);
   };
 
   this.deleteRecord = function(dbid, rid, callback){
     this.handle = function(response){
-      var rid = BaseConnect.getNode(response, "rid");
+      var rid = BaseConnectInstance.getNode(response, "rid");
 
       if(rid){
         return true;
@@ -327,12 +664,12 @@ function Base(token, async){
       params: {"rid": rid}
     };
 
-    return BaseConnect.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data, callback, this.handle);
   };
 
   this.purgeRecords = function(dbid, query, callback){
     this.handle = function(response){
-      var numberOfRecordDeleted = BaseConnect.getNode(response, "num_records_deleted");
+      var numberOfRecordDeleted = BaseConnectInstance.getNode(response, "num_records_deleted");
       return parseInt(numberOfRecordDeleted);
     };
 
@@ -342,7 +679,7 @@ function Base(token, async){
       params: {"query": query}
     };
 
-    return BaseConnect.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data, callback, this.handle);
   };
 
   this.getUserInfo = function(email, callback, handler){
@@ -373,12 +710,12 @@ function Base(token, async){
       params: {"email": email}
     };
 
-    return BaseConnect.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data, callback, this.handle);
   };
 
   this.getUserRoles = function(dbid, callback){
     this.handle = function(response){
-      return BaseConnect.formatUserRoles(response);
+      return BaseConnectInstance.formatUserRoles(response);
     };
 
     var data = {
@@ -386,7 +723,7 @@ function Base(token, async){
       action: "UserRoles"
     };
 
-    return BaseConnect.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data, callback, this.handle);
   };
 
   this.changeUserRole = function(dbid, userId, roleId, newRoleId, callback){
@@ -407,7 +744,7 @@ function Base(token, async){
       data["params"]["newRoleId"] = newRoleId;
     };
 
-    return BaseConnect.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data, callback, this.handle);
   };
 
   this.getRecordInfo = function(dbid, rid, callback){
@@ -429,12 +766,12 @@ function Base(token, async){
       }
     };
 
-    return BaseConnect.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data, callback, this.handle);
   };
 
   this.getTableFields = function(dbid, callback){
     this.handle = function(response){
-      return BaseConnect.getFields(response);
+      return BaseConnectInstance.getFields(response);
     };
 
     var data = {
@@ -442,12 +779,12 @@ function Base(token, async){
       action: "GetSchema"
     };
 
-    return BaseConnect.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data, callback, this.handle);
   };
 
   this.getTableReports = function(dbid, callback){
     this.handle = function(response){
-      return BaseConnect.getReports(response);
+      return BaseConnectInstance.getReports(response);
     };
 
     var data = {
@@ -455,7 +792,7 @@ function Base(token, async){
       action: "GetSchema"
     };
 
-    return BaseConnect.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data, callback, this.handle);
   };
 }
 
@@ -467,12 +804,21 @@ var BaseHelpers = {
     return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
   },
 
+  formatDateElement: function(element){
+    element = element.toString();
+    if(element.length == 1){
+      element = "0" + element;
+    };
+
+    return element;
+  },
+
   dateToString: function(milliseconds){
     if(milliseconds){
       var date = new Date(parseInt(milliseconds));
 
-      var month = BaseConnect.formatDateElement((date.getUTCMonth() + 1));
-      var day = BaseConnect.formatDateElement(date.getUTCDate());
+      var month = this.formatDateElement((date.getUTCMonth() + 1));
+      var day = this.formatDateElement(date.getUTCDate());
 
       date = [month, day, date.getUTCFullYear()].join("-");
       return date;
@@ -485,11 +831,11 @@ var BaseHelpers = {
     if(milliseconds){
       var date = new Date(parseInt(milliseconds));
 
-      var month = BaseConnect.formatDateElement((date.getUTCMonth() + 1));
-      var day = BaseConnect.formatDateElement(date.getUTCDate());
-      var hours = BaseConnect.formatDateElement(date.getUTCHours());
-      var minutes = BaseConnect.formatDateElement(date.getUTCMinutes());
-      var seconds = BaseConnect.formatDateElement(date.getUTCSeconds());
+      var month = this.formatDateElement((date.getUTCMonth() + 1));
+      var day = this.formatDateElement(date.getUTCDate());
+      var hours = this.formatDateElement(date.getUTCHours());
+      var minutes = this.formatDateElement(date.getUTCMinutes());
+      var seconds = this.formatDateElement(date.getUTCSeconds());
 
       var dateTime = [month, day, date.getUTCFullYear()].join("-");
       var ampm = parseInt(hours) >= 12 ? 'pm' : 'am';
@@ -618,344 +964,3 @@ var BaseHelpers = {
     return output;
   }
 };
-
-var BaseConnect = {
-  apptoken: null,
-  async: null,
-
-  post: function(data, callback, handler){
-    var request = this.buildRequest();
-    var type = "API";
-
-    for(key in data.params){
-      var value = data.params[key];
-
-      if(key == "clist" || key == "slist" || key == "options"){
-        if(Object.prototype.toString.call(value) == "[object Array]"){
-          value = value.join(".");
-        };
-      };
-
-      this.addParameter(request, key, value);
-    };
-
-    for(key in data.fieldParams){
-      this.addFieldParameter(request, key, data.fieldParams[key]);
-    };
-
-    if(data.type){
-      type = data.type;
-    };
-
-    if(data.csvData){
-      var records_csv = request.createElement("records_csv");
-      records_csv.appendChild(request.createCDATASection(data.csvData));
-      request.documentElement.appendChild(records_csv);
-    };
-
-    response = this.xmlPost(data.dbid, type + "_" + data.action, request, callback, handler);
-    return response
-  },
-
-  formatDateElement: function(element){
-    element = element.toString();
-    if(element.length == 1){
-      element = "0" + element;
-    };
-
-    return element;
-  },
-
-  getNode: function(response, tag){
-    return $(response).find(tag).text();
-  },
-
-  getRecords: function(response){    
-    var records = $(response).find("records").find("record");
-
-    var recordsArray = [];
-
-    for(var i=0; i < records.length; i++){
-      var record = records[i];
-      var fields = $(record).find("f");
-
-      record = {}
-
-      for(var j=0; j < fields.length; j++){
-        var field = fields[j];
-        var id = parseInt($(field).attr("id"));
-
-        if($(field).find("url").text() != ""){
-          var url = $(field).find("url").text();
-          var sections = url.split("/");
-          var filename = sections[sections.length - 1];
-
-          var value = {"filename": filename, "url": url};
-        }else{
-          var value = $(field).text();
-        };
-
-        record[id] = value;
-      };
-
-      recordsArray.push(record);
-    };
-
-    return recordsArray;
-  },
-
-  getRids: function(response){    
-    var records = $(response).find("records").find("record");
-    var ridsArray = [];
-
-    for(var i=0; i < records.length; i++){
-      var record = records[i];
-      ridsArray.push($(record).find('f[id="3"]').text());
-    };
-
-    return ridsArray;
-  },
-
-  getNewRids: function(response){
-    var rids = $(response).find("rids").find("rid");
-    var ridsArray = [];
-
-    for(var i=0; i < rids.length; i++){
-      var rid = parseInt($(rids[i]).text());
-      ridsArray.push(rid);
-    };
-
-    return ridsArray;
-  },
-
-  getFields: function(schema){
-    var fields = $(schema).find("fields").find("field");
-    var fieldsObj = {};
-
-    for(var i=0; i < fields.length; i++){
-      var field = fields[i];
-      var fieldHash = {
-        "label": $(field).find("label").text(),
-        "nowrap": $(field).find("nowrap").text(),
-        "bold": $(field).find("bold").text(),
-        "required": $(field).find("required").text(),
-        "appears_by_default": $(field).find("appears_by_default").text(),
-        "find_enabled": $(field).find("find_enabled").text(),
-        "allow_new_choices": $(field).find("allow_new_choices").text(),
-        "sort_as_given": $(field).find("sort_as_given").text(),
-        "carrychoices": $(field).find("carrychoices").text(),
-        "foreignkey": $(field).find("foreignkey").text(),
-        "unique": $(field).find("unique").text(),
-        "doesdatacopy": $(field).find("doesdatacopy").text(),
-        "fieldhelp": $(field).find("fieldhelp").text(),
-        "display_user": $(field).find("display_user").text(),
-        "default_kind": $(field).find("default_kind").text()
-      }
-
-      fieldsObj[$(field).attr("id")] = fieldHash;
-    };
-
-    return fieldsObj;
-  },
-
-  getReports: function(schema){
-    var reports = $(schema).find("queries").find("query");
-    var reportsObj = {};
-
-    for(var i=0; i < reports.length; i++){
-      var report = reports[i];
-      var reportHash = {
-        "name": $(report).find("qyname").text(),
-        "type": $(report).find("qytype").text(),
-        "criteria": $(report).find("qycrit").text(),
-        "clist": $(report).find("qyclst").text(),
-        "slist": $(report).find("qyslst").text(),
-        "options": $(report).find("qyopts").text()
-      }
-
-      reportsObj[$(report).attr("id")] = reportHash;
-    };
-
-    return reportsObj;
-  },
-
-  formatUserRoles: function(schema){
-    var users = $(schema).find("users").find("user");
-    var allUsers = [];
-
-    for(var i=0; i < users.length; i++){
-      var user = users[i];
-      var roles = $(user).find("roles").find("role");
-
-      var userRoles = [];
-      for(var j=0; j < roles.length; j++){
-        var role = roles[j];
-        var roleHash = {
-          "id": $(role).attr("id"),
-          "name": $(role).find("name").text(),
-          "accessId": $(role).find("access").attr("id"),
-          "access": $(role).find("access").text() 
-        }
-
-        userRoles.push(roleHash);
-      };
-
-      var userHash = {
-        "id": $(user).attr("id"),
-        "firstName": $(user).find("firstName").text(),
-        "lastName": $(user).find("lastName").text(),
-        "lastAccess": $(user).find("lastAccess").text(),
-        "lastAccessAppLocal": $(user).find("lastAccessAppLocal").text(),
-        "roles": userRoles
-      };
-
-      allUsers.push(userHash);
-    };
-
-    return allUsers;
-  },
-
-  createDocument: function(){
-    try{
-      if(window.ActiveXObject !== undefined){
-        return new ActiveXObject("Microsoft.XmlDom");
-      };
-
-      if(document.implementation && document.implementation.createDocument){
-        var doc = document.implementation.createDocument("", "", null);
-        return doc;
-      };
-    }
-    catch(ex){}
-    throw new Error("Sorry. Your browser does not support Base.js.");
-  },
-
-  buildRequest: function(){
-    var request = this.createDocument();
-    request.async = this.async;
-    request.resolveExternals = false;
-
-    var root = request.createElement("qdbapi");
-
-    try{
-      request.removeChild(request.documentElement);
-    }
-    catch(e){}
-
-    request.appendChild(root);
-
-    if(this.apptoken){
-      this.addParameter(request, "apptoken", this.apptoken);
-    };
-
-    return request;
-  },
-
-  addParameter: function (request, name, value){
-    var mainElement = request.documentElement;
-    var nameTag = request.createElement(name);
-    var node = request.createTextNode(value);
-    nameTag.appendChild(node);
-    mainElement.appendChild(nameTag);
-  },
-
-  addFieldParameter: function (request, fid, value){
-    var mainElement = request.documentElement;
-    var fieldTag = request.createElement("field");
-    fieldTag.setAttribute("fid", fid);
-
-    if(value){
-      if(value.filename){
-        fieldTag.setAttribute("filename", value.filename);
-        value = BaseHelpers.base64Encode(value.body);
-      };
-    };
-
-    var node = request.createTextNode(value);
-    fieldTag.appendChild(node);
-    mainElement.appendChild(fieldTag);
-  },
-
-  xmlPost: function(dbid, action, request, callback, handler){
-    var script = "/db/" + dbid + "?act=" + action;
-
-    if(this.async == true){
-      var connection = BaseConnect.initHttpConnection();
-    }else{
-      var connection = Base.httpConnection;
-    };
-
-    connection.open("POST", script, this.async);
-    
-    if((/MSIE 1/i).test(navigator.appVersion) || window.ActiveXObject !== undefined){
-      try { connection.responseType = 'msxml-document'; } catch (e) { }
-    };
-
-    if(this.async == true){
-      connection.onreadystatechange = function(){
-        if(connection.readyState == 4 && connection.status == 200){
-          var xml = BaseConnect.parseResponse(connection);
-          xml = handler(xml);
-          callback(xml);
-        }
-      };
-    };
-
-    connection.setRequestHeader("Content-Type", "text/xml");
-    connection.send(request);
-
-    if(this.async == false){
-      var xml = BaseConnect.parseResponse(connection);
-      return handler(xml);
-    };
-  },
-
-  parseResponse: function(connection){
-    var xml = connection.responseXML;
-    var errorCode = BaseConnect.getNode(xml, "errcode");
-    
-    if(errorCode != "0"){
-      console.log(
-        "*****ERROR*****: (" + BaseConnect.getNode(xml, "action") + ")" + "(CODE: " + errorCode + ")",
-        "MESSAGE: " + BaseConnect.getNode(xml, "errtext") + " - " + BaseConnect.getNode(xml, "errdetail")
-      );
-    };
-
-    this.ticket = BaseConnect.getNode(xml, "ticket");
-    return xml;
-  },
-
-  setVariables: function(token, async){
-    this.apptoken = token;
-    this.async = async || false;
-  },
-
-  initHttpConnection: function(){
-    var connection = null;
-
-    try{
-      if(!connection){
-        connection = new XMLHttpRequest();
-      };
-    }
-    catch(e){
-    }
-    try{
-      if(!connection){
-        connection = new ActiveXObject("Msxml2.XMLHTTP");
-      };
-    }
-    catch(e){
-    }
-    try{
-      if(!connection){
-        connection = new ActiveXObject("Microsoft.XMLHTTP");
-      };
-    }
-    catch(e){
-      alert("This browser does not support BaseJS.");
-    };
-
-    return connection;
-  }
-}
