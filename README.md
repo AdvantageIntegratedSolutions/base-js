@@ -3,6 +3,7 @@
 QuickBase API Javascript Library w/ JSON
 
 Versions
+* 2.3 - https://s3.amazonaws.com/ais_libraries/BaseJS/2.3/base.min.js
 * 2.2 - https://s3.amazonaws.com/ais_libraries/BaseJS/2.2/base.min.js
 * 2.1 - https://s3.amazonaws.com/ais_libraries/BaseJS/2.1/base.min.js
 * 2.0 - https://s3.amazonaws.com/ais_libraries/BaseJS/2.0/base.min.js
