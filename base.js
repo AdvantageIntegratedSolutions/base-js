@@ -224,7 +224,7 @@ function BaseConnect(){
   this.addParameter = function (request, name, value){
     var mainElement = request.documentElement;
     var nameTag = request.createElement(name);
-    var node = request.createTextNode(value);
+    var node = request.createTextNode(value || "");
     nameTag.appendChild(node);
     mainElement.appendChild(nameTag);
   },
@@ -241,7 +241,7 @@ function BaseConnect(){
       };
     };
 
-    var node = request.createTextNode(value);
+    var node = request.createTextNode(value || "");
     fieldTag.appendChild(node);
     mainElement.appendChild(fieldTag);
   }
