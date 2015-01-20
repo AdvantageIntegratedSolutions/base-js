@@ -16,7 +16,6 @@ Related Libraries
 
 * **Main**
   - [New Connection](#new-connection)
-  - [Get Ticket](#get-ticket)
 
 * **Application and table metadata**
   - [API_FindDBByName](#api-find-db-by-name) **missing
@@ -26,8 +25,8 @@ Related Libraries
   - [API_GetSchema](#api-get-schema) **missing
   - [API_GrantedDBs](#api-granted-dbs) **missing
   - [Get Record Info](#get-record-info) **missing
-  - [Get Table Fields](#get-table-fields) **missing
-  - [Get Table Reports](#get-table-reports) **missing
+  - [Get Table Fields](#get-table-fields) **API Helper
+  - [Get Table Reports](#get-table-reports) **API Helper
 
 * **Creating, copying, and deleting applications**
   - [API_CloneDatabase](#api_clone_database) **missing
@@ -39,6 +38,7 @@ Related Libraries
   - [API_UploadFile](#api-upload-file) **missing
 
 * **Secure access to QuickBase**
+  - [Get Ticket](#get-ticket)
   - [API_Authenticate](#api-authenticate) **missing
   - [API_SignOut](#api-sign-out) **missing
 
