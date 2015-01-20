@@ -115,8 +115,8 @@ Related Libraries
   - [Upload Page](#upload-page) **missing
   - [Delete Page](#delete-page) **missing
   - [API_GetDBPage](#api-get-db-page) **missing
-  - [API_GetDBVar](#api_getdbvar) **missing
-  - [API_SetDBVar](#api_setdbvar) **missing
+  - [API_GetDBVar](#api_getdbvar)
+  - [API_SetDBVar](#api_setdbvar)
   - [Set Var](#set-var) **missing
   - [Get Var](#get-var) **missing
 

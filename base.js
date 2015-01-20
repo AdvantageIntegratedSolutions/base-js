@@ -373,7 +373,7 @@ function Base(token, async){
     return BaseConnectInstance.post(data, callback, this.handle);
   };
 
-  this.getVar = function(dbid, name, callback){
+  this.getDBVar = function(dbid, name, callback){
     this.handle = function(response){
       return BaseConnectInstance.getNode(response, "value");
     };
@@ -387,7 +387,7 @@ function Base(token, async){
     return BaseConnectInstance.post(data, callback, this.handle)
   };
 
-  this.setVar = function(dbid, name, value, callback){
+  this.setDBVar = function(dbid, name, value, callback){
     this.handle = function(response){
       return true;
     };
