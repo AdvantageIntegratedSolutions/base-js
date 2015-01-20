@@ -6,7 +6,6 @@ Versions
 * 2.3 - https://s3.amazonaws.com/ais_libraries/BaseJS/2.3/base.min.js
 * 2.2 - https://s3.amazonaws.com/ais_libraries/BaseJS/2.2/base.min.js
 * 2.1 - https://s3.amazonaws.com/ais_libraries/BaseJS/2.1/base.min.js
-* 2.0 - https://s3.amazonaws.com/ais_libraries/BaseJS/2.0/base.min.js
 
 Related Libraries
 * jQuery - https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js
@@ -18,12 +17,48 @@ Related Libraries
 * **Main**
   - [New Connection](#new-connection)
   - [Get Ticket](#get-ticket)
-  - [Set Var](#set-var)
-  - [Get Var](#get-var)
-  - [Upload Page](#upload-page)
-  - [Delete Page](#delete-page)
 
-* **Retrieving Records**
+* **Application and table metadata**
+  - [API_FindDBByName](#api-find-db-by-name)
+  - [API_GetAncestorInfo](#api-get-ancestor-info)
+  - [API_GetAppDTMInfo](#api-get-app-dtm-info)
+  - [API_GetDBInfo](#api-get-db-info)
+  - [API_GetSchema](#api-get-schema)
+  - [API_GrantedDBs](#api-granted-dbs)
+  - [Get Record Info](#get-record-info)
+  - [Get Table Fields](#get-table-fields)
+  - [Get Table Reports](#get-table-reports)
+
+* **Creating, copying, and deleting applications**
+  - [API_CloneDatabase](#api_clone_database)
+  - [API_CreateDatabase](#api-create-database)
+  - [API_DeleteDatabase](#api-delete-database)
+  - [API_RenameApp](#api-rename-app)
+
+* **Uploading and downloading files**
+  - [API_AddRecord](#api-add-record)
+  - [API_EditRecord](#api-edit-record)
+  - [API_UploadFile](#api-upload-file)
+
+* **Secure access to QuickBase**
+  - [API_Authenticate](#api-authenticate)
+  - [API_SignOut](#api-sign-out)
+
+* **Table and field management**
+  - [API_AddField](#api-add-field)
+  - [API_CreateTable](#api-create-table)
+  - [API_DeleteField](#api-delete-field)
+  - [API_FieldAddChoices](#api-field-add-choices)
+  - [API_SetFieldProperties](#api-set-field-properties)
+  - [API_SetKeyField](#api-set-key-field)
+
+* **Record (data) management**
+  - [API_AddRecord](#api-add-record)
+  - [API_ChangeRecordOwner](#api-change-record-owner)
+  - [API_CopyMasterDetail](#api-copy-master-detail)
+  - [API_DeleteRecord](#api-delete-record)
+  - [API_DoQuery](#api-do-query)
+  - [API_DoQueryCount](#api-do-query-count)
   - [Query Records](#query-records)
   - [Count # of Records](#count-queried-records)
   - [Find Single Record](#find-single-record)
@@ -31,26 +66,60 @@ Related Libraries
   - [Find Last Record](#find-last-record)
   - [Find All Records](#find-all-records)
   - [Find RID's](#find-rids)
-
-* **Adding/Updating Records**
+  - [API_EditRecord](#api-edit-record)
+  - [API_GenAddRecordForm](#api-gen-add-record-form)
+  - [API_GenResultsTable](#api-gen-results-table)
+  - [API_GetNumRecords](#api-get-num-records)
+  - [API_GetRecordAsHTML](#api-get-record-as-html)
+  - [API_GetRecordInfo](#api-get-record-info)
+  - [API_ImportFromCSV](#api-import-from-csv)
+  - [API_PurgeRecords](#api-purge-records)
+  - [API_RunImport](#api-run-import)
   - [Import Records](#import-records)
   - [Add Record](#add-record)
   - [Edit Record](#edit-record)
   - [Copy Records](#copy-records)
-
-* **Deleting Records**
   - [Delete Record](#delete-record)
   - [Delete Mass Records](#delete-mass-records)
 
-* **Users**
-  - [Get User Information](#get-user-information)
-  - [Get User Roles](#get-user-roles)
-  - [Change User Role](#change-user-role)
+* **Managing user access**
+  - [API_AddUserToRole](#api-add-user-to-role)
+  - [API_ChangeUserRole](#api-change-user-role)
+  - [API_ChangeRecordOwner](#api-change-record-owner)
+  - [API_ChangeManager](#api-change-manager)
+  - [API_GetRoleInfo](#api-get-role-info)
+  - [API_GetUserInfo](#api-get-user-info)
+  - [API_GetUserRole](#api-get-user-role)
+  - [API_ProvisionUser](#api-provision-user)
+  - [API_RemoveUserFromRole](#api-remove-user-from-role)
+  - [API_SendInvitation](#api-send-invitation)
+  - [API_UserRoles](#api-user-roles)
 
-* **Retrieving Schema**
-  - [Get Record Info](#get-record-info)
-  - [Get Table Fields](#get-table-fields)
-  - [Get Table Reports](#get-table-reports)
+* **Managing groups**
+  - [API_AddGroupToRole](#api-add-group-to-role)
+  - [API_AddSubGroup](#api-add-sub-group)
+  - [API_AddUserToGroup](#api-add-user-to-group)
+  - [API_ChangeGroupInfo](#api-change-group-info)
+  - [API_CopyGroup](#api-copy-group)
+  - [API_CreateGroup](#api-create-group)
+  - [API_DeleteGroup](#api-delete-group)
+  - [API_GetGroupRole](#api-get-group-role)
+  - [API_GetUsersInGroup](#api-get-users-in-group)
+  - [API_GrantedDBsForGroup](#api-granted-dbs-for-group)
+  - [API_GrantedGroups](#api-granted-groups)
+  - [API_RemoveGroupFromRole](#api-remove-group-from-role)
+  - [API_RemoveSubgroup](#api-remove-subgroup)
+  - [API_RemoveUserFromGroup](#api-remove-user-from-group)
+
+* **Miscellaneous functions**
+  - [API_AddReplaceDBPage](#api-add-replace-db-page)
+  - [Upload Page](#upload-page)
+  - [Delete Page](#delete-page)
+  - [API_GetDBPage](#api-get-db-page)
+  - [API_GetDBVar](#api-get-db-var)
+  - [API_SetDBVar](#api-set-db-var)
+  - [Set Var](#set-var)
+  - [Get Var](#get-var)
 
 * **JS Helper Functions**
   - [Get URL Parameter](#get-url-parameter)

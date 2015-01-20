@@ -17,12 +17,12 @@
 				var ticket = client.getTicket();
 				console.log("TICKET: " + ticket);
 
-				var variable = client.setVar("bjbsgxy2r", "test", "hello world");
+				var variable = client.setDBVar("bjbsgxy2r", "test", "hello world");
 				console.log("SET VAR: " + variable);
-				var variableValue = client.getVar("bjbsgxy2r", "test");
+				var variableValue = client.getDBVar("bjbsgxy2r", "test");
 				console.log("GET VAR: " + variableValue);
 
-				var pageId = client.uploadPage("bjbsgxy2r", null, "test.txt", "");
+				var pageId = client.addPage("bjbsgxy2r", null, "test.txt", "");
 				console.log("UPLOAD PAGE: " + pageId);
 
 				var success = client.deletePage("bjbsgxy2r", pageId);
@@ -127,11 +127,11 @@
 					console.log("TICKET: " + response);
 				});
 
-				asyncClient.setVar("bjbsgxy2r", "test", "hello world", function(response){
+				asyncClient.setDBVar("bjbsgxy2r", "test", "hello world", function(response){
 					console.log("SET VAR: " + response);
 				});
 
-				asyncClient.getVar("bjbsgxy2r", "test", function(response){
+				asyncClient.getDBVar("bjbsgxy2r", "test", function(response){
 					console.log("GET VAR: " + response)
 				});
 

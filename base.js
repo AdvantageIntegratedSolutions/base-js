@@ -3,8 +3,19 @@ function BaseConnect(){
   this.async = null;
 
   this.post = function(data, callback, handler){
-    var request = this.buildRequest();
-    var type = "API";
+    var type = data.type || "API";
+    var action = type + "_" + data.action;
+    var postData = this.buildPostData(data);
+
+    return this.xmlPost(data.dbid, action, postData, callback, handler);
+  };
+
+  this.buildPostData = function(data){
+    var postData = ["<qdbapi>"];
+
+    if(this.apptoken){
+      postData.push(this.createParameter("apptoken", this.apptoken));
+    };
 
     for(key in data.params){
       var value = data.params[key];
@@ -15,30 +26,27 @@ function BaseConnect(){
         };
       };
 
-      this.addParameter(request, key, value);
+      if(value){
+        postData.push(this.createParameter(key, value));
+      };
     };
 
     for(key in data.fieldParams){
-      this.addFieldParameter(request, key, data.fieldParams[key]);
-    };
-
-    if(data.type){
-      type = data.type;
+      postData.push(this.createFieldParameter(key, data.fieldParams[key]));
     };
 
     if(data.csvData){
-      var records_csv = request.createElement("records_csv");
-      records_csv.appendChild(request.createCDATASection(data.csvData));
-      request.documentElement.appendChild(records_csv);
+      postData.push(this.createCSVParameter(data.csvData));
     };
 
-    response = this.xmlPost(data.dbid, type + "_" + data.action, request, callback, handler);
-    return response
-  }
+    postData.push("</qdbapi>");
+
+    return postData.join("");
+  };
 
   this.getNode = function(response, tag){
     return $(response).find(tag).text();
-  }
+  };
 
   this.getRecords = function(response){    
     var records = $(response).find("records").find("record");
@@ -72,7 +80,7 @@ function BaseConnect(){
     };
 
     return recordsArray;
-  }
+  };
 
   this.getRids = function(response){    
     var records = $(response).find("records").find("record");
@@ -84,7 +92,7 @@ function BaseConnect(){
     };
 
     return ridsArray;
-  }
+  };
 
   this.getNewRids = function(response){
     var rids = $(response).find("rids").find("rid");
@@ -96,7 +104,7 @@ function BaseConnect(){
     };
 
     return ridsArray;
-  }
+  };
 
   this.getFields = function(schema){
     var fields = $(schema).find("fields").find("field");
@@ -126,7 +134,7 @@ function BaseConnect(){
     };
 
     return fieldsObj;
-  }
+  };
 
   this.getReports = function(schema){
     var reports = $(schema).find("queries").find("query");
@@ -147,7 +155,7 @@ function BaseConnect(){
     };
 
     return reportsObj;
-  }
+  };
 
   this.formatUserRoles = function(schema){
     var users = $(schema).find("users").find("user");
@@ -183,108 +191,122 @@ function BaseConnect(){
     };
 
     return allUsers;
-  }
+  };
 
-  this.createDocument = function(){
-    try{
-      if(window.ActiveXObject !== undefined){
-        return new ActiveXObject("Microsoft.XmlDom");
-      };
+  this.createParameter = function(key, value){
+    return "<" + key + ">" + value + "</" + key + ">";
+  };
 
-      if(document.implementation && document.implementation.createDocument){
-        var doc = document.implementation.createDocument("", "", null);
-        return doc;
-      };
-    }
-    catch(ex){}
-    throw new Error("Sorry. Your browser does not support Base.js.");
-  }
-
-  this.buildRequest = function(){
-    var request = this.createDocument();
-    request.async = this.async;
-    request.resolveExternals = false;
-
-    var root = request.createElement("qdbapi");
-
-    try{
-      request.removeChild(request.documentElement);
-    }
-    catch(e){}
-
-    request.appendChild(root);
-
-    if(this.apptoken){
-      this.addParameter(request, "apptoken", this.apptoken);
-    };
-
-    return request;
-  }
-
-  this.addParameter = function (request, name, value){
-    var mainElement = request.documentElement;
-    var nameTag = request.createElement(name);
-    var node = request.createTextNode(value || "");
-    nameTag.appendChild(node);
-    mainElement.appendChild(nameTag);
-  },
-
-  this.addFieldParameter = function (request, fid, value){
-    var mainElement = request.documentElement;
-    var fieldTag = request.createElement("field");
-    fieldTag.setAttribute("fid", fid);
+  this.createFieldParameter = function(fid, value){
+    var param = "<field fid='" + fid + "'";
 
     if(value){
       if(value.filename){
-        fieldTag.setAttribute("filename", value.filename);
-        value = BaseHelpers.base64Encode(value.body);
+        param += " filename='" + value.filename + "'>";
+        param += this.base64Encode(value.body);
+      }else{
+        param += ">"
+        param += value;
       };
     };
 
-    var node = request.createTextNode(value || "");
-    fieldTag.appendChild(node);
-    mainElement.appendChild(fieldTag);
-  }
+    param += "</field>";
+    return param;
+  };
 
-  this.xmlPost = function(dbid, action, request, callback, handler){
-    var script = "/db/" + dbid + "?act=" + action;
+  this.createCSVParameter = function(data){
+    return "<records_csv><![CDATA[" + data + "]]></records_csv>";
+  };
 
-    if(this.async == true){
-      var connection = this.initHttpConnection();
-    }else{
-      var connection = this.context.httpConnection;
+  this.base64Encode = function(input){
+    var output = "";
+    var keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+
+    var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+    var i = 0;
+
+    var string = input.replace(/\r\n/g,"\n");
+    var utfText = "";
+
+    for(var n=0; n < string.length; n++){
+      var c = string.charCodeAt(n);
+
+      if (c < 128) {
+        utfText += String.fromCharCode(c);
+      }
+      else if((c > 127) && (c < 2048)) {
+        utfText += String.fromCharCode((c >> 6) | 192);
+        utfText += String.fromCharCode((c & 63) | 128);
+      }
+      else {
+        utfText += String.fromCharCode((c >> 12) | 224);
+        utfText += String.fromCharCode(((c >> 6) & 63) | 128);
+        utfText += String.fromCharCode((c & 63) | 128);
+      }
+    }
+
+    input = utfText;
+
+    while(i < input.length){
+      chr1 = input.charCodeAt(i++);
+      chr2 = input.charCodeAt(i++);
+      chr3 = input.charCodeAt(i++);
+
+      enc1 = chr1 >> 2;
+      enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+      enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+      enc4 = chr3 & 63;
+
+      if(isNaN(chr2)){
+        enc3 = enc4 = 64;
+      }else if(isNaN(chr3)){
+        enc4 = 64;
+      };
+
+      output = output +
+      keyStr.charAt(enc1) + keyStr.charAt(enc2) +
+      keyStr.charAt(enc3) + keyStr.charAt(enc4);
     };
 
-    connection.open("POST", script, this.async);
-    
-    if((/MSIE 1/i).test(navigator.appVersion) || window.ActiveXObject !== undefined){
-      try { connection.responseType = 'msxml-document'; } catch (e) { }
-    };
+    return output;
+  };
 
-    if(this.async == true){
-      var parseResponse = this.parseResponse;
-      var BaseConnectInstance = this;
-
-      connection.onreadystatechange = function(){
-        if(connection.readyState == 4 && connection.status == 200){
-          var xml = parseResponse.call(BaseConnectInstance, connection);
-          xml = handler(xml);
-          callback(xml);
+  this.xmlPost = function(dbid, action, data, callback, handler){
+    var url = "/db/" + dbid + "?act=" + action;
+  
+    if(this.async){
+      $.ajax({ 
+        url: url, 
+        type: "POST",
+        context: this,
+        contentType: "text/xml",
+        data: data,
+        dataType: "xml",
+        success: function(xml){
+          return callback(handler(xml));
         }
-      };
+      });
+    }else{
+      var response = null;
+
+      $.ajax({ 
+        url: url, 
+        type: "POST",
+        context: this,
+        contentType: "text/xml",
+        data: data,
+        dataType: "xml",
+        async: false,
+        success: function(xml){
+          response = handler(xml);
+        }
+      });
+
+      return response;
     };
+  };
 
-    connection.setRequestHeader("Content-Type", "text/xml");
-    connection.send(request);
-
-    if(this.async == false){
-      var xml = this.parseResponse(connection);
-      return handler(xml);
-    };
-  }
-
-  this.parseResponse = function(connection){
-    var xml = connection.responseXML;
+  this.parseResponse = function(xml){
     var errorCode = this.getNode(xml, "errcode");
     
     if(errorCode != "0"){
@@ -296,12 +318,12 @@ function BaseConnect(){
 
     this.ticket = this.getNode(xml, "ticket");
     return xml;
-  }
+  };
 
   this.setVariables = function(token, async){
     this.apptoken = token;
     this.async = async || false;
-  }
+  };
 
   this.initHttpConnection = function(context){
     var connection = null;
@@ -331,12 +353,11 @@ function BaseConnect(){
     };
 
     return connection;
-  }
+  };
 }
 
 function Base(token, async){
   var BaseConnectInstance = new BaseConnect();
-  this.httpConnection = BaseConnectInstance.initHttpConnection(this);
   BaseConnectInstance.setVariables(token, async);
 
   this.getTicket = function(callback){
@@ -866,10 +887,7 @@ var BaseHelpers = {
     var timeOfDay = "";
 
     if(milliseconds){
-      timeOfDay = new Date();
-      timeOfDay.setHours("");
-      timeOfDay.setMinutes("");
-      timeOfDay.setSeconds("");
+      timeOfDay = new Date().setHours("").setMinutes("").setSeconds("");
       timeOfDay = timeOfDay.setMilliseconds(milliseconds);
       timeOfDay = new Date(timeOfDay);
 
@@ -904,63 +922,8 @@ var BaseHelpers = {
   },
 
   downloadFile: function(dbid, rid, fid, version){
-    if(!version){
-      version = 0;
-    };
+    var version = version || 0;
 
     window.location = "https://www.quickbase.com/up/"+dbid+"/a/r"+rid+"/e"+fid+"/v" + version;
-  },
-
-  base64Encode: function(input){
-    var output = "";
-    var keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-
-    var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
-    var i = 0;
-
-    var string = input.replace(/\r\n/g,"\n");
-    var utfText = "";
-
-    for(var n=0; n < string.length; n++){
-      var c = string.charCodeAt(n);
-
-      if (c < 128) {
-        utfText += String.fromCharCode(c);
-      }
-      else if((c > 127) && (c < 2048)) {
-        utfText += String.fromCharCode((c >> 6) | 192);
-        utfText += String.fromCharCode((c & 63) | 128);
-      }
-      else {
-        utfText += String.fromCharCode((c >> 12) | 224);
-        utfText += String.fromCharCode(((c >> 6) & 63) | 128);
-        utfText += String.fromCharCode((c & 63) | 128);
-      }
-    }
-
-    input = utfText;
-
-    while(i < input.length){
-      chr1 = input.charCodeAt(i++);
-      chr2 = input.charCodeAt(i++);
-      chr3 = input.charCodeAt(i++);
-
-      enc1 = chr1 >> 2;
-      enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
-      enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
-      enc4 = chr3 & 63;
-
-      if(isNaN(chr2)){
-        enc3 = enc4 = 64;
-      }else if(isNaN(chr3)){
-        enc4 = 64;
-      };
-
-      output = output +
-      keyStr.charAt(enc1) + keyStr.charAt(enc2) +
-      keyStr.charAt(enc3) + keyStr.charAt(enc4);
-    };
-
-    return output;
   }
 };
