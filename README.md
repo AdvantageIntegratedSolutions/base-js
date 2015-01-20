@@ -80,7 +80,6 @@ Related Libraries
   - [Edit Record](#edit-record) **missing
   - [Copy Records](#copy-records) **missing
   - [Delete Record](#delete-record) **missing
-  - [Delete Mass Records](#delete-mass-records) **missing
 
 * **Managing user access**
   - [API_AddUserToRole](#api-add-user-to-role) **missing
@@ -296,7 +295,7 @@ var callSuccessful = api.deleteRecord("abcd1234", 136);
 => true
 ````
 
-###Delete Mass Records
+###API_PurgeRecords
 **purgeRecords(dbid, query)** => **[int] # of records deleted**
 
 ```javascript
