@@ -330,14 +330,14 @@ var fields = api.getRecordInfo("abcd1234", "098");
     }
 ````
 
-###HELPER_GetTableFields
+###Helper_GetTableFields
 **getTableFields(dbid)** => **{obj} fields**
 
 ```javascript
 var fields = api.getTableFields("abcd1234");
 ````
 
-###HELPER_GetTableReports
+###Helper_GetTableReports
 **getTableReports(dbid)** => **{obj} fields**
 
 ```javascript
