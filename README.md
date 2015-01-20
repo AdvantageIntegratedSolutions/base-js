@@ -23,9 +23,9 @@ Related Libraries
   - [API_GetAppDTMInfo]
   - [API_GetDBInfo]
   - [API_GetSchema]
+  - [API_GrantedDBs]
   - [Helper_GetTableFields](#helper_gettablefields)
   - [Helper_GetTableReports](#helper_gettablereports)
-  - [API_GrantedDBs]
 
 * **Creating, copying, and deleting applications**
   - [API_CloneDatabase]
@@ -37,9 +37,9 @@ Related Libraries
   - [API_UploadFile]
 
 * **Secure access to QuickBase**
-  - [Helper_GetTicket](#helper_getticket)
   - [API_Authenticate]
   - [API_SignOut]
+  - [Helper_GetTicket](#helper_getticket)
 
 * **Table and field management**
   - [API_AddField]
@@ -57,11 +57,6 @@ Related Libraries
   - [API_DeleteRecord](#api_deleterecord)
   - [API_DoQuery](#api_doquery)
   - [API_DoQueryCount](#api-do-query-count)
-  - [Helper_Find](#helper_find)
-  - [Helper_First](#helper_first)
-  - [Helper_Last](#helper_last)
-  - [Helper_All](#helper_all)
-  - [Helper_GetRids](#helper_getrids)
   - [API_GenAddRecordForm]
   - [API_GenResultsTable]
   - [API_GetNumRecords]
@@ -70,6 +65,11 @@ Related Libraries
   - [API_ImportFromCSV](#api_importfromcsv)
   - [API_PurgeRecords](#api_purgerecords)
   - [API_RunImport]
+  - [Helper_Find](#helper_find)
+  - [Helper_First](#helper_first)
+  - [Helper_Last](#helper_last)
+  - [Helper_All](#helper_all)
+  - [Helper_GetRids](#helper_getrids)
 
 * **Managing user access**
   - [API_AddUserToRole]
