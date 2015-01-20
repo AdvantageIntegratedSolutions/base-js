@@ -67,7 +67,7 @@ Related Libraries
   - [API_GenResultsTable](#api-gen-results-table) **missing
   - [API_GetNumRecords](#api-get-num-records) **missing
   - [API_GetRecordAsHTML](#api-get-record-as-html) **missing
-  - [API_GetRecordInfo](#api-get-record-info) **missing
+  - [API_GetRecordInfo](#api_getrecordinfo) **missing
   - [API_ImportFromCSV](#api_importfromcsv)
   - [API_PurgeRecords](#api_purgerecords)
   - [API_RunImport](#api-run-import) **missing
@@ -325,8 +325,7 @@ var userInfo = api.changeUserRole("abcd1234", "57527431.cnhu", "12", "11");
 => true
 ````
 
-##Retrieving Schema
-###Get Record Info
+###API_GetRecordInfo
 **getRecordInfo(dbid, rid)** => **{obj} fid's and values**
 
 ```javascript
