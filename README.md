@@ -55,11 +55,9 @@ Related Libraries
   - [API_EditRecord](#api_editrecord)
   - [API_ChangeRecordOwner](#api-change-record-owner) **missing
   - [API_CopyMasterDetail](#api-copy-master-detail) **missing
-  - [API_DeleteRecord](#api-delete-record) **missing
-  - [API_DoQuery](#api-do-query) **missing
-  - [API_DoQueryCount](#api-do-query-count) **missing
-  - [Query Records](#query-records) **missing
-  - [Count # of Records](#count-queried-records) **missing
+  - [API_DeleteRecord](#api_deleterecord)
+  - [API_DoQuery](#api_doquery)
+  - [API_DoQueryCount](#api-do-query-count)
   - [Find Single Record](#find-single-record) **missing
   - [Find First Record](#find-first-record) **missing
   - [Find Last Record](#find-last-record) **missing
@@ -75,7 +73,6 @@ Related Libraries
   - [API_RunImport](#api-run-import) **missing
   - [Import Records](#import-records) **missing
   - [Copy Records](#copy-records) **missing
-  - [Delete Record](#delete-record) **missing
 
 * **Managing user access**
   - [API_AddUserToRole](#api-add-user-to-role) **missing
@@ -178,7 +175,7 @@ var deleted = api.deletePage("bdjwmnj33", "6");
 ```
 
 ##Retrieving Records
-###Query Records
+###API_DoQuery
 **doQuery(dbid, queryOptions) => [array] records**
 
 "queryOptions" expects a hash containing any of the following options:
@@ -197,7 +194,7 @@ var records = api.doQuery("bdjwmnj33", {"query": "{3.EX.'123'}", "clist": "3.6.1
     ]
 ```
 
-###Count # of Records
+###API_DoQueryCount
 **doQueryCount(dbid, query)** => **[int] # of records in query**
 
 ```javascript
@@ -281,7 +278,7 @@ var numberCopied = api.copyRecords("abcd1234", {destrid: "0", sourcerid: "1204",
 ````
 
 ##Deleting Records
-###Delete Record
+###API_DeleteRecord
 **deleteRecord(dbid, rid)** => **[bool] success?**
 
 ```javascript
