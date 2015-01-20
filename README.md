@@ -57,11 +57,11 @@ Related Libraries
   - [API_DeleteRecord](#api_deleterecord)
   - <b>[API_DoQuery](#api_doquery)</b>
   - [API_DoQueryCount](#api-do-query-count)
-  - [Find Single Record](#find-single-record) - Helper
-  - [Find First Record](#find-first-record) - Helper
-  - [Find Last Record](#find-last-record) - Helper
-  - [Find All Records](#find-all-records) - Helper
-  - [Find RID's](#find-rids) - Helper
+  - [Helper_Find](#helper_find)
+  - [Helper_First](#helper_first)
+  - [Helper_Last](#helper_last)
+  - [Helper_All](#helper_all)
+  - [Helper_GetRids](#helper_getrids)
   - [API_GenAddRecordForm](#api-gen-add-record-form) **missing
   - [API_GenResultsTable](#api-gen-results-table) **missing
   - [API_GetNumRecords](#api-get-num-records) **missing
@@ -196,38 +196,38 @@ var count = api.doQueryCount("bdjwmnj33", "{'3'.EX.'123'}");
 => 39
 ```
 
-###Find Single Record
+###Helper_Find
 **find(dbid, rid)** => **[json] record**
 ```javascript
 var record = api.find("bdjwmnj33", "12");
 => {1: "1402930292", 7: "Lord of the Flies", 8: "William Golding"}
 ```
 
-###Find First Record
+###Helper_First
 **first(dbid, queryOptions)** => **[json] record**
 ```javascript
 var record = api.first("bdjwmnj33", {"query": "{'3'.XEX.''}", "slist" : "3"});
 => {1: "1402930292", 7: "Lord of the Flies", 8: "William Golding"}
 ```
 
-###Find Last Record
+###Helper_Last
 **last(dbid, queryOptions)** => **[json] record**
 ```javascript
 var record = api.last("bdjwmnj33", {"query": "{'3'.XEX.''}", "slist": "3"});
 => {1: "1402933332", 7: "Animal Farm", 8: "George Orwell"}
 ```
 
-###Find All Records
+###Helper_All
 **all(dbid, queryOptions)** => **[array] records**
 ```javascript
 var record = api.all("bdjwmnj33", {"slist": "3"});
 => [{1: "1402933332", 7: "Animal Farm", 8: "George Orwell"}]
 ```
 
-###Find Rids
-**findRids(dbid, queryOptions)** => **[array] rids**
+###Helper_GetRids
+**getRids(dbid, queryOptions)** => **[array] rids**
 ```javascript
-var rids = api.findRids("bdjwmnj33", {"query": "{'3'.GT.'100'}"});
+var rids = api.getRids("bdjwmnj33", {"query": "{'3'.GT.'100'}"});
 => ["101", "102", "103", "104"]
 ```
 

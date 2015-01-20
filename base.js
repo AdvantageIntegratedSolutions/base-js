@@ -566,7 +566,7 @@ function Base(token, async){
     return this.doQuery(dbid, params, callback, this.handle);
   };
 
-  this.findRids = function(dbid, params, callback){
+  this.getRids = function(dbid, params, callback){
     this.handle = function(response){
       return BaseConnectInstance.getRids(response);
     };
