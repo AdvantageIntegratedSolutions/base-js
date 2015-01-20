@@ -15,7 +15,7 @@ Related Libraries
 ##Documentation
 
 * **Main**
-  - <b>[New Connection](#new-connection)</b>
+  - <h2>[New Connection](#new-connection)</h2>
 
 * **Application and table metadata**
   - [API_FindDBByName](#api-find-db-by-name) **missing
