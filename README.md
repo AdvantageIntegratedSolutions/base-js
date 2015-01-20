@@ -15,7 +15,7 @@ Related Libraries
 ##Documentation
 
 * **Main**
-  - <h3>[New Connection](#new-connection)</h3>
+  - <b>[New Connection](#new-connection)</b>
 
 * **Application and table metadata**
   - [API_FindDBByName](#api-find-db-by-name) **missing
@@ -51,14 +51,14 @@ Related Libraries
   - [API_SetKeyField](#api-set-key-field) **missing
 
 * **Record (data) management**
-  - <h3>[API_AddRecord](#api_addrecord)</h3>
-  - <h3>[API_EditRecord](#api_editrecord)</h3>
+  - <b>[API_AddRecord](#api_addrecord)</b>
+  - <b>[API_EditRecord](#api_editrecord)</b>
   - [API_ChangeRecordOwner](#api-change-record-owner) **missing
   - [API_CopyMasterDetail](#api_copymasterdetail)
-  - <h3>[API_DeleteRecord](#api_deleterecord)</h3>
-  - <h3>[API_DoQuery](#api_doquery)</h3>
-  - <h3>[API_DoQueryCount](#api-do-query-count)</h3>
-  - <h3>[Find Single Record](#find-single-record)</h3>
+  - [API_DeleteRecord](#api_deleterecord)
+  - <b>[API_DoQuery](#api_doquery)</b>
+  - [API_DoQueryCount](#api-do-query-count)
+  - [Find Single Record](#find-single-record)
   - [Find First Record](#find-first-record)
   - [Find Last Record](#find-last-record)
   - [Find All Records](#find-all-records)
@@ -68,17 +68,17 @@ Related Libraries
   - [API_GetNumRecords](#api-get-num-records) **missing
   - [API_GetRecordAsHTML](#api-get-record-as-html) **missing
   - [API_GetRecordInfo](#api_getrecordinfo) **missing
-  - <h3>[API_ImportFromCSV](#api_importfromcsv)</h3>
-  - <h3>[API_PurgeRecords](#api_purgerecords)</h3>
+  - <b>[API_ImportFromCSV](#api_importfromcsv)</b>
+  - <b>[API_PurgeRecords](#api_purgerecords)</b>
   - [API_RunImport](#api-run-import) **missing
 
 * **Managing user access**
   - [API_AddUserToRole](#api-add-user-to-role) **missing
-  - <h3>[API_ChangeUserRole](#api_changeuserrole)</h3>
+  - [API_ChangeUserRole](#api_changeuserrole)
   - [API_ChangeRecordOwner](#api-change-record-owner) **missing
   - [API_ChangeManager](#api-change-manager) **missing
   - [API_GetRoleInfo](#api-get-role-info) **missing
-  - <h3>[API_GetUserInfo](#api_getuserinfo)</h3>
+  - [API_GetUserInfo](#api_getuserinfo)
   - [API_GetUserRole](#api-get-user-role) **missing
   - [API_ProvisionUser](#api-provision-user) **missing
   - [API_RemoveUserFromRole](#api-remove-user-from-role) **missing
