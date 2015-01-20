@@ -114,7 +114,7 @@ Related Libraries
   - [Helper_TimeOfDayToString](#helper_timeofdaytostring)
   - [Helper_RedirectToEditForm](#helper_redirecttoeditform)
   - [Helper_RedirectToViewForm](#helper_redirecttoviewform)
-  - [Helper_DownloadFile](#helper_download-file)
+  - [Helper_DownloadFile](#helper_downloadfile)
 
 ###New Connection
 
