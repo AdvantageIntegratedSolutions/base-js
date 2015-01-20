@@ -18,41 +18,41 @@ Related Libraries
   - <b>[New Connection](#new-connection)</b>
 
 * **Application and table metadata**
-  - [API_FindDBByName](#api-find-db-by-name) **missing
-  - [API_GetAncestorInfo](#api-get-ancestor-info) **missing
-  - [API_GetAppDTMInfo](#api-get-app-dtm-info) **missing
-  - [API_GetDBInfo](#api-get-db-info) **missing
-  - [API_GetSchema](#api-get-schema) **missing
+  - [API_FindDBByName](#api-find-db-by-name) **not yet included
+  - [API_GetAncestorInfo](#api-get-ancestor-info) **not yet included
+  - [API_GetAppDTMInfo](#api-get-app-dtm-info) **not yet included
+  - [API_GetDBInfo](#api-get-db-info) **not yet included
+  - [API_GetSchema](#api-get-schema) **not yet included
   - [Helper_GetTableFields](#helper_gettablefields)
   - [Helper_GetTableReports](#helper_gettablereports)
-  - [API_GrantedDBs](#api-granted-dbs) **missing
+  - [API_GrantedDBs](#api-granted-dbs) **not yet included
 
 * **Creating, copying, and deleting applications**
-  - [API_CloneDatabase](#api_clone_database) **missing
-  - [API_CreateDatabase](#api-create-database) **missing
-  - [API_DeleteDatabase](#api-delete-database) **missing
-  - [API_RenameApp](#api-rename-app) **missing
+  - [API_CloneDatabase](#api_clone_database) **not yet included
+  - [API_CreateDatabase](#api-create-database) **not yet included
+  - [API_DeleteDatabase](#api-delete-database) **not yet included
+  - [API_RenameApp](#api-rename-app) **not yet included
 
 * **Uploading and downloading files**
-  - [API_UploadFile](#api-upload-file) **missing
+  - [API_UploadFile](#api-upload-file) **not yet included
 
 * **Secure access to QuickBase**
   - [Helper_GetTicket](#helper_getticket)
-  - [API_Authenticate](#api-authenticate) **missing
-  - [API_SignOut](#api-sign-out) **missing
+  - [API_Authenticate](#api-authenticate) **not yet included
+  - [API_SignOut](#api-sign-out) **not yet included
 
 * **Table and field management**
-  - [API_AddField](#api-add-field) **missing
-  - [API_CreateTable](#api-create-table) **missing
-  - [API_DeleteField](#api-delete-field) **missing
-  - [API_FieldAddChoices](#api-field-add-choices) **missing
-  - [API_SetFieldProperties](#api-set-field-properties) **missing
-  - [API_SetKeyField](#api-set-key-field) **missing
+  - [API_AddField](#api-add-field) **not yet included
+  - [API_CreateTable](#api-create-table) **not yet included
+  - [API_DeleteField](#api-delete-field) **not yet included
+  - [API_FieldAddChoices](#api-field-add-choices) **not yet included
+  - [API_SetFieldProperties](#api-set-field-properties) **not yet included
+  - [API_SetKeyField](#api-set-key-field) **not yet included
 
 * **Record (data) management**
   - <b>[API_AddRecord](#api_addrecord)</b>
   - <b>[API_EditRecord](#api_editrecord)</b>
-  - [API_ChangeRecordOwner](#api-change-record-owner) **missing
+  - [API_ChangeRecordOwner](#api-change-record-owner) **not yet included
   - [API_CopyMasterDetail](#api_copymasterdetail)
   - [API_DeleteRecord](#api_deleterecord)
   - <b>[API_DoQuery](#api_doquery)</b>
@@ -62,47 +62,47 @@ Related Libraries
   - [Helper_Last](#helper_last)
   - [Helper_All](#helper_all)
   - [Helper_GetRids](#helper_getrids)
-  - [API_GenAddRecordForm](#api-gen-add-record-form) **missing
-  - [API_GenResultsTable](#api-gen-results-table) **missing
-  - [API_GetNumRecords](#api-get-num-records) **missing
-  - [API_GetRecordAsHTML](#api-get-record-as-html) **missing
-  - [API_GetRecordInfo](#api_getrecordinfo) **missing
+  - [API_GenAddRecordForm](#api-gen-add-record-form) **not yet included
+  - [API_GenResultsTable](#api-gen-results-table) **not yet included
+  - [API_GetNumRecords](#api-get-num-records) **not yet included
+  - [API_GetRecordAsHTML](#api-get-record-as-html) **not yet included
+  - [API_GetRecordInfo](#api_getrecordinfo) **not yet included
   - <b>[API_ImportFromCSV](#api_importfromcsv)</b>
   - <b>[API_PurgeRecords](#api_purgerecords)</b>
-  - [API_RunImport](#api-run-import) **missing
+  - [API_RunImport](#api-run-import) **not yet included
 
 * **Managing user access**
-  - [API_AddUserToRole](#api-add-user-to-role) **missing
+  - [API_AddUserToRole](#api-add-user-to-role) **not yet included
   - [API_ChangeUserRole](#api_changeuserrole)
-  - [API_ChangeRecordOwner](#api-change-record-owner) **missing
-  - [API_ChangeManager](#api-change-manager) **missing
-  - [API_GetRoleInfo](#api-get-role-info) **missing
+  - [API_ChangeRecordOwner](#api-change-record-owner) **not yet included
+  - [API_ChangeManager](#api-change-manager) **not yet included
+  - [API_GetRoleInfo](#api-get-role-info) **not yet included
   - [API_GetUserInfo](#api_getuserinfo)
-  - [API_GetUserRole](#api-get-user-role) **missing
-  - [API_ProvisionUser](#api-provision-user) **missing
-  - [API_RemoveUserFromRole](#api-remove-user-from-role) **missing
-  - [API_SendInvitation](#api-send-invitation) **missing
+  - [API_GetUserRole](#api-get-user-role) **not yet included
+  - [API_ProvisionUser](#api-provision-user) **not yet included
+  - [API_RemoveUserFromRole](#api-remove-user-from-role) **not yet included
+  - [API_SendInvitation](#api-send-invitation) **not yet included
   - [API_UserRoles](#api_userroles)
 
 * **Managing groups**
-  - [API_AddGroupToRole](#api-add-group-to-role) **missing
-  - [API_AddSubGroup](#api-add-sub-group) **missing
-  - [API_AddUserToGroup](#api-add-user-to-group) **missing
-  - [API_ChangeGroupInfo](#api-change-group-info) **missing
-  - [API_CopyGroup](#api-copy-group) **missing
-  - [API_CreateGroup](#api-create-group) **missing
-  - [API_DeleteGroup](#api-delete-group) **missing
-  - [API_GetGroupRole](#api-get-group-role) **missing
-  - [API_GetUsersInGroup](#api-get-users-in-group) **missing
-  - [API_GrantedDBsForGroup](#api-granted-dbs-for-group) **missing
-  - [API_GrantedGroups](#api-granted-groups) **missing
-  - [API_RemoveGroupFromRole](#api-remove-group-from-role) **missing
-  - [API_RemoveSubgroup](#api-remove-subgroup) **missing
-  - [API_RemoveUserFromGroup](#api-remove-user-from-group) **missing
+  - [API_AddGroupToRole](#api-add-group-to-role) **not yet included
+  - [API_AddSubGroup](#api-add-sub-group) **not yet included
+  - [API_AddUserToGroup](#api-add-user-to-group) **not yet included
+  - [API_ChangeGroupInfo](#api-change-group-info) **not yet included
+  - [API_CopyGroup](#api-copy-group) **not yet included
+  - [API_CreateGroup](#api-create-group) **not yet included
+  - [API_DeleteGroup](#api-delete-group) **not yet included
+  - [API_GetGroupRole](#api-get-group-role) **not yet included
+  - [API_GetUsersInGroup](#api-get-users-in-group) **not yet included
+  - [API_GrantedDBsForGroup](#api-granted-dbs-for-group) **not yet included
+  - [API_GrantedGroups](#api-granted-groups) **not yet included
+  - [API_RemoveGroupFromRole](#api-remove-group-from-role) **not yet included
+  - [API_RemoveSubgroup](#api-remove-subgroup) **not yet included
+  - [API_RemoveUserFromGroup](#api-remove-user-from-group) **not yet included
 
 * **Miscellaneous functions**
   - [API_AddReplaceDBPage](#api_addreplacedbpage)
-  - [API_GetDBPage](#api-get-db-page) **missing
+  - [API_GetDBPage](#api-get-db-page) **not yet included
   - [API_GetDBVar](#api_getdbvar)
   - [API_SetDBVar](#api_setdbvar)
 
