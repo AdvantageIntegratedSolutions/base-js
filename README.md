@@ -109,7 +109,7 @@ Related Libraries
   - [API_SetDBVar](#api_setdbvar)
 
 * **Misc Helper Functions**
-  - [GetURLParameter](#geturlparameter)
+  - [GetURLParam](#geturlparam)
   - [DateToString](#datetostring)
   - [DateTimeToString](#datetimetostring)
   - [DurationToString](#durationtostring)
