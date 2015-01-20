@@ -23,9 +23,9 @@ Related Libraries
   - [API_GetAppDTMInfo]
   - [API_GetDBInfo]
   - [API_GetSchema]
+    - [Helper_GetTableFields](#helper_gettablefields)
+    - [Helper_GetTableReports](#helper_gettablereports)
   - [API_GrantedDBs]
-  - [Helper_GetTableFields](#helper_gettablefields)
-  - [Helper_GetTableReports](#helper_gettablereports)
 
 * **Creating, copying, and deleting applications**
   - [API_CloneDatabase]
