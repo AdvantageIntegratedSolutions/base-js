@@ -37,7 +37,7 @@ Related Libraries
   - [API_UploadFile](#api-upload-file) **missing
 
 * **Secure access to QuickBase**
-  - [Get Ticket](#get-ticket)
+  - [Helper_GetTicket](#helper_getticket)
   - [API_Authenticate](#api-authenticate) **missing
   - [API_SignOut](#api-sign-out) **missing
 
@@ -122,7 +122,7 @@ Related Libraries
 var api = new Base(apptoken, async);
 ```
 
-###Get Ticket
+###Helper_GetTicket
 **getTicket() => [string] ticket**
 
 ```javascript
