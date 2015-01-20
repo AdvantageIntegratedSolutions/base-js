@@ -25,8 +25,8 @@ Related Libraries
   - [API_GetSchema](#api-get-schema) **missing
   - [API_GrantedDBs](#api-granted-dbs) **missing
   - [Get Record Info](#get-record-info) **missing
-  - [Get Table Fields](#get-table-fields) **API Helper
-  - [Get Table Reports](#get-table-reports) **API Helper
+  - [Get Table Fields](#get-table-fields)
+  - [Get Table Reports](#get-table-reports)
 
 * **Creating, copying, and deleting applications**
   - [API_CloneDatabase](#api_clone_database) **missing
@@ -58,11 +58,11 @@ Related Libraries
   - [API_DeleteRecord](#api_deleterecord)
   - [API_DoQuery](#api_doquery)
   - [API_DoQueryCount](#api-do-query-count)
-  - [Find Single Record](#find-single-record) **API helper
-  - [Find First Record](#find-first-record) **API helper
-  - [Find Last Record](#find-last-record) **API helper
-  - [Find All Records](#find-all-records) **API helper
-  - [Find RID's](#find-rids) **API helper
+  - [Find Single Record](#find-single-record)
+  - [Find First Record](#find-first-record)
+  - [Find Last Record](#find-last-record)
+  - [Find All Records](#find-all-records)
+  - [Find RID's](#find-rids)
   - [API_GenAddRecordForm](#api-gen-add-record-form) **missing
   - [API_GenResultsTable](#api-gen-results-table) **missing
   - [API_GetNumRecords](#api-get-num-records) **missing
