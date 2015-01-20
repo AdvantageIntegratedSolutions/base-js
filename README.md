@@ -23,10 +23,9 @@ Related Libraries
   - [API_GetAppDTMInfo](#api-get-app-dtm-info) **missing
   - [API_GetDBInfo](#api-get-db-info) **missing
   - [API_GetSchema](#api-get-schema) **missing
+  - [Helper_GetTableFields](#helper_gettablefields)
+  - [Helper_GetTableReports](#helper_gettablereports)
   - [API_GrantedDBs](#api-granted-dbs) **missing
-  - [Get Record Info](#get-record-info) **missing
-  - [Get Table Fields](#get-table-fields)
-  - [Get Table Reports](#get-table-reports)
 
 * **Creating, copying, and deleting applications**
   - [API_CloneDatabase](#api_clone_database) **missing
@@ -331,14 +330,14 @@ var fields = api.getRecordInfo("abcd1234", "098");
     }
 ````
 
-###Get Table Fields
+###HELPER_GetTableFields
 **getTableFields(dbid)** => **{obj} fields**
 
 ```javascript
 var fields = api.getTableFields("abcd1234");
 ````
 
-###Get Table Reports
+###HELPER_GetTableReports
 **getTableReports(dbid)** => **{obj} fields**
 
 ```javascript
