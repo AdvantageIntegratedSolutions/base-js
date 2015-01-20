@@ -61,7 +61,7 @@ Related Libraries
     - [Last](#last)
     - [All](#all)
     - [GetRids](#getrids)
-  - [API_DoQueryCount](#api-doquerycount)
+  - [API_DoQueryCount](#api_doquerycount)
   - [API_GenAddRecordForm]
   - [API_GenResultsTable]
   - [API_GetNumRecords]
@@ -101,7 +101,9 @@ Related Libraries
   - [API_RemoveUserFromGroup]
 
 * **Miscellaneous functions**
-  - [API_AddReplaceDBPage](#api_addreplacedbpage)
+  - [API_AddReplaceDBPage]
+    - [UploadPage](#uploadpage)
+    - [DeletePage](#deletepage)
   - [API_GetDBPage]
   - [API_GetDBVar](#api_getdbvar)
   - [API_SetDBVar](#api_setdbvar)
@@ -152,7 +154,7 @@ var value = api.getDBVar("bdjwmnj33", "appName");
 => "Project Manager"
 ```
 
-###API_AddReplaceDBPage
+###UploadPage
 **uploadPage(dbid, id, name, body) => [string] pageId**
 
 ```javascript
@@ -160,7 +162,7 @@ var pageId = api.uploadPage("bdjwmnj33", null, "test.txt", "hello world");
 => "6"
 ```
 
-###Delete Page
+###DeletePage
 **deletePage(dbid, id) => [bool] success?**
 
 ```javascript
@@ -263,7 +265,7 @@ var callSuccessful = api.editRecord("abcd1234", 136, updatedRecord);
 => false
 ````
 
-###Copy Records
+###API_CopyMasterDetail
 **copyMasterDetail(dbid, options)** => **[int] # of records copied**
 ```javascript
 var numberCopied = api.copyMasterDetail("abcd1234", {destrid: "0", sourcerid: "1204", copyfid: "8"});
