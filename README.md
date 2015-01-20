@@ -115,8 +115,8 @@ Related Libraries
   - [Upload Page](#upload-page) **missing
   - [Delete Page](#delete-page) **missing
   - [API_GetDBPage](#api-get-db-page) **missing
-  - [API_GetDBVar](#api-get-db-var) **missing
-  - [API_SetDBVar](#api-set-db-var) **missing
+  - [API_GetDBVar](#api_getdbvar) **missing
+  - [API_SetDBVar](#api_setdbvar) **missing
   - [Set Var](#set-var) **missing
   - [Get Var](#get-var) **missing
 
@@ -151,19 +151,19 @@ var ticket = api.getTicket(function(ticket){
 });
 ```
 
-###Set Var
-**setVar(dbid, name, value) => [bool] success?**
+###API_SetDBVar
+**setDBVar(dbid, name, value) => [bool] success?**
 
 ```javascript
-var callSuccessful = api.setVar("bdjwmnj33", "appName", "Project Manager");
+var callSuccessful = api.setDBVar("bdjwmnj33", "appName", "Project Manager");
 => true
 ```
 
-###Get Var
-**getVar(dbid, name) => [string] value**
+###API_GetDBVar
+**getDBVar(dbid, name) => [string] value**
 
 ```javascript
-var value = api.getVar("bdjwmnj33", "appName");
+var value = api.getDBVar("bdjwmnj33", "appName");
 => "Project Manager"
 ```
 
