@@ -15,7 +15,7 @@ Related Libraries
 ##Documentation
 
 * **Main**
-  - <b>[New Connection](#new-connection)</b>
+  - [New Connection](#new-connection)
 
 * **Application and table metadata**
   - [API_FindDBByName]
@@ -50,12 +50,12 @@ Related Libraries
   - [API_SetKeyField]
 
 * **Record (data) management**
-  - <b>[API_AddRecord](#api_addrecord)</b>
-  - <b>[API_EditRecord](#api_editrecord)</b>
+  - [API_AddRecord](#api_addrecord)
+  - [API_EditRecord](#api_editrecord)
   - [API_ChangeRecordOwner]
   - [API_CopyMasterDetail](#api_copymasterdetail)
   - [API_DeleteRecord](#api_deleterecord)
-  - <b>[API_DoQuery](#api_doquery)</b>
+  - [API_DoQuery](#api_doquery)
   - [API_DoQueryCount](#api-do-query-count)
   - [Helper_Find](#helper_find)
   - [Helper_First](#helper_first)
@@ -67,8 +67,8 @@ Related Libraries
   - [API_GetNumRecords]
   - [API_GetRecordAsHTML]
   - [API_GetRecordInfo]
-  - <b>[API_ImportFromCSV](#api_importfromcsv)</b>
-  - <b>[API_PurgeRecords](#api_purgerecords)</b>
+  - [API_ImportFromCSV](#api_importfromcsv)
+  - [API_PurgeRecords](#api_purgerecords)
   - [API_RunImport]
 
 * **Managing user access**
