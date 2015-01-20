@@ -73,7 +73,7 @@ Related Libraries
   - [API_GetRecordAsHTML](#api-get-record-as-html) **missing
   - [API_GetRecordInfo](#api-get-record-info) **missing
   - [API_ImportFromCSV](#api-import-from-csv) **missing
-  - [API_PurgeRecords](#api-purge-records) **missing
+  - [API_PurgeRecords](#api_purgeRecords) **missing
   - [API_RunImport](#api-run-import) **missing
   - [Import Records](#import-records) **missing
   - [Add Record](#add-record) **missing
