@@ -54,7 +54,7 @@ Related Libraries
   - [API_AddRecord](#api_addrecord)
   - [API_EditRecord](#api_editrecord)
   - [API_ChangeRecordOwner](#api-change-record-owner) **missing
-  - [API_CopyMasterDetail](#api-copy-master-detail) **missing
+  - [API_CopyMasterDetail](#api_copymasterdetail)
   - [API_DeleteRecord](#api_deleterecord)
   - [API_DoQuery](#api_doquery)
   - [API_DoQueryCount](#api-do-query-count)
@@ -68,11 +68,9 @@ Related Libraries
   - [API_GetNumRecords](#api-get-num-records) **missing
   - [API_GetRecordAsHTML](#api-get-record-as-html) **missing
   - [API_GetRecordInfo](#api-get-record-info) **missing
-  - [API_ImportFromCSV](#api-import-from-csv) **missing
+  - [API_ImportFromCSV](#api_importfromcsv)
   - [API_PurgeRecords](#api_purgerecords)
   - [API_RunImport](#api-run-import) **missing
-  - [Import Records](#import-records) **missing
-  - [Copy Records](#copy-records) **missing
 
 * **Managing user access**
   - [API_AddUserToRole](#api-add-user-to-role) **missing
@@ -238,8 +236,8 @@ var rids = api.findRids("bdjwmnj33", {"query": "{'3'.GT.'100'}"});
 ```
 
 ##Adding/Updating Records
-###Import Records
-**importRecords(dbid, data)** => **[array] new rids**
+###API_ImportFromCSV
+**importFromCSV(dbid, data)** => **[array] new rids**
 
 ```javascript
 var new_data = [
@@ -248,7 +246,7 @@ var new_data = [
   {7: "Animal Farm", 8: "George Orwell"}
 ];
 
-rids = api.importRecords("abcd1234", new_data);
+rids = api.importFromCSV("abcd1234", new_data);
 => [13, 14, 15]
 ````
 
@@ -271,9 +269,9 @@ var callSuccessful = api.editRecord("abcd1234", 136, updatedRecord);
 ````
 
 ###Copy Records
-**copyRecords(dbid, options)** => **[int] # of records copied**
+**copyMasterDetail(dbid, options)** => **[int] # of records copied**
 ```javascript
-var numberCopied = api.copyRecords("abcd1234", {destrid: "0", sourcerid: "1204", copyfid: "8"});
+var numberCopied = api.copyMasterDetail("abcd1234", {destrid: "0", sourcerid: "1204", copyfid: "8"});
 => 1
 ````
 
