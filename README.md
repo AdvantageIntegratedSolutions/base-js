@@ -61,7 +61,7 @@ Related Libraries
     - [Last](#last)
     - [All](#all)
     - [GetRids](#getrids)
-  - [API_DoQueryCount](#api-do-query-count)
+  - [API_DoQueryCount](#api-doquerycount)
   - [API_GenAddRecordForm]
   - [API_GenResultsTable]
   - [API_GetNumRecords]
