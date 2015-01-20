@@ -18,41 +18,41 @@ Related Libraries
   - <b>[New Connection](#new-connection)</b>
 
 * **Application and table metadata**
-  - [API_FindDBByName](#api-find-db-by-name) **not yet included
-  - [API_GetAncestorInfo](#api-get-ancestor-info) **not yet included
-  - [API_GetAppDTMInfo](#api-get-app-dtm-info) **not yet included
-  - [API_GetDBInfo](#api-get-db-info) **not yet included
-  - [API_GetSchema](#api-get-schema) **not yet included
+  - [API_FindDBByName]
+  - [API_GetAncestorInfo]
+  - [API_GetAppDTMInfo]
+  - [API_GetDBInfo]
+  - [API_GetSchema]
   - [Helper_GetTableFields](#helper_gettablefields)
   - [Helper_GetTableReports](#helper_gettablereports)
-  - [API_GrantedDBs](#api-granted-dbs) **not yet included
+  - [API_GrantedDBs]
 
 * **Creating, copying, and deleting applications**
-  - [API_CloneDatabase](#api_clone_database) **not yet included
-  - [API_CreateDatabase](#api-create-database) **not yet included
-  - [API_DeleteDatabase](#api-delete-database) **not yet included
-  - [API_RenameApp](#api-rename-app) **not yet included
+  - [API_CloneDatabase]
+  - [API_CreateDatabase]
+  - [API_DeleteDatabase]
+  - [API_RenameApp]
 
 * **Uploading and downloading files**
-  - [API_UploadFile](#api-upload-file) **not yet included
+  - [API_UploadFile]
 
 * **Secure access to QuickBase**
   - [Helper_GetTicket](#helper_getticket)
-  - [API_Authenticate](#api-authenticate) **not yet included
-  - [API_SignOut](#api-sign-out) **not yet included
+  - [API_Authenticate]
+  - [API_SignOut]
 
 * **Table and field management**
-  - [API_AddField](#api-add-field) **not yet included
-  - [API_CreateTable](#api-create-table) **not yet included
-  - [API_DeleteField](#api-delete-field) **not yet included
-  - [API_FieldAddChoices](#api-field-add-choices) **not yet included
-  - [API_SetFieldProperties](#api-set-field-properties) **not yet included
-  - [API_SetKeyField](#api-set-key-field) **not yet included
+  - [API_AddField]
+  - [API_CreateTable]
+  - [API_DeleteField]
+  - [API_FieldAddChoices]
+  - [API_SetFieldProperties]
+  - [API_SetKeyField]
 
 * **Record (data) management**
   - <b>[API_AddRecord](#api_addrecord)</b>
   - <b>[API_EditRecord](#api_editrecord)</b>
-  - [API_ChangeRecordOwner](#api-change-record-owner) **not yet included
+  - [API_ChangeRecordOwner]
   - [API_CopyMasterDetail](#api_copymasterdetail)
   - [API_DeleteRecord](#api_deleterecord)
   - <b>[API_DoQuery](#api_doquery)</b>
@@ -62,47 +62,47 @@ Related Libraries
   - [Helper_Last](#helper_last)
   - [Helper_All](#helper_all)
   - [Helper_GetRids](#helper_getrids)
-  - [API_GenAddRecordForm](#api-gen-add-record-form) **not yet included
-  - [API_GenResultsTable](#api-gen-results-table) **not yet included
-  - [API_GetNumRecords](#api-get-num-records) **not yet included
-  - [API_GetRecordAsHTML](#api-get-record-as-html) **not yet included
-  - [API_GetRecordInfo](#api_getrecordinfo) **not yet included
+  - [API_GenAddRecordForm]
+  - [API_GenResultsTable]
+  - [API_GetNumRecords]
+  - [API_GetRecordAsHTML]
+  - [API_GetRecordInfo]
   - <b>[API_ImportFromCSV](#api_importfromcsv)</b>
   - <b>[API_PurgeRecords](#api_purgerecords)</b>
-  - [API_RunImport](#api-run-import) **not yet included
+  - [API_RunImport]
 
 * **Managing user access**
-  - [API_AddUserToRole](#api-add-user-to-role) **not yet included
+  - [API_AddUserToRole]
   - [API_ChangeUserRole](#api_changeuserrole)
-  - [API_ChangeRecordOwner](#api-change-record-owner) **not yet included
-  - [API_ChangeManager](#api-change-manager) **not yet included
-  - [API_GetRoleInfo](#api-get-role-info) **not yet included
+  - [API_ChangeRecordOwner]
+  - [API_ChangeManager]
+  - [API_GetRoleInfo]
   - [API_GetUserInfo](#api_getuserinfo)
-  - [API_GetUserRole](#api-get-user-role) **not yet included
-  - [API_ProvisionUser](#api-provision-user) **not yet included
-  - [API_RemoveUserFromRole](#api-remove-user-from-role) **not yet included
-  - [API_SendInvitation](#api-send-invitation) **not yet included
+  - [API_GetUserRole]
+  - [API_ProvisionUser]
+  - [API_RemoveUserFromRole]
+  - [API_SendInvitation]
   - [API_UserRoles](#api_userroles)
 
 * **Managing groups**
-  - [API_AddGroupToRole](#api-add-group-to-role) **not yet included
-  - [API_AddSubGroup](#api-add-sub-group) **not yet included
-  - [API_AddUserToGroup](#api-add-user-to-group) **not yet included
-  - [API_ChangeGroupInfo](#api-change-group-info) **not yet included
-  - [API_CopyGroup](#api-copy-group) **not yet included
-  - [API_CreateGroup](#api-create-group) **not yet included
-  - [API_DeleteGroup](#api-delete-group) **not yet included
-  - [API_GetGroupRole](#api-get-group-role) **not yet included
-  - [API_GetUsersInGroup](#api-get-users-in-group) **not yet included
-  - [API_GrantedDBsForGroup](#api-granted-dbs-for-group) **not yet included
-  - [API_GrantedGroups](#api-granted-groups) **not yet included
-  - [API_RemoveGroupFromRole](#api-remove-group-from-role) **not yet included
-  - [API_RemoveSubgroup](#api-remove-subgroup) **not yet included
-  - [API_RemoveUserFromGroup](#api-remove-user-from-group) **not yet included
+  - [API_AddGroupToRole]
+  - [API_AddSubGroup]
+  - [API_AddUserToGroup]
+  - [API_ChangeGroupInfo]
+  - [API_CopyGroup]
+  - [API_CreateGroup]
+  - [API_DeleteGroup]
+  - [API_GetGroupRole]
+  - [API_GetUsersInGroup]
+  - [API_GrantedDBsForGroup]
+  - [API_GrantedGroups]
+  - [API_RemoveGroupFromRole]
+  - [API_RemoveSubgroup]
+  - [API_RemoveUserFromGroup]
 
 * **Miscellaneous functions**
   - [API_AddReplaceDBPage](#api_addreplacedbpage)
-  - [API_GetDBPage](#api-get-db-page) **not yet included
+  - [API_GetDBPage]
   - [API_GetDBVar](#api_getdbvar)
   - [API_SetDBVar](#api_setdbvar)
 
