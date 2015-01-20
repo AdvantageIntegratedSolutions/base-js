@@ -19,107 +19,107 @@ Related Libraries
   - [Get Ticket](#get-ticket)
 
 * **Application and table metadata**
-  - [API_FindDBByName](#api-find-db-by-name) **not yet included
-  - [API_GetAncestorInfo](#api-get-ancestor-info)
-  - [API_GetAppDTMInfo](#api-get-app-dtm-info)
-  - [API_GetDBInfo](#api-get-db-info)
-  - [API_GetSchema](#api-get-schema)
-  - [API_GrantedDBs](#api-granted-dbs)
-  - [Get Record Info](#get-record-info)
-  - [Get Table Fields](#get-table-fields)
-  - [Get Table Reports](#get-table-reports)
+  - [API_FindDBByName](#api-find-db-by-name) **missing
+  - [API_GetAncestorInfo](#api-get-ancestor-info) **missing
+  - [API_GetAppDTMInfo](#api-get-app-dtm-info) **missing
+  - [API_GetDBInfo](#api-get-db-info) **missing
+  - [API_GetSchema](#api-get-schema) **missing
+  - [API_GrantedDBs](#api-granted-dbs) **missing
+  - [Get Record Info](#get-record-info) **missing
+  - [Get Table Fields](#get-table-fields) **missing
+  - [Get Table Reports](#get-table-reports) **missing
 
 * **Creating, copying, and deleting applications**
-  - [API_CloneDatabase](#api_clone_database)
-  - [API_CreateDatabase](#api-create-database)
-  - [API_DeleteDatabase](#api-delete-database)
-  - [API_RenameApp](#api-rename-app)
+  - [API_CloneDatabase](#api_clone_database) **missing
+  - [API_CreateDatabase](#api-create-database) **missing
+  - [API_DeleteDatabase](#api-delete-database) **missing
+  - [API_RenameApp](#api-rename-app) **missing
 
 * **Uploading and downloading files**
-  - [API_AddRecord](#api-add-record)
-  - [API_EditRecord](#api-edit-record)
-  - [API_UploadFile](#api-upload-file)
+  - [API_AddRecord](#api-add-record) **missing
+  - [API_EditRecord](#api-edit-record) **missing
+  - [API_UploadFile](#api-upload-file) **missing
 
 * **Secure access to QuickBase**
-  - [API_Authenticate](#api-authenticate)
-  - [API_SignOut](#api-sign-out)
+  - [API_Authenticate](#api-authenticate) **missing
+  - [API_SignOut](#api-sign-out) **missing
 
 * **Table and field management**
-  - [API_AddField](#api-add-field)
-  - [API_CreateTable](#api-create-table)
-  - [API_DeleteField](#api-delete-field)
-  - [API_FieldAddChoices](#api-field-add-choices)
-  - [API_SetFieldProperties](#api-set-field-properties)
-  - [API_SetKeyField](#api-set-key-field)
+  - [API_AddField](#api-add-field) **missing
+  - [API_CreateTable](#api-create-table) **missing
+  - [API_DeleteField](#api-delete-field) **missing
+  - [API_FieldAddChoices](#api-field-add-choices) **missing
+  - [API_SetFieldProperties](#api-set-field-properties) **missing
+  - [API_SetKeyField](#api-set-key-field) **missing
 
 * **Record (data) management**
-  - [API_AddRecord](#api-add-record)
-  - [API_ChangeRecordOwner](#api-change-record-owner)
-  - [API_CopyMasterDetail](#api-copy-master-detail)
-  - [API_DeleteRecord](#api-delete-record)
-  - [API_DoQuery](#api-do-query)
-  - [API_DoQueryCount](#api-do-query-count)
-  - [Query Records](#query-records)
-  - [Count # of Records](#count-queried-records)
-  - [Find Single Record](#find-single-record)
-  - [Find First Record](#find-first-record)
-  - [Find Last Record](#find-last-record)
-  - [Find All Records](#find-all-records)
-  - [Find RID's](#find-rids)
-  - [API_EditRecord](#api-edit-record)
-  - [API_GenAddRecordForm](#api-gen-add-record-form)
-  - [API_GenResultsTable](#api-gen-results-table)
-  - [API_GetNumRecords](#api-get-num-records)
-  - [API_GetRecordAsHTML](#api-get-record-as-html)
-  - [API_GetRecordInfo](#api-get-record-info)
-  - [API_ImportFromCSV](#api-import-from-csv)
-  - [API_PurgeRecords](#api-purge-records)
-  - [API_RunImport](#api-run-import)
-  - [Import Records](#import-records)
-  - [Add Record](#add-record)
-  - [Edit Record](#edit-record)
-  - [Copy Records](#copy-records)
-  - [Delete Record](#delete-record)
-  - [Delete Mass Records](#delete-mass-records)
+  - [API_AddRecord](#api-add-record) **missing
+  - [API_ChangeRecordOwner](#api-change-record-owner) **missing
+  - [API_CopyMasterDetail](#api-copy-master-detail) **missing
+  - [API_DeleteRecord](#api-delete-record) **missing
+  - [API_DoQuery](#api-do-query) **missing
+  - [API_DoQueryCount](#api-do-query-count) **missing
+  - [Query Records](#query-records) **missing
+  - [Count # of Records](#count-queried-records) **missing
+  - [Find Single Record](#find-single-record) **missing
+  - [Find First Record](#find-first-record) **missing
+  - [Find Last Record](#find-last-record) **missing
+  - [Find All Records](#find-all-records) **missing
+  - [Find RID's](#find-rids) **missing
+  - [API_EditRecord](#api-edit-record) **missing
+  - [API_GenAddRecordForm](#api-gen-add-record-form) **missing
+  - [API_GenResultsTable](#api-gen-results-table) **missing
+  - [API_GetNumRecords](#api-get-num-records) **missing
+  - [API_GetRecordAsHTML](#api-get-record-as-html) **missing
+  - [API_GetRecordInfo](#api-get-record-info) **missing
+  - [API_ImportFromCSV](#api-import-from-csv) **missing
+  - [API_PurgeRecords](#api-purge-records) **missing
+  - [API_RunImport](#api-run-import) **missing
+  - [Import Records](#import-records) **missing
+  - [Add Record](#add-record) **missing
+  - [Edit Record](#edit-record) **missing
+  - [Copy Records](#copy-records) **missing
+  - [Delete Record](#delete-record) **missing
+  - [Delete Mass Records](#delete-mass-records) **missing
 
 * **Managing user access**
-  - [API_AddUserToRole](#api-add-user-to-role)
-  - [API_ChangeUserRole](#api-change-user-role)
-  - [API_ChangeRecordOwner](#api-change-record-owner)
-  - [API_ChangeManager](#api-change-manager)
-  - [API_GetRoleInfo](#api-get-role-info)
-  - [API_GetUserInfo](#api-get-user-info)
-  - [API_GetUserRole](#api-get-user-role)
-  - [API_ProvisionUser](#api-provision-user)
-  - [API_RemoveUserFromRole](#api-remove-user-from-role)
-  - [API_SendInvitation](#api-send-invitation)
-  - [API_UserRoles](#api-user-roles)
+  - [API_AddUserToRole](#api-add-user-to-role) **missing
+  - [API_ChangeUserRole](#api-change-user-role) **missing
+  - [API_ChangeRecordOwner](#api-change-record-owner) **missing
+  - [API_ChangeManager](#api-change-manager) **missing
+  - [API_GetRoleInfo](#api-get-role-info) **missing
+  - [API_GetUserInfo](#api-get-user-info) **missing
+  - [API_GetUserRole](#api-get-user-role) **missing
+  - [API_ProvisionUser](#api-provision-user) **missing
+  - [API_RemoveUserFromRole](#api-remove-user-from-role) **missing
+  - [API_SendInvitation](#api-send-invitation) **missing
+  - [API_UserRoles](#api-user-roles) **missing
 
 * **Managing groups**
-  - [API_AddGroupToRole](#api-add-group-to-role)
-  - [API_AddSubGroup](#api-add-sub-group)
-  - [API_AddUserToGroup](#api-add-user-to-group)
-  - [API_ChangeGroupInfo](#api-change-group-info)
-  - [API_CopyGroup](#api-copy-group)
-  - [API_CreateGroup](#api-create-group)
-  - [API_DeleteGroup](#api-delete-group)
-  - [API_GetGroupRole](#api-get-group-role)
-  - [API_GetUsersInGroup](#api-get-users-in-group)
-  - [API_GrantedDBsForGroup](#api-granted-dbs-for-group)
-  - [API_GrantedGroups](#api-granted-groups)
-  - [API_RemoveGroupFromRole](#api-remove-group-from-role)
-  - [API_RemoveSubgroup](#api-remove-subgroup)
-  - [API_RemoveUserFromGroup](#api-remove-user-from-group)
+  - [API_AddGroupToRole](#api-add-group-to-role) **missing
+  - [API_AddSubGroup](#api-add-sub-group) **missing
+  - [API_AddUserToGroup](#api-add-user-to-group) **missing
+  - [API_ChangeGroupInfo](#api-change-group-info) **missing
+  - [API_CopyGroup](#api-copy-group) **missing
+  - [API_CreateGroup](#api-create-group) **missing
+  - [API_DeleteGroup](#api-delete-group) **missing
+  - [API_GetGroupRole](#api-get-group-role) **missing
+  - [API_GetUsersInGroup](#api-get-users-in-group) **missing
+  - [API_GrantedDBsForGroup](#api-granted-dbs-for-group) **missing
+  - [API_GrantedGroups](#api-granted-groups) **missing
+  - [API_RemoveGroupFromRole](#api-remove-group-from-role) **missing
+  - [API_RemoveSubgroup](#api-remove-subgroup) **missing
+  - [API_RemoveUserFromGroup](#api-remove-user-from-group) **missing
 
 * **Miscellaneous functions**
-  - [API_AddReplaceDBPage](#api-add-replace-db-page)
-  - [Upload Page](#upload-page)
-  - [Delete Page](#delete-page)
-  - [API_GetDBPage](#api-get-db-page)
-  - [API_GetDBVar](#api-get-db-var)
-  - [API_SetDBVar](#api-set-db-var)
-  - [Set Var](#set-var)
-  - [Get Var](#get-var)
+  - [API_AddReplaceDBPage](#api-add-replace-db-page) **missing
+  - [Upload Page](#upload-page) **missing
+  - [Delete Page](#delete-page) **missing
+  - [API_GetDBPage](#api-get-db-page) **missing
+  - [API_GetDBVar](#api-get-db-var) **missing
+  - [API_SetDBVar](#api-set-db-var) **missing
+  - [Set Var](#set-var) **missing
+  - [Get Var](#get-var) **missing
 
 * **JS Helper Functions**
   - [Get URL Parameter](#get-url-parameter)
