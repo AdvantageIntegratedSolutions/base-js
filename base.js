@@ -579,7 +579,7 @@ function Base(token, async){
     return this.doQuery(dbid, params, callback, this.handle);
   };
 
-  this.importRecords = function(dbid, csvArray, callback){
+  this.importFromCSV = function(dbid, csvArray, callback){
     this.handle = function(response){
       return BaseConnectInstance.getNewRids(response);
     };
@@ -654,7 +654,7 @@ function Base(token, async){
     return BaseConnectInstance.post(data, callback, this.handle);
   };
 
-  this.copyRecords = function(dbid, params, callback){
+  this.copyMasterDetail = function(dbid, params, callback){
     this.handle = function(response){
       return BaseConnectInstance.getNode(response, "numCreated");
     };

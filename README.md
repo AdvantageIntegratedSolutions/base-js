@@ -74,16 +74,16 @@ Related Libraries
 
 * **Managing user access**
   - [API_AddUserToRole](#api-add-user-to-role) **missing
-  - [API_ChangeUserRole](#api-change-user-role) **missing
+  - [API_ChangeUserRole](#api_changeuserrole)
   - [API_ChangeRecordOwner](#api-change-record-owner) **missing
   - [API_ChangeManager](#api-change-manager) **missing
   - [API_GetRoleInfo](#api-get-role-info) **missing
-  - [API_GetUserInfo](#api-get-user-info) **missing
+  - [API_GetUserInfo](#api_getuserinfo)
   - [API_GetUserRole](#api-get-user-role) **missing
   - [API_ProvisionUser](#api-provision-user) **missing
   - [API_RemoveUserFromRole](#api-remove-user-from-role) **missing
   - [API_SendInvitation](#api-send-invitation) **missing
-  - [API_UserRoles](#api-user-roles) **missing
+  - [API_UserRoles](#api_userroles)
 
 * **Managing groups**
   - [API_AddGroupToRole](#api-add-group-to-role) **missing
@@ -291,7 +291,7 @@ var numberOfRecordsDeleted = api.purgeRecords("abcd1234", "{3.EX.'123'}");
 ````
 
 ##Users
-###Get User Information
+###API_GetUserInfo
 **getUserInfo(email)** => **[json] user**
 ######Ignore email parameter to get current user info
 
@@ -317,7 +317,7 @@ var userInfo = api.getUserRoles("abcd1234");
   ]
 ````
 
-###Change User Role
+###API_ChangeUserRole
 **changeUserRole(dbid, userId, roleId, newRoleId, callback)** => **[bool] success?**
 
 ```javascript
