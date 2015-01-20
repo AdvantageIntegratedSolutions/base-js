@@ -57,11 +57,11 @@ Related Libraries
   - [API_DeleteRecord](#api_deleterecord)
   - <b>[API_DoQuery](#api_doquery)</b>
   - [API_DoQueryCount](#api-do-query-count)
-  - [Find Single Record](#find-single-record)
-  - [Find First Record](#find-first-record)
-  - [Find Last Record](#find-last-record)
-  - [Find All Records](#find-all-records)
-  - [Find RID's](#find-rids)
+  - [Find Single Record](#find-single-record) - Helper
+  - [Find First Record](#find-first-record) - Helper
+  - [Find Last Record](#find-last-record) - Helper
+  - [Find All Records](#find-all-records) - Helper
+  - [Find RID's](#find-rids) - Helper
   - [API_GenAddRecordForm](#api-gen-add-record-form) **missing
   - [API_GenResultsTable](#api-gen-results-table) **missing
   - [API_GetNumRecords](#api-get-num-records) **missing
