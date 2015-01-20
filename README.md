@@ -36,8 +36,6 @@ Related Libraries
   - [API_RenameApp](#api-rename-app) **missing
 
 * **Uploading and downloading files**
-  - [API_AddRecord](#api-add-record) **missing
-  - [API_EditRecord](#api-edit-record) **missing
   - [API_UploadFile](#api-upload-file) **missing
 
 * **Secure access to QuickBase**
@@ -53,7 +51,8 @@ Related Libraries
   - [API_SetKeyField](#api-set-key-field) **missing
 
 * **Record (data) management**
-  - [API_AddRecord](#api-add-record) **missing
+  - [API_AddRecord](#api_addrecord)
+  - [API_EditRecord](#api_editrecord)
   - [API_ChangeRecordOwner](#api-change-record-owner) **missing
   - [API_CopyMasterDetail](#api-copy-master-detail) **missing
   - [API_DeleteRecord](#api-delete-record) **missing
@@ -66,7 +65,6 @@ Related Libraries
   - [Find Last Record](#find-last-record) **missing
   - [Find All Records](#find-all-records) **missing
   - [Find RID's](#find-rids) **missing
-  - [API_EditRecord](#api-edit-record) **missing
   - [API_GenAddRecordForm](#api-gen-add-record-form) **missing
   - [API_GenResultsTable](#api-gen-results-table) **missing
   - [API_GetNumRecords](#api-get-num-records) **missing
@@ -76,8 +74,6 @@ Related Libraries
   - [API_PurgeRecords](#api_purgerecords)
   - [API_RunImport](#api-run-import) **missing
   - [Import Records](#import-records) **missing
-  - [Add Record](#add-record) **missing
-  - [Edit Record](#edit-record) **missing
   - [Copy Records](#copy-records) **missing
   - [Delete Record](#delete-record) **missing
 
@@ -117,8 +113,6 @@ Related Libraries
   - [API_GetDBPage](#api-get-db-page) **missing
   - [API_GetDBVar](#api_getdbvar)
   - [API_SetDBVar](#api_setdbvar)
-  - [Set Var](#set-var) **missing
-  - [Get Var](#get-var) **missing
 
 * **JS Helper Functions**
   - [Get URL Parameter](#get-url-parameter)
@@ -261,7 +255,7 @@ rids = api.importRecords("abcd1234", new_data);
 => [13, 14, 15]
 ````
 
-###Add Record
+###API_AddRecord
 **addRecord(dbid, newRecord)** => **[int] new rid**
 
 ```javascript
@@ -270,7 +264,7 @@ var newRid = api.addRecord("abcd1234", newRecord);
 => 13
 ````
 
-###Edit Record
+###API_EditRecord
 **editRecord(dbid, rid, updatedRecord )** => **[bool] success?**
 
 ```javascript
