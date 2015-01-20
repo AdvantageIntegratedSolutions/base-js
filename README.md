@@ -102,9 +102,7 @@ Related Libraries
   - [API_RemoveUserFromGroup](#api-remove-user-from-group) **missing
 
 * **Miscellaneous functions**
-  - [API_AddReplaceDBPage](#api-add-replace-db-page) **missing
-  - [Upload Page](#upload-page) **missing
-  - [Delete Page](#delete-page) **missing
+  - [API_AddReplaceDBPage](#api-add-replace-db-page)
   - [API_GetDBPage](#api-get-db-page) **missing
   - [API_GetDBVar](#api_getdbvar)
   - [API_SetDBVar](#api_setdbvar)
@@ -156,7 +154,7 @@ var value = api.getDBVar("bdjwmnj33", "appName");
 => "Project Manager"
 ```
 
-###Upload Page
+###API_AddReplaceDBPage
 **uploadPage(dbid, id, name, body) => [string] pageId**
 
 ```javascript
