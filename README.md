@@ -102,7 +102,7 @@ Related Libraries
   - [API_RemoveUserFromGroup](#api-remove-user-from-group) **missing
 
 * **Miscellaneous functions**
-  - [API_AddReplaceDBPage](#api-add-replace-db-page)
+  - [API_AddReplaceDBPage](#api_addreplacedbpage)
   - [API_GetDBPage](#api-get-db-page) **missing
   - [API_GetDBVar](#api_getdbvar)
   - [API_SetDBVar](#api_setdbvar)
