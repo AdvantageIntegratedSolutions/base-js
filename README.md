@@ -56,6 +56,11 @@ Related Libraries
   - [API_CopyMasterDetail](#api_copymasterdetail)
   - [API_DeleteRecord](#api_deleterecord)
   - [API_DoQuery](#api_doquery)
+    - [Helper_Find](#helper_find)
+    - [Helper_First](#helper_first)
+    - [Helper_Last](#helper_last)
+    - [Helper_All](#helper_all)
+    - [Helper_GetRids](#helper_getrids)
   - [API_DoQueryCount](#api-do-query-count)
   - [API_GenAddRecordForm]
   - [API_GenResultsTable]
@@ -65,11 +70,6 @@ Related Libraries
   - [API_ImportFromCSV](#api_importfromcsv)
   - [API_PurgeRecords](#api_purgerecords)
   - [API_RunImport]
-  - [Helper_Find](#helper_find)
-  - [Helper_First](#helper_first)
-  - [Helper_Last](#helper_last)
-  - [Helper_All](#helper_all)
-  - [Helper_GetRids](#helper_getrids)
 
 * **Managing user access**
   - [API_AddUserToRole]
