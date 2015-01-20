@@ -23,8 +23,8 @@ Related Libraries
   - [API_GetAppDTMInfo]
   - [API_GetDBInfo]
   - [API_GetSchema]
-    - [Helper_GetTableFields](#helper_gettablefields)
-    - [Helper_GetTableReports](#helper_gettablereports)
+    - [GetTableFields](#gettablefields)
+    - [GetTableReports](#gettablereports)
   - [API_GrantedDBs]
 
 * **Creating, copying, and deleting applications**
@@ -39,7 +39,7 @@ Related Libraries
 * **Secure access to QuickBase**
   - [API_Authenticate]
   - [API_SignOut]
-  - [Helper_GetTicket](#helper_getticket)
+  - [GetTicket](#getticket)
 
 * **Table and field management**
   - [API_AddField]
@@ -56,11 +56,11 @@ Related Libraries
   - [API_CopyMasterDetail](#api_copymasterdetail)
   - [API_DeleteRecord](#api_deleterecord)
   - [API_DoQuery](#api_doquery)
-    - [Helper_Find](#helper_find)
-    - [Helper_First](#helper_first)
-    - [Helper_Last](#helper_last)
-    - [Helper_All](#helper_all)
-    - [Helper_GetRids](#helper_getrids)
+    - [Find](#find)
+    - [First](#first)
+    - [Last](#last)
+    - [All](#all)
+    - [GetRids](#getrids)
   - [API_DoQueryCount](#api-do-query-count)
   - [API_GenAddRecordForm]
   - [API_GenResultsTable]
@@ -107,14 +107,14 @@ Related Libraries
   - [API_SetDBVar](#api_setdbvar)
 
 * **Misc Helper Functions**
-  - [Helper_GetURLParameter](#helper_geturlparameter)
-  - [Helper_DateToString](#helper_datetostring)
-  - [Helper_DateTimeToString](#helper_datetimetostring)
-  - [Helper_DurationToString](#helper_durationtostring)
-  - [Helper_TimeOfDayToString](#helper_timeofdaytostring)
-  - [Helper_RedirectToEditForm](#helper_redirecttoeditform)
-  - [Helper_RedirectToViewForm](#helper_redirecttoviewform)
-  - [Helper_DownloadFile](#helper_downloadfile)
+  - [GetURLParameter](#geturlparameter)
+  - [DateToString](#datetostring)
+  - [DateTimeToString](#datetimetostring)
+  - [DurationToString](#durationtostring)
+  - [TimeOfDayToString](#timeofdaytostring)
+  - [RedirectToEditForm](#redirecttoeditform)
+  - [RedirectToViewForm](#redirecttoviewform)
+  - [DownloadFile](#downloadfile)
 
 ###New Connection
 
@@ -122,7 +122,7 @@ Related Libraries
 var api = new Base(apptoken, async);
 ```
 
-###Helper_GetTicket
+###GetTicket
 **getTicket() => [string] ticket**
 
 ```javascript
@@ -196,35 +196,35 @@ var count = api.doQueryCount("bdjwmnj33", "{'3'.EX.'123'}");
 => 39
 ```
 
-###Helper_Find
+###Find
 **find(dbid, rid)** => **[json] record**
 ```javascript
 var record = api.find("bdjwmnj33", "12");
 => {1: "1402930292", 7: "Lord of the Flies", 8: "William Golding"}
 ```
 
-###Helper_First
+###First
 **first(dbid, queryOptions)** => **[json] record**
 ```javascript
 var record = api.first("bdjwmnj33", {"query": "{'3'.XEX.''}", "slist" : "3"});
 => {1: "1402930292", 7: "Lord of the Flies", 8: "William Golding"}
 ```
 
-###Helper_Last
+###Last
 **last(dbid, queryOptions)** => **[json] record**
 ```javascript
 var record = api.last("bdjwmnj33", {"query": "{'3'.XEX.''}", "slist": "3"});
 => {1: "1402933332", 7: "Animal Farm", 8: "George Orwell"}
 ```
 
-###Helper_All
+###All
 **all(dbid, queryOptions)** => **[array] records**
 ```javascript
 var record = api.all("bdjwmnj33", {"slist": "3"});
 => [{1: "1402933332", 7: "Animal Farm", 8: "George Orwell"}]
 ```
 
-###Helper_GetRids
+###GetRids
 **getRids(dbid, queryOptions)** => **[array] rids**
 ```javascript
 var rids = api.getRids("bdjwmnj33", {"query": "{'3'.GT.'100'}"});
@@ -330,14 +330,14 @@ var fields = api.getRecordInfo("abcd1234", "098");
     }
 ````
 
-###Helper_GetTableFields
+###GetTableFields
 **getTableFields(dbid)** => **{obj} fields**
 
 ```javascript
 var fields = api.getTableFields("abcd1234");
 ````
 
-###Helper_GetTableReports
+###GetTableReports
 **getTableReports(dbid)** => **{obj} fields**
 
 ```javascript
@@ -345,7 +345,7 @@ var reports = api.getTableReports("abcd1234");
 ````
 
 ##Base Helpers
-###Helper_GetUrlParam
+###GetUrlParam
 **BaseHelpers.getUrlParam(name)** => **[string] param value**
 
 ```javascript
@@ -353,7 +353,7 @@ var name = BaseHelpers.getUrlParam("name");
 => "William Golding"
 ````
 
-###Helper_DateToString
+###DateToString
 **BaseHelpers.dateToString(milliseconds)** => **[string] date format**
 
 ```javascript
@@ -361,7 +361,7 @@ var date = BaseHelpers.dateToString("1410454590146");
 => "09-01-2014"
 ````
 
-###Helper_DateTimeToString
+###DateTimeToString
 **BaseHelpers.dateTimeToString(milliseconds)** => **[string] date/time format**
 
 ```javascript
@@ -369,7 +369,7 @@ var dateTime = BaseHelpers.dateTimeToString("1410454590146");
 => "09-01-2014 12:03 pm"
 ````
 
-###Helper_DurationToString
+###DurationToString
 **BaseHelpers.durationToString(milliseconds)** => **[string] hour format**
 
 ```javascript
@@ -377,7 +377,7 @@ var duration = BaseHelpers.durationToString("1410454590146");
 => "3 hours"
 ````
 
-###Helper_TimeOfDayToString
+###TimeOfDayToString
 **BaseHelpers.timeOfDayToString(milliseconds)** => **[string] time of day format**
 
 ```javascript
@@ -385,21 +385,21 @@ var timeOfDay = BaseHelpers.timeOfDayToString("1410454590146");
 => "3:00 pm"
 ````
 
-###Helper_RedirectToEditForm
+###RedirectToEditForm
 **BaseHelpers.redirectToEditForm(dbid, rid)**
 
 ```javascript
 BaseHelpers.redirectToEditForm("abcd1234", 12);
 ````
 
-###Helper_RedirectToViewForm
+###RedirectToViewForm
 **BaseHelpers.redirectToViewForm(dbid, rid)**
 
 ```javascript
 BaseHelpers.redirectToViewForm("abcd1234", 12);
 ````
 
-###Helper_DownloadFile
+###DownloadFile
 **BaseHelpers.downloadFile(dbid, rid, fid, version)**
 
 ```javascript

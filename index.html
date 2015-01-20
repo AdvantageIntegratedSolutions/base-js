@@ -22,7 +22,7 @@
 				var variableValue = client.getDBVar("bjbsgxy2r", "test");
 				console.log("GET VAR: " + variableValue);
 
-				var pageId = client.addPage("bjbsgxy2r", null, "test.txt", "");
+				var pageId = client.uploadPage("bjbsgxy2r", null, "test.txt", "");
 				console.log("UPLOAD PAGE: " + pageId);
 
 				var success = client.deletePage("bjbsgxy2r", pageId);
@@ -52,7 +52,7 @@
 				var response = client.editRecord(demoDbid, rid, editRecordHash);
 				console.log("EDIT RECORD: " + response);
 
-				var response = client.copyRecords(demoDbid, {destrid: "0", sourcerid: rid, copyfid: "8"});
+				var response = client.copyMasterDetail(demoDbid, {destrid: "0", sourcerid: rid, copyfid: "8"});
 				console.log("COPY RECORDS: " + response);
 
 				//Find
@@ -80,7 +80,7 @@
 				var response = client.all(demoDbid);
 				console.log("ALL: " + response);
 
-				var response = client.findRids(demoDbid)
+				var response = client.getRids(demoDbid)
 				console.log("FIND RIDS: " + response);
 
 				var dateCreated = BaseHelpers.dateToString(response[0]["1"]);
@@ -108,7 +108,7 @@
 					{ 8: "Jackson", 9: "Williams" },
 					{ 8: "Martin", 9: "Douglas" }
 				]
-				var response = client.importRecords(demoDbid, csvArray);
+				var response = client.importFromCSV(demoDbid, csvArray);
 				console.log("IMPORT: " + response);
 
 				//Delete Mass Records
@@ -201,7 +201,8 @@
 					{ 8: "Jackson", 9: "Williams" },
 					{ 8: "Martin", 9: "Douglas" }
 				]
-				client.importRecords(demoDbid, csvArray, function(response){
+				
+				client.importFromCSV(demoDbid, csvArray, function(response){
 					console.log("IMPORT: " + response);
 				});
 				
