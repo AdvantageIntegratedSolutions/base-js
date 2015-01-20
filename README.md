@@ -106,15 +106,15 @@ Related Libraries
   - [API_GetDBVar](#api_getdbvar)
   - [API_SetDBVar](#api_setdbvar)
 
-* **JS Helper Functions**
-  - [Get URL Parameter](#get-url-parameter)
-  - [DateToString](#datetostring)
-  - [DateTimeToString](#datetimetostring)
-  - [DurationToString](#durationtostring)
-  - [TimeOfDayToString](#timeofdaytostring)
-  - [RedirectToEditForm](#redirecttoeditform)
-  - [RedirectToViewForm](#redirecttoviewform)
-  - [Download File](#download-file)
+* **Misc Helper Functions**
+  - [Helper_GetURLParameter](#helper_geturlparameter)
+  - [Helper_DateToString](#helper_datetostring)
+  - [Helper_DateTimeToString](#helper_datetimetostring)
+  - [Helper_DurationToString](#helper_durationtostring)
+  - [Helper_TimeOfDayToString](#helper_timeofdaytostring)
+  - [Helper_RedirectToEditForm](#helper_redirecttoeditform)
+  - [Helper_RedirectToViewForm](#helper_redirecttoviewform)
+  - [Helper_DownloadFile](#helper_download-file)
 
 ###New Connection
 
@@ -345,7 +345,7 @@ var reports = api.getTableReports("abcd1234");
 ````
 
 ##Base Helpers
-###Get URL Parameter
+###Helper_GetUrlParam
 **BaseHelpers.getUrlParam(name)** => **[string] param value**
 
 ```javascript
@@ -353,7 +353,7 @@ var name = BaseHelpers.getUrlParam("name");
 => "William Golding"
 ````
 
-###DateToString
+###Helper_DateToString
 **BaseHelpers.dateToString(milliseconds)** => **[string] date format**
 
 ```javascript
@@ -361,7 +361,7 @@ var date = BaseHelpers.dateToString("1410454590146");
 => "09-01-2014"
 ````
 
-###DateTimeToString
+###Helper_DateTimeToString
 **BaseHelpers.dateTimeToString(milliseconds)** => **[string] date/time format**
 
 ```javascript
@@ -369,7 +369,7 @@ var dateTime = BaseHelpers.dateTimeToString("1410454590146");
 => "09-01-2014 12:03 pm"
 ````
 
-###DurationToString
+###Helper_DurationToString
 **BaseHelpers.durationToString(milliseconds)** => **[string] hour format**
 
 ```javascript
@@ -377,7 +377,7 @@ var duration = BaseHelpers.durationToString("1410454590146");
 => "3 hours"
 ````
 
-###TimeOfDayToString
+###Helper_TimeOfDayToString
 **BaseHelpers.timeOfDayToString(milliseconds)** => **[string] time of day format**
 
 ```javascript
@@ -385,21 +385,21 @@ var timeOfDay = BaseHelpers.timeOfDayToString("1410454590146");
 => "3:00 pm"
 ````
 
-###RedirectToEditForm
+###Helper_RedirectToEditForm
 **BaseHelpers.redirectToEditForm(dbid, rid)**
 
 ```javascript
 BaseHelpers.redirectToEditForm("abcd1234", 12);
 ````
 
-###RedirectToViewForm
+###Helper_RedirectToViewForm
 **BaseHelpers.redirectToViewForm(dbid, rid)**
 
 ```javascript
 BaseHelpers.redirectToViewForm("abcd1234", 12);
 ````
 
-###Download File
+###Helper_DownloadFile
 **BaseHelpers.downloadFile(dbid, rid, fid, version)**
 
 ```javascript
