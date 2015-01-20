@@ -117,7 +117,6 @@ Related Libraries
   - [RedirectToViewForm](#redirecttoviewform)
   - [Download File](#download-file)
 
-##Main
 ###New Connection
 
 ```javascript
@@ -233,7 +232,6 @@ var rids = api.findRids("bdjwmnj33", {"query": "{'3'.GT.'100'}"});
 => ["101", "102", "103", "104"]
 ```
 
-##Adding/Updating Records
 ###API_ImportFromCSV
 **importFromCSV(dbid, data)** => **[array] new rids**
 
@@ -273,7 +271,6 @@ var numberCopied = api.copyMasterDetail("abcd1234", {destrid: "0", sourcerid: "1
 => 1
 ````
 
-##Deleting Records
 ###API_DeleteRecord
 **deleteRecord(dbid, rid)** => **[bool] success?**
 
@@ -290,7 +287,6 @@ var numberOfRecordsDeleted = api.purgeRecords("abcd1234", "{3.EX.'123'}");
 => 9
 ````
 
-##Users
 ###API_GetUserInfo
 **getUserInfo(email)** => **[json] user**
 ######Ignore email parameter to get current user info
