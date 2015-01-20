@@ -19,7 +19,7 @@ Related Libraries
   - [Get Ticket](#get-ticket)
 
 * **Application and table metadata**
-  - [API_FindDBByName](#api-find-db-by-name)
+  - [API_FindDBByName](#api-find-db-by-name) **not yet included
   - [API_GetAncestorInfo](#api-get-ancestor-info)
   - [API_GetAppDTMInfo](#api-get-app-dtm-info)
   - [API_GetDBInfo](#api-get-db-info)
