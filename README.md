@@ -28,10 +28,10 @@ Related Libraries
   - [API_GrantedDBs]
 
 * **Creating, copying, and deleting applications**
-  - [API_CloneDatabase]
-  - [API_CreateDatabase]
-  - [API_DeleteDatabase]
-  - [API_RenameApp]
+  - [API_CloneDatabase](#api_clonedatabase)
+  - [API_CreateDatabase](#api_createdatabase)
+  - [API_DeleteDatabase](#api_deletedatabase)
+  - [API_RenameApp](#api_renameapp)
 
 * **Uploading and downloading files**
   - [API_UploadFile]
@@ -352,6 +352,34 @@ var fields = api.getTableFields("abcd1234");
 
 ```javascript
 var reports = api.getTableReports("abcd1234");
+````
+
+###API_CloneDatabase
+**cloneDatabase(dbid, params)** => **[string] dbid**
+
+```javascript
+var dbid = api.cloneDatabase("abcd1234", {"newdbname": "BaseClone", "newdbdesc": "Testing clone"});
+````
+
+###API_CreateDatabase
+**createDatabase(name, description, generateAppToken)** => **[string] dbid**
+
+```javascript
+var dbid = api.createDatabase("New Base Testing", "New app for testing", false);
+````
+
+###API_DeleteDatabase
+**deleteDatabase(dbid)** => **[bool] success?**
+
+```javascript
+var databaseDeleted = api.deleteDatabase("abcd1234");
+````
+
+###API_RenameApp
+**renameApp(dbid)** => **[bool] success?**
+
+```javascript
+var appRenamed = api.renameApp("BaseTesting2");
 ````
 
 ##Base Helpers

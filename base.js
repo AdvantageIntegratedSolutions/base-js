@@ -429,11 +429,7 @@ function Base(token, async){
   this.deletePage = function(dbid, pageId, callback){
     this.handle = function(response){
       var error = BaseConnectInstance.getNode(response, "errcode");
-      if(error == "0"){
-        return true;
-      }else{
-        return false;
-      }; 
+      return error == "0" ? true : false;
     };
 
     var data = {
@@ -441,6 +437,67 @@ function Base(token, async){
       action: "PageDelete",
       type: "QBI",
       params: {"pageid": pageId}
+    };
+
+    return BaseConnectInstance.post(data, callback, this.handle);
+  };
+
+  this.cloneDatabase = function(dbid, params, callback){
+    this.handle = function(response){
+      return BaseConnectInstance.getNode(response, "newdbid");
+    };
+
+    var data = {
+      dbid: dbid,
+      action: "CloneDatabase",
+      type: "API",
+      params: params
+    };
+
+    return BaseConnectInstance.post(data, callback, this.handle);
+  };
+
+  this.createDatabase = function(name, description, createAppToken, callback){
+    this.handle = function(response){
+      return BaseConnectInstance.getNode(response, "dbid");
+    };
+
+    var data = {
+      dbid: "main",
+      action: "CreateDatabase",
+      type: "API",
+      params: { "dbname": name, "dbdesc": description, "createapptoken": createAppToken || false }
+    };
+
+    return BaseConnectInstance.post(data, callback, this.handle);
+  };
+
+  this.deleteDatabase = function(dbid, callback){
+    this.handle = function(response){
+      var error = BaseConnectInstance.getNode(response, "errcode");
+      return error == "0" ? true : false;
+    };
+
+    var data = {
+      dbid: dbid,
+      action: "DeleteDatabase",
+      type: "API"
+    };
+
+    return BaseConnectInstance.post(data, callback, this.handle);
+  };
+
+  this.renameApp = function(dbid, name, callback){
+    this.handle = function(response){
+      var error = BaseConnectInstance.getNode(response, "errcode");
+      return error == "0" ? true : false;
+    };
+
+    var data = {
+      dbid: dbid,
+      action: "RenameApp",
+      type: "API", 
+      params: { "newappname": name }
     };
 
     return BaseConnectInstance.post(data, callback, this.handle);
@@ -636,12 +693,7 @@ function Base(token, async){
   this.editRecord = function(dbid, rid, fieldParams, callback){
     this.handle = function(response){
       var rid = BaseConnectInstance.getNode(response, "rid");
-
-      if(rid){
-        return true;
-      }else{
-        return false;
-      }
+      return rid ? true : false;
     };
 
     var data = {
@@ -685,12 +737,7 @@ function Base(token, async){
   this.deleteRecord = function(dbid, rid, callback){
     this.handle = function(response){
       var rid = BaseConnectInstance.getNode(response, "rid");
-
-      if(rid){
-        return true;
-      }else{
-        return false;
-      }
+      return rid ? true : false;
     };
 
     var data = {
