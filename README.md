@@ -74,7 +74,6 @@ Related Libraries
 * **Managing user access**
   - [API_AddUserToRole]
   - [API_ChangeUserRole](#api_changeuserrole)
-  - [API_ChangeRecordOwner]
   - [API_ChangeManager]
   - [API_GetRoleInfo]
   - [API_GetUserInfo](#api_getuserinfo)
