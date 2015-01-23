@@ -810,6 +810,42 @@ function Base(token, async){
     return BaseConnectInstance.post(data, callback, this.handle);
   };
 
+  this.getRecordInfo = function(dbid, rid, callback){
+    this.handle = function(response){
+
+      var allFields = {};
+      var fields = $(response).find("field");
+
+      for(var i=0; i < fields.length; i++){
+        var field = fields[i];
+        var fieldHash = {
+          "name": BaseConnectInstance.getNode(field, "name"),
+          "type": BaseConnectInstance.getNode(field, "type"),
+          "value": BaseConnectInstance.getNode(field, "value")
+        };
+
+        allFields[$(field).find("fid").text()] = fieldHash;
+      };
+
+      var info = {
+        "rid": BaseConnectInstance.getNode(response, "rid"),
+        "num_fields": BaseConnectInstance.getNode(response, "num_fields"),
+        "update_id": BaseConnectInstance.getNode(response, "update_id"),
+        "fields": allFields
+      };
+
+      return info;
+    };
+
+    var data = {
+      dbid: dbid,
+      action: "GetRecordInfo",
+      params: { "rid": rid }
+    };
+
+    return BaseConnectInstance.post(data, callback, this.handle);
+  };
+
   this.importFromCSV = function(dbid, csvArray, callback){
     this.handle = function(response){
       return BaseConnectInstance.getNewRids(response);
@@ -998,28 +1034,6 @@ function Base(token, async){
 
     if(newRoleId){
       data["params"]["newRoleId"] = newRoleId;
-    };
-
-    return BaseConnectInstance.post(data, callback, this.handle);
-  };
-
-  this.getRecordInfo = function(dbid, rid, callback){
-    this.handle = function(response){
-      var fields = $(response).find("field");
-      var fieldObj = {};
-      for(var i=0; i < fields.length; i++){
-        var field = fields[i];
-        fieldObj[$(field).find("fid").text()] = $(field).find("value").text();
-      }
-      return fieldObj;
-    };
-
-    var data = {
-      dbid: dbid,
-      action: "GetRecordInfo",
-      params: {
-        "rid": rid
-      }
     };
 
     return BaseConnectInstance.post(data, callback, this.handle);

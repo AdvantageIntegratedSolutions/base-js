@@ -84,6 +84,10 @@
 				console.log("FIND: " + response);
 				console.log(response["3"])
 
+				var response = client.getRecordInfo(demoDbid, rid);
+				console.log("GetRecordInfo:")
+				console.log(response);
+
 				var response = client.find(demoDbid, [rid, rid2]);
 				console.log("FIND 2: " + response);
 

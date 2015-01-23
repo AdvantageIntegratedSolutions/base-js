@@ -63,7 +63,7 @@ Related Libraries
   - [API_GenResultsTable]
   - [API_GetNumRecords]
   - [API_GetRecordAsHTML]
-  - [API_GetRecordInfo]
+  - [API_GetRecordInfo](#api_getrecordinfo)
   - [API_ImportFromCSV](#api_importfromcsv)
   - [API_PurgeRecords](#api_purgerecords)
   - [API_RunImport]
@@ -196,6 +196,14 @@ var count = api.genAddRecordForm("bdjwmnj33", {"8": "John Smith"});
 => <html></html>
 ```
 
+###API_GetRecordInfo
+**getRecordInfo(dbid, rid)** => **{obj} record info
+
+```javascript
+var count = api.getRecordInfo("bdjwmnj33", 103);
+=> {rid: "3676", num_fields: "16", update_id: "1422057167760", fields: Object}
+```
+
 ###Find
 **find(dbid, rid)** => **[json] record**
 ```javascript
@@ -326,16 +334,6 @@ var userInfo = api.getUserRoles("abcd1234");
 ```javascript
 var userInfo = api.changeUserRole("abcd1234", "57527431.cnhu", "12", "11");
 => true
-````
-
-###API_GetRecordInfo
-**getRecordInfo(dbid, rid)** => **{obj} fid's and values**
-
-```javascript
-var fields = api.getRecordInfo("abcd1234", "098");
-=>  { 
-      "fid" : "value"... 
-    }
 ````
 
 ###GetTableFields
