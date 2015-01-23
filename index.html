@@ -26,6 +26,12 @@
 				var ancestorInfo = client.getAncestorInfo(dbid);
 				console.log(ancestorInfo);
 
+				var dbInfo = client.getDbInfo(dbid);
+				console.log(dbInfo);
+
+				var grantedDbs = client.grantedDbs();
+				console.log(grantedDbs);
+
 				var dtmInfo = client.getAppDtmInfo(dbid);
 				console.log(dtmInfo);
 

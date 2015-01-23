@@ -21,11 +21,11 @@ Related Libraries
   - [API_FindDBByName](#api_finddbbyname)
   - [API_GetAncestorInfo](#api_getancestorinfo)
   - [API_GetAppDTMInfo](#api_getappdtminfo)
-  - [API_GetDBInfo]
+  - [API_GetDBInfo](#api_getdbinfo)
   - [API_GetSchema]
     - [GetTableFields](#gettablefields)
     - [GetTableReports](#gettablereports)
-  - [API_GrantedDBs]
+  - [API_GrantedDBs](#api_granteddbs)
 
 * **Creating, copying, and deleting applications**
   - [API_CloneDatabase](#api_clonedatabase)
@@ -391,6 +391,21 @@ var applicationAccess = api.getAppDtmInfo("abc1234");
      "tables": { "bedfeag5": {"lastModifiedTime": 149392928283, "lastRecModTime": 14959583922}}
     }
 ````
+
+###API_GetDBInfo
+**getDbInfo(dbid)** => **{obj} db info**
+
+```javascript
+var info = api.getDbInfo("abc1234");
+=> { createdTime: "1410366888912", dbname: "BaseJS Testing", lastRecModTime: "1422054152243", mgrID: "57527431.cnhu", mgrName: "kith", numRecords: "0"time_zone: "(UTC-07:00) Mountain Time (US & Canada)"version: "2.0" }
+```` 
+
+###API_GrantedDBs
+**grantedDbs(params)** => **[array] databases**
+
+```javascript
+var databases = api.grantedDbs("abc1234");
+```` 
 
 ###API_CloneDatabase
 **cloneDatabase(dbid, params)** => **[string] dbid**

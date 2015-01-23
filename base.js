@@ -601,6 +601,60 @@ function Base(token, async){
     return BaseConnectInstance.post(data, callback, this.handle);
   };
 
+  this.getDbInfo = function(dbid, callback){
+    this.handle = function(response){
+      var info = {
+        "dbname": BaseConnectInstance.getNode(response, "dbname"),
+        "lastRecModTime": BaseConnectInstance.getNode(response, "lastRecModTime"),
+        "createdTime": BaseConnectInstance.getNode(response, "createdTime"),
+        "numRecords": BaseConnectInstance.getNode(response, "numRecords"),
+        "mgrID": BaseConnectInstance.getNode(response, "mgrID"),
+        "mgrName": BaseConnectInstance.getNode(response, "mgrName"),
+        "version": BaseConnectInstance.getNode(response, "version"),
+        "time_zone": BaseConnectInstance.getNode(response, "time_zone")
+      };
+
+      return info;
+    };
+
+    var data = {
+      dbid: dbid,
+      action: "GetDBInfo",
+      type: "API"
+    };
+
+    return BaseConnectInstance.post(data, callback, this.handle);
+  };
+
+  this.grantedDbs = function(params, callback){
+    this.handle = function(response){
+
+      var allDatabases = [];
+      var databases = $(response).find("databases").find("dbinfo");
+
+      for(var i=0; i < databases.length; i++){
+        var database = databases[i];
+        var databaseHash = {
+          "dbname": BaseConnectInstance.getNode(database, "dbname"),
+          "dbid": BaseConnectInstance.getNode(database, "dbid")
+        };
+
+        allDatabases.push(databaseHash);
+      };
+
+      return allDatabases;
+    };
+
+    var data = {
+      dbid: "main",
+      action: "GrantedDBs",
+      type: "API",
+      params: params
+    };
+
+    return BaseConnectInstance.post(data, callback, this.handle);
+  };
+
   this.doQuery = function(dbid, params, callback, handle){
     this.handle = function(response){
       return BaseConnectInstance.getRecords(response, "records");
