@@ -29,6 +29,9 @@
 				var dbInfo = client.getDbInfo(dbid);
 				console.log(dbInfo);
 
+				var genAddRecordForm = client.genAddRecordForm(demoDbid, {"8": "test"});
+				console.log(genAddRecordForm);
+
 				var grantedDbs = client.grantedDbs();
 				console.log(grantedDbs);
 

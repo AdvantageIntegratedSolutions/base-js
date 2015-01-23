@@ -62,7 +62,7 @@ Related Libraries
     - [All](#all)
     - [GetRids](#getrids)
   - [API_DoQueryCount](#api_doquerycount)
-  - [API_GenAddRecordForm]
+  - [API_GenAddRecordForm](#api_genaddrecordform)
   - [API_GenResultsTable]
   - [API_GetNumRecords]
   - [API_GetRecordAsHTML]
@@ -189,6 +189,14 @@ var records = api.doQuery("bdjwmnj33", {"query": "{3.EX.'123'}", "clist": "3.6.1
 ```javascript
 var count = api.doQueryCount("bdjwmnj33", "{'3'.EX.'123'}");
 => 39
+```
+
+###API_GenAddRecordForm
+**genAddRecordForm(dbid, fids)** => **[html] html rendered add record form
+
+```javascript
+var count = api.genAddRecordForm("bdjwmnj33", {"8": "John Smith"});
+=> <html></html>
 ```
 
 ###Find

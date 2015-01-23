@@ -35,6 +35,10 @@ function BaseConnect(){
       postData.push(this.createFieldParameter(key, data.fieldParams[key]));
     };
 
+    for(key in data.fidParams){
+      postData.push(this.createFidParameter(key, data.fidParams[key]));
+    };
+
     if(data.csvData){
       postData.push(this.createCSVParameter(data.csvData));
     };
@@ -212,6 +216,10 @@ function BaseConnect(){
 
     param += "</field>";
     return param;
+  };
+
+  this.createFidParameter = function(fid, value){
+    return "<_fid_" + fid + ">" + value + "</_fid_" + fid + ">";
   };
 
   this.createCSVParameter = function(data){
@@ -786,6 +794,20 @@ function Base(token, async){
 
     params["clist"] = "3";
     return this.doQuery(dbid, params, callback, this.handle);
+  };
+
+  this.genAddRecordForm = function(dbid, params, callback){
+    this.handle = function(response){
+      return response;
+    };
+
+    var data = {
+      dbid: dbid,
+      action: "GenAddRecordForm",
+      fidParams: params
+    };
+
+    return BaseConnectInstance.post(data, callback, this.handle);
   };
 
   this.importFromCSV = function(dbid, csvArray, callback){
