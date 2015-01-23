@@ -18,8 +18,8 @@ Related Libraries
   - [New Connection](#new-connection)
 
 * **Application and table metadata**
-  - [API_FindDBByName]
-  - [API_GetAncestorInfo]
+  - [API_FindDBByName](#api_finddbbyname)
+  - [API_GetAncestorInfo](#api_getancestorinfo)
   - [API_GetAppDTMInfo]
   - [API_GetDBInfo]
   - [API_GetSchema]
@@ -361,6 +361,22 @@ var fields = api.getTableFields("abcd1234");
 
 ```javascript
 var reports = api.getTableReports("abcd1234");
+````
+
+###API_FindDBByName
+**findDbByName(name)** => **[string] dbid**
+
+```javascript
+var dbid = api.findDbByName("BaseJS Testing");
+=> b3dkifkg
+````
+
+###API_GetAncestorInfo
+**getAncestorInfo(dbid)** => **{obj} ancestor info**
+
+```javascript
+var dbid = api.getAncestorInfo("abc1234");
+=> { "ancestorAppId": "bddefadg", "oldestAncestorAppId": "bdefgad3"}
 ````
 
 ###API_CloneDatabase

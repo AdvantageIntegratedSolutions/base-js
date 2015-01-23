@@ -20,6 +20,12 @@
 				var ticket = client.authenticate(ticket, 1);
 				console.log("AUTH TICKET: " + ticket);
 
+				var dbid = client.findDbByName("BaseJS Testing");
+				console.log("FindDBByName: " + dbid);
+
+				var ancestorInfo = client.getAncestorInfo(dbid);
+				console.log(ancestorInfo);
+
 				var variable = client.setDBVar("bjbsgxy2r", "test", "hello world");
 				console.log("SET VAR: " + variable);
 				var variableValue = client.getDBVar("bjbsgxy2r", "test");

@@ -531,6 +531,40 @@ function Base(token, async){
     return BaseConnectInstance.post(data, callback, this.handle);
   };
 
+  this.findDbByName = function(name, callback){
+    this.handle = function(response){
+      return BaseConnectInstance.getNode(response, "dbid");
+    };
+
+    var data = {
+      dbid: "main",
+      action: "FindDBByName",
+      type: "API", 
+      params: { "dbname": name }
+    };
+
+    return BaseConnectInstance.post(data, callback, this.handle);
+  };
+
+  this.getAncestorInfo = function(dbid, callback){
+    this.handle = function(response){
+      var info = {
+        "ancestorAppId": BaseConnectInstance.getNode(response, "ancestorappid"),
+        "oldestAncestorAppId": BaseConnectInstance.getNode(response, "oldestancestorappid")
+      };
+
+      return info;
+    };
+
+    var data = {
+      dbid: dbid,
+      action: "GetAncestorInfo",
+      type: "API"
+    };
+
+    return BaseConnectInstance.post(data, callback, this.handle);
+  };
+
   this.doQuery = function(dbid, params, callback, handle){
     this.handle = function(response){
       return BaseConnectInstance.getRecords(response, "records");
