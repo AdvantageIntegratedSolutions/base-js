@@ -373,6 +373,34 @@ function Base(token, async){
     return BaseConnectInstance.post(data, callback, this.handle);
   };
 
+  this.authenticate = function(ticket, hours, callback){
+    this.handle = function(response){
+      return BaseConnectInstance.getNode(response, "ticket");
+    };
+
+    var data = {
+      dbid: "main",
+      action: "Authenticate",
+      params: { "ticket" : ticket, "hours": hours }
+    };
+
+    return BaseConnectInstance.post(data, callback, this.handle);
+  };
+
+  this.signOut = function(callback){
+    this.handle = function(response){
+      var error = BaseConnectInstance.getNode(response, "errcode");
+      return error == "0" ? true : false;
+    };
+
+    var data = {
+      dbid: "main",
+      action: "SignOut",
+    };
+
+    return BaseConnectInstance.post(data, callback, this.handle);
+  };
+
   this.getDBVar = function(dbid, name, callback){
     this.handle = function(response){
       return BaseConnectInstance.getNode(response, "value");

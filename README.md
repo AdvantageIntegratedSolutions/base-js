@@ -37,9 +37,9 @@ Related Libraries
   - [API_UploadFile]
 
 * **Secure access to QuickBase**
-  - [API_Authenticate]
-  - [API_SignOut]
   - [API_GetOneTimeTicket](#api_getonetimeticket)
+  - [API_Authenticate](#api_authenticate)
+  - [API_SignOut](#api_signout)
 
 * **Table and field management**
   - [API_AddField]
@@ -131,10 +131,20 @@ var ticket = api.getOneTimeTicket();
 => "6adfasdf8338adfadfbhkieoa874k494kadjff4774hfj334953"
 ```
 
+###API_Authenticate
+**authenticate(ticket, hours) => [string] ticket**
+
 ```javascript
-var ticket = api.getOneTimeTicket(function(ticket){
-  console.log(ticket);
-});
+var ticket = api.authenticate("6adfasdf8338adfadfbhkieoa874k494kadjff4774hfj334953", 12);
+=> "6adfasdf8338adf44322ieoa874k494kadjff477444443953"
+```
+
+###API_SignOut
+**signOut() => [bool] success?**
+
+```javascript
+var signedOut = api.signOut();
+=> true;
 ```
 
 ###API_SetDBVar
