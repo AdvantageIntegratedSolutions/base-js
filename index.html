@@ -29,8 +29,8 @@
 				console.log("DELETE PAGE: " + success);
 
 				//Get User Info
-				var response = client.getUserInfo();
-				console.log("USER INFO: " + response);
+				var response = client.getUserInfo("zsiglin@advantagequickbase.com");
+				console.log("USER INFO: " + response["id"]);
 
 				//Get User Roles
 				var response = client.getUserRoles(mainDbid);
@@ -52,12 +52,16 @@
 				var response = client.editRecord(demoDbid, rid, editRecordHash);
 				console.log("EDIT RECORD: " + response);
 
+				var response = client.changeRecordOwner(demoDbid, rid, "zsiglin@advantagequickbase.com");
+				console.log("CHANGE RECORD OWNER: " + response);
+
 				var response = client.copyMasterDetail(demoDbid, {destrid: "0", sourcerid: rid, copyfid: "8"});
 				console.log("COPY RECORDS: " + response);
 
 				//Find
 				var response = client.find(demoDbid, rid);
 				console.log("FIND: " + response);
+				console.log(response["3"])
 
 				var response = client.find(demoDbid, [rid, rid2]);
 				console.log("FIND 2: " + response);

@@ -52,7 +52,7 @@ Related Libraries
 * **Record (data) management**
   - [API_AddRecord](#api_addrecord)
   - [API_EditRecord](#api_editrecord)
-  - [API_ChangeRecordOwner]
+  - [API_ChangeRecordOwner](#api_changerecordowner)
   - [API_CopyMasterDetail](#api_copymasterdetail)
   - [API_DeleteRecord](#api_deleterecord)
   - [API_DoQuery](#api_doquery)
@@ -263,6 +263,14 @@ var newRid = api.addRecord("abcd1234", newRecord);
 var updatedRecord = {7: "My Second Title", 8: "John Smith"};
 var callSuccessful = api.editRecord("abcd1234", 136, updatedRecord);
 => false
+````
+
+###API_ChangeRecordOwner
+**changeRecordOwner(dbid, rid, user)** => **[bool] success?**
+
+```javascript
+var callSuccessful = api.changeRecordOwner("abcd1234", 136, "zsiglin@advantagequickbase.com");
+=> true
 ````
 
 ###API_CopyMasterDetail

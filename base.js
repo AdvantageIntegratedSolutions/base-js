@@ -654,6 +654,20 @@ function Base(token, async){
     return BaseConnectInstance.post(data, callback, this.handle);
   };
 
+  this.changeRecordOwner = function(dbid, rid, owner, callback){
+    this.handle = function(response){
+      return true;
+    };
+
+    var data = {
+      dbid: dbid,
+      action: "ChangeRecordOwner",
+      params: {"rid": rid, "newowner": owner}
+    };
+
+    return BaseConnectInstance.post(data, callback, this.handle);
+  };
+
   this.copyMasterDetail = function(dbid, params, callback){
     this.handle = function(response){
       return BaseConnectInstance.getNode(response, "numCreated");
