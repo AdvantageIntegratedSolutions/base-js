@@ -62,11 +62,9 @@ Related Libraries
   - [API_GenAddRecordForm](#api_genaddrecordform)
   - [API_GenResultsTable]
   - [API_GetNumRecords]
-  - [API_GetRecordAsHTML]
   - [API_GetRecordInfo](#api_getrecordinfo)
   - [API_ImportFromCSV](#api_importfromcsv)
   - [API_PurgeRecords](#api_purgerecords)
-  - [API_RunImport]
 
 * **Managing user access**
   - [API_AddUserToRole]
