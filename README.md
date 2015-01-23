@@ -39,7 +39,7 @@ Related Libraries
 * **Secure access to QuickBase**
   - [API_Authenticate]
   - [API_SignOut]
-  - [GetTicket](#getticket)
+  - [API_GetOneTimeTicket](#api_getonetimeticket)
 
 * **Table and field management**
   - [API_AddField]
@@ -123,16 +123,16 @@ Related Libraries
 var api = new Base(apptoken, async);
 ```
 
-###GetTicket
-**getTicket() => [string] ticket**
+###API_GetOneTimeTicket
+**getOneTimeTicket() => [string] ticket**
 
 ```javascript
-var ticket = api.getTicket();
+var ticket = api.getOneTimeTicket();
 => "6adfasdf8338adfadfbhkieoa874k494kadjff4774hfj334953"
 ```
 
 ```javascript
-var ticket = api.getTicket(function(ticket){
+var ticket = api.getOneTimeTicket(function(ticket){
   console.log(ticket);
 });
 ```
@@ -449,7 +449,7 @@ BaseHelpers.downloadFile("abcd1234", 12, 5);
 var client = new Base();
 
 //Get Ticket
-var response = client.getTicket();
+var response = client.getOneTimeTicket();
 
 //Add Record
 var newRecordHash = { 8: "Mike", 9: "Johnson", 10: {filename: "test.csv", body: "hello world"} }

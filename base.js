@@ -360,7 +360,7 @@ function Base(token, async){
   var BaseConnectInstance = new BaseConnect();
   BaseConnectInstance.setVariables(token, async);
 
-  this.getTicket = function(callback){
+  this.getOneTimeTicket = function(callback){
     this.handle = function(response){
       return BaseConnectInstance.getNode(response, "ticket");
     };

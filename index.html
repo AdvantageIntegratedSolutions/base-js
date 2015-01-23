@@ -14,7 +14,7 @@
 				var client = new Base("cgfsmfcdc5vyp5k5s7h6b6v3m9v");
 
 				//Get Ticket
-				var ticket = client.getTicket();
+				var ticket = client.getOneTimeTicket();
 				console.log("TICKET: " + ticket);
 
 				var variable = client.setDBVar("bjbsgxy2r", "test", "hello world");
@@ -127,7 +127,7 @@
 				var asyncClient = new Base("cgfsmfcdc5vyp5k5s7h6b6v3m9v", true);
 
 				//Get Ticket
-				asyncClient.getTicket(function(response){
+				asyncClient.getOneTimeTicket(function(response){
 					console.log("TICKET: " + response);
 				});
 
