@@ -83,22 +83,6 @@ Related Libraries
   - [API_SendInvitation]
   - [API_UserRoles](#api_userroles)
 
-* **Managing groups**
-  - [API_AddGroupToRole]
-  - [API_AddSubGroup]
-  - [API_AddUserToGroup]
-  - [API_ChangeGroupInfo]
-  - [API_CopyGroup]
-  - [API_CreateGroup]
-  - [API_DeleteGroup]
-  - [API_GetGroupRole]
-  - [API_GetUsersInGroup]
-  - [API_GrantedDBsForGroup]
-  - [API_GrantedGroups]
-  - [API_RemoveGroupFromRole]
-  - [API_RemoveSubgroup]
-  - [API_RemoveUserFromGroup]
-
 * **Miscellaneous functions**
   - [API_AddReplaceDBPage]
     - [UploadPage](#uploadpage)
