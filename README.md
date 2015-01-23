@@ -33,9 +33,6 @@ Related Libraries
   - [API_DeleteDatabase](#api_deletedatabase)
   - [API_RenameApp](#api_renameapp)
 
-* **Uploading and downloading files**
-  - [API_UploadFile]
-
 * **Secure access to QuickBase**
   - [API_GetOneTimeTicket](#api_getonetimeticket)
   - [API_Authenticate](#api_authenticate)
