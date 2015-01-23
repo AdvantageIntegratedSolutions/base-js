@@ -20,7 +20,7 @@ Related Libraries
 * **Application and table metadata**
   - [API_FindDBByName](#api_finddbbyname)
   - [API_GetAncestorInfo](#api_getancestorinfo)
-  - [API_GetAppDTMInfo]
+  - [API_GetAppDTMInfo](#api_getappdtminfo)
   - [API_GetDBInfo]
   - [API_GetSchema]
     - [GetTableFields](#gettablefields)
@@ -377,6 +377,19 @@ var dbid = api.findDbByName("BaseJS Testing");
 ```javascript
 var dbid = api.getAncestorInfo("abc1234");
 => { "ancestorAppId": "bddefadg", "oldestAncestorAppId": "bdefgad3"}
+````
+
+###API_GetAppDTMInfo
+**getAppDtmInfo(dbid)** => **{obj} application access times**
+
+```javascript
+var applicationAccess = api.getAppDtmInfo("abc1234");
+=> { "requestTime": "149494949494", 
+     "requestNextAllowedTime": "140509599595",
+     "lastModifiedTime": "14959595959",
+     "lastRecModTime": "14959695938",
+     "tables": { "bedfeag5": {"lastModifiedTime": 149392928283, "lastRecModTime": 14959583922}}
+    }
 ````
 
 ###API_CloneDatabase

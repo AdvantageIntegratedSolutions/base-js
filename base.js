@@ -565,6 +565,42 @@ function Base(token, async){
     return BaseConnectInstance.post(data, callback, this.handle);
   };
 
+  this.getAppDtmInfo = function(dbid, callback){
+    this.handle = function(response){
+
+      var allTables = {};
+      var tables = $(response).find("tables").find("table");
+      for(var i=0; i < tables.length; i++){
+        var table = tables[i];
+        var tableHash = {
+          "lastModifiedTime": $(table).find("lastModifiedTime").text(),
+          "lastRecModTime": $(table).find("lastRecModTime").text()
+        };
+
+        allTables[$(table).attr("id")] = tableHash;
+      };
+
+      var info = {
+        "requestTime": BaseConnectInstance.getNode(response, "RequestTime"),
+        "requestNextAllowedTime": BaseConnectInstance.getNode(response, "RequestNextAllowedTime"),
+        "lastModifiedTime": BaseConnectInstance.getNode(response, "lastModifiedTime"),
+        "lastRecModTime": BaseConnectInstance.getNode(response, "lastRecModTime"),
+        "tables": allTables
+      };
+
+      return info;
+    };
+
+    var data = {
+      dbid: "main",
+      action: "GetAppDTMInfo",
+      type: "API",
+      params: { "dbid": dbid }
+    };
+
+    return BaseConnectInstance.post(data, callback, this.handle);
+  };
+
   this.doQuery = function(dbid, params, callback, handle){
     this.handle = function(response){
       return BaseConnectInstance.getRecords(response, "records");

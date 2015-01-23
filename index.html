@@ -26,6 +26,9 @@
 				var ancestorInfo = client.getAncestorInfo(dbid);
 				console.log(ancestorInfo);
 
+				var dtmInfo = client.getAppDtmInfo(dbid);
+				console.log(dtmInfo);
+
 				var variable = client.setDBVar("bjbsgxy2r", "test", "hello world");
 				console.log("SET VAR: " + variable);
 				var variableValue = client.getDBVar("bjbsgxy2r", "test");
