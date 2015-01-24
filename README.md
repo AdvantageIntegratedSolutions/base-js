@@ -61,7 +61,7 @@ Related Libraries
   - [API_DoQueryCount](#api_doquerycount)
   - [API_GenAddRecordForm](#api_genaddrecordform)
   - [API_GenResultsTable]
-  - [API_GetNumRecords]
+  - [API_GetNumRecords](#api_getnumrecords)
   - [API_GetRecordInfo](#api_getrecordinfo)
   - [API_ImportFromCSV](#api_importfromcsv)
   - [API_PurgeRecords](#api_purgerecords)
