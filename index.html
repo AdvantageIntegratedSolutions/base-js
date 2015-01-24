@@ -71,6 +71,9 @@
 				var newRecordHash = { 8: "Mike", 9: "Johnson", 14: "5", 15: "3pm" }
 				var rid2 = client.addRecord(demoDbid, newRecordHash);
 
+				var numberOfRecords = client.getNumRecords(demoDbid);
+				console.log(numberOfRecords);
+
 				//Edit Record
 				var editRecordHash = { 8: "Stephan", 9: "Smith" }
 				var response = client.editRecord(demoDbid, rid, editRecordHash);

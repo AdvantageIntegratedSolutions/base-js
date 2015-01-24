@@ -825,6 +825,19 @@ function Base(token, async){
     return BaseConnectInstance.post(data, callback, this.handle);
   };
 
+  this.getNumRecords = function(dbid, callback){
+    this.handle = function(response){
+      return parseInt(BaseConnectInstance.getNode(response, "num_records"));
+    };
+
+    var data = {
+      dbid: dbid,
+      action: "GetNumRecords"
+    };
+
+    return BaseConnectInstance.post(data, callback, this.handle);
+  };
+
   this.getRecordInfo = function(dbid, rid, callback){
     this.handle = function(response){
 

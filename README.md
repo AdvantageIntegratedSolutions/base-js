@@ -202,6 +202,14 @@ var count = api.genAddRecordForm("bdjwmnj33", {"8": "John Smith"});
 => <html></html>
 ```
 
+###API_GetNumRecords
+**getNumRecords(dbid)** => **[int] number of records in table
+
+```javascript
+var count = api.getNumRecords("bdjwmnj33");
+=> 2
+```
+
 ###API_GetRecordInfo
 **getRecordInfo(dbid, rid)** => **{obj} record info
 
