@@ -478,6 +478,21 @@ function Base(token, async){
     return BaseConnectInstance.post(data, callback, this.handle);
   };
 
+  this.getDbPage = function(dbid, pageId, callback){
+    this.handle = function(response){
+      return BaseConnectInstance.getNode(response, "pagebody");
+    };
+
+    var data = {
+      dbid: dbid,
+      action: "GetDBPage",
+      type: "API",
+      params: { "pageID": pageId }
+    };
+
+    return BaseConnectInstance.post(data, callback, this.handle);
+  };
+
   this.cloneDatabase = function(dbid, params, callback){
     this.handle = function(response){
       return BaseConnectInstance.getNode(response, "newdbid");

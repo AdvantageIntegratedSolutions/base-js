@@ -82,7 +82,7 @@ Related Libraries
   - [API_AddReplaceDBPage]
     - [UploadPage](#uploadpage)
     - [DeletePage](#deletepage)
-  - [API_GetDBPage]
+  - [API_GetDBPage](#getdbpage)
   - [API_GetDBVar](#api_getdbvar)
   - [API_SetDBVar](#api_setdbvar)
 
@@ -156,6 +156,14 @@ var pageId = api.uploadPage("bdjwmnj33", null, "test.txt", "hello world");
 ```javascript
 var deleted = api.deletePage("bdjwmnj33", "6");
 => true
+```
+
+###API_GetDBPage
+**getDbPage(dbid, id) => [html] pageBody**
+
+```javascript
+var page = api.getDbPage("bdjwmnj33", "6");
+=> <html></html>
 ```
 
 ##Retrieving Records

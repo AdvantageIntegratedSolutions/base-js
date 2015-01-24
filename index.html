@@ -43,8 +43,11 @@
 				var variableValue = client.getDBVar("bjbsgxy2r", "test");
 				console.log("GET VAR: " + variableValue);
 
-				var pageId = client.uploadPage("bjbsgxy2r", null, "test.txt", "");
+				var pageId = client.uploadPage("bjbsgxy2r", null, "test.txt", "asdfadsf");
 				console.log("UPLOAD PAGE: " + pageId);
+
+				var htmlPage = client.getDbPage("bjbsgxy2r", pageId);
+				console.log(htmlPage);
 
 				var success = client.deletePage("bjbsgxy2r", pageId);
 				console.log("DELETE PAGE: " + success);
