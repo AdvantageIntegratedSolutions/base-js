@@ -1150,14 +1150,36 @@ var BaseHelpers = {
     return milliseconds;
   },
 
-  durationToString: function(milliseconds){
-    var duration = "0";
+  durationToString: function(milliseconds, format) {
+    var ms = parseInt(milliseconds);
+    var result;
+    var format = format ? format.trim().toLowerCase() : "";
 
-    if(milliseconds){
-      duration = parseInt(milliseconds) / 3600000;
+    var formatType = {
+      "days": function() {
+        return ms / 86400000;
+      },
+      "hours": function() {
+        return ms / 3600000;
+      },
+      "minutes": function() {
+        return ms / 60000;
+      },
+      "seconds": function() {
+        return ms / 1000;
+      }
     };
 
-    return duration.toString() + " hours";
+    if (formatType[format]) {
+      result = formatType[format]();
+    } 
+    else {
+      result = formatType["hours"]();
+      console.info("The format parameter passed to BaseHelpers.formatDuration was incorrect. Using the format for 'hours' instead.");
+    }
+
+    result = Math.round(result * 100) / 100;
+    return result.toString();
   },
 
   timeOfDayToString: function(milliseconds){
