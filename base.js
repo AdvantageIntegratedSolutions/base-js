@@ -1135,7 +1135,7 @@ var BaseHelpers = {
     var seconds = this.formatDateElement(date.getUTCSeconds());
 
     var dateTime = [month, day, date.getUTCFullYear()].join("-");
-    var ampm = parseInt(hours) >= 12 ? 'pm' : 'am';
+    var ampm = parseInt(hours) >= 12 ? 'PM' : 'AM';
     
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
@@ -1181,29 +1181,21 @@ var BaseHelpers = {
   timeOfDayToString: function(milliseconds){
     var timeOfDay = "";
 
-    if(milliseconds){
-      timeOfDay = new Date().setHours("").setMinutes("").setSeconds("");
-      timeOfDay = timeOfDay.setMilliseconds(milliseconds);
-      timeOfDay = new Date(timeOfDay);
+    timeOfDay = new Date()
+    timeOfDay.setHours("");
+    timeOfDay.setMinutes("");
+    timeOfDay.setSeconds("");
+    timeOfDay.setMilliseconds(milliseconds);
 
-      var hours = parseInt(timeOfDay.getHours());
-      var minutes = timeOfDay.getMinutes().toString();
-      var zone = "am";
-      
-      if(hours >= 12){
-        zone = "pm"
+    var hours = timeOfDay.getHours().toString();
+    var minutes = timeOfDay.getMinutes().toString();
+    var ampm = hours > 12 ? "PM" : "AM";
 
-        if(hours > 12){
-          hours = hours - 12
-        };
-      };
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes.length > 1 ? minutes : "0" + minutes;
 
-      if(minutes.length == 1){
-        minutes = "0" + minutes;
-      };
-
-      timeOfDay = hours.toString() + ":" + minutes + " " + zone
-    };
+    timeOfDay = hours + ":" + minutes + " " + ampm
 
     return timeOfDay;
   },
