@@ -1111,43 +1111,39 @@ var BaseHelpers = {
     return element;
   },
 
-  dateToString: function(milliseconds){
-    if(milliseconds){
-      var date = new Date(parseInt(milliseconds));
+  dateToString: function(milliseconds, offset){
+    var offset = offset || 0;
+    var date = new Date( parseInt(milliseconds) + (60 * 60 * 1000 * offset) );
 
-      var month = this.formatDateElement((date.getUTCMonth() + 1));
-      var day = this.formatDateElement(date.getUTCDate());
+    var month = this.formatDateElement((date.getUTCMonth() + 1));
+    var day = this.formatDateElement(date.getUTCDate());
 
-      date = [month, day, date.getUTCFullYear()].join("-");
-      return date;
-    };
+    date = [month, day, date.getUTCFullYear()].join("-");
 
-    return milliseconds;
+    return date;
   },
 
-  dateTimeToString: function(milliseconds){
-    if(milliseconds){
-      var date = new Date(parseInt(milliseconds));
+  dateTimeToString: function(milliseconds, offset){
+    var offset = offset || 0;
+    var date = new Date( parseInt(milliseconds) + (60 * 60 * 1000 * offset) );
 
-      var month = this.formatDateElement((date.getUTCMonth() + 1));
-      var day = this.formatDateElement(date.getUTCDate());
-      var hours = this.formatDateElement(date.getUTCHours());
-      var minutes = this.formatDateElement(date.getUTCMinutes());
-      var seconds = this.formatDateElement(date.getUTCSeconds());
+    var year = this.formatDateElement((date.getUTCFullYear));
+    var month = this.formatDateElement((date.getUTCMonth() + 1));
+    var day = this.formatDateElement(date.getUTCDate());
+    var hours = this.formatDateElement(date.getUTCHours());
+    var minutes = this.formatDateElement(date.getUTCMinutes());
+    var seconds = this.formatDateElement(date.getUTCSeconds());
 
-      var dateTime = [month, day, date.getUTCFullYear()].join("-");
-      var ampm = parseInt(hours) >= 12 ? 'pm' : 'am';
-      
-      hours = hours % 12;
-      hours = hours ? hours : 12; // the hour '0' should be '12'
+    var dateTime = [month, day, date.getUTCFullYear()].join("-");
+    var ampm = parseInt(hours) >= 12 ? 'pm' : 'am';
+    
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
 
-      dateTime += " "
-      dateTime += [hours, minutes].join(":")
-      dateTime += " " + ampm
-      return dateTime;
-    };
-
-    return milliseconds;
+    dateTime += " "
+    dateTime += [hours, minutes].join(":")
+    dateTime += " " + ampm
+    return dateTime;
   },
 
   durationToString: function(milliseconds, format) {
@@ -1175,7 +1171,7 @@ var BaseHelpers = {
     } 
     else {
       result = formatType["hours"]();
-      console.info("The format parameter passed to BaseHelpers.formatDuration was incorrect. Using the format for 'hours' instead.");
+      console.info("The format parameter passed to BaseHelpers.durationToString() was incorrect. Using the format for 'hours' instead.");
     }
 
     result = Math.round(result * 100) / 100;
