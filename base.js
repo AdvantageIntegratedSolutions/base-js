@@ -1113,7 +1113,7 @@ function Base(token, async){
 
 var BaseHelpers = {
   options: {
-    offset: 0,
+    timeZone: 'utc',
     format: 'hours'
   },
 
@@ -1144,8 +1144,30 @@ var BaseHelpers = {
     return date;
   },
 
-  dateTimeToString: function(milliseconds, offset){
-    var offset = offset || this.options.offset;
+  dateTimeToString: function(milliseconds, timeZone) {
+    var today = new Date();
+    var timeZone = timeZone ? timeZone.toLowerCase().trim() : this.options.timeZone;
+
+    Date.prototype.stdTimezoneOffset = function() {
+      var jan = new Date(this.getFullYear(), 0, 1);
+      var jul = new Date(this.getFullYear(), 6, 1);
+      return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+    }
+
+    Date.prototype.dst = function() {
+      return this.getTimezoneOffset() < this.stdTimezoneOffset();
+    }
+
+    var zoneOffsets = {
+      "utc": 0,
+      "eastern": today.dst() ? -4 : -5,
+      "central": today.dst() ? -5 : -6,
+      "mountain": today.dst() ? -6 : -7,
+      "pacific": today.dst() ? -7 : -8
+    };
+
+    var offset = zoneOffsets[timeZone];
+
     var date = new Date( parseInt(milliseconds) + (60 * 60 * 1000 * offset) );
 
     var year = this.formatDateElement((date.getUTCFullYear));
