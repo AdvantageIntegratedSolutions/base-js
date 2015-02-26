@@ -1095,6 +1095,11 @@ function Base(token, async){
 }
 
 var BaseHelpers = {
+  options: {
+    offset: 0,
+    format: 'hours'
+  },
+
   getUrlParam: function(name){
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -1111,9 +1116,8 @@ var BaseHelpers = {
     return element;
   },
 
-  dateToString: function(milliseconds, offset){
-    var offset = offset || 0;
-    var date = new Date( parseInt(milliseconds) + (60 * 60 * 1000 * offset) );
+  dateToString: function(milliseconds){
+    var offset = offset || this.options.offset;
 
     var month = this.formatDateElement((date.getUTCMonth() + 1));
     var day = this.formatDateElement(date.getUTCDate());
@@ -1124,7 +1128,7 @@ var BaseHelpers = {
   },
 
   dateTimeToString: function(milliseconds, offset){
-    var offset = offset || 0;
+    var offset = offset || this.options.offset;
     var date = new Date( parseInt(milliseconds) + (60 * 60 * 1000 * offset) );
 
     var year = this.formatDateElement((date.getUTCFullYear));
@@ -1149,7 +1153,7 @@ var BaseHelpers = {
   durationToString: function(milliseconds, format) {
     var ms = parseInt(milliseconds);
     var result;
-    var format = format ? format.trim().toLowerCase() : "";
+    var format = format ? format.trim().toLowerCase() : this.options.format;
 
     var formatType = {
       "days": function() {
@@ -1189,7 +1193,7 @@ var BaseHelpers = {
 
     var hours = timeOfDay.getHours().toString();
     var minutes = timeOfDay.getMinutes().toString();
-    var ampm = hours > 12 ? "PM" : "AM";
+    var ampm = hours > 12 ? "pm" : "am";
 
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
