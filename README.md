@@ -463,9 +463,15 @@ var date = BaseHelpers.dateToString("1410454590146");
 ````
 
 ###DateTimeToString
-**BaseHelpers.dateTimeToString(milliseconds, [offset])** => **[string] date/time format**
+**BaseHelpers.dateTimeToString(milliseconds [, timeZone])** => **[string] date/time format**
 
-The optional offset parameter accepts an integer timezone offset to format the response. If no offset is given the response will default to UTC format.
+The optional timeZone parameter accepts a case-insensitive string timezone name. BaseHelpers.dateTimeToString() will is aware of DST and will adjust accordingly. If no offset is given the returned value will default to UTC format. Possible options include:
+
+* "UTC"
+* "Eastern"
+* "Central"
+* "Mountain"
+* "Pacific"
 
 ```javascript
 var dateTime = BaseHelpers.dateTimeToString("1420138800000");
@@ -473,14 +479,14 @@ var dateTime = BaseHelpers.dateTimeToString("1420138800000");
 ````
 
 ```javascript
-var dateTime = BaseHelpers.dateTimeToString("1420138800000", -7);
+var dateTime = BaseHelpers.dateTimeToString("1420138800000", 'mountain');
 => "01-01-2015 12:00 PM"
 ````
 
 ###DurationToString
-**BaseHelpers.durationToString(milliseconds, [format])** => **[string] hour format**
+**BaseHelpers.durationToString(milliseconds [, format])** => **[string] hour format**
 
-The optional format parameter accepts a case-insensitive string unit of measure. If no format is given the response will default to "hours." Possible options include:
+The optional format parameter accepts a case-insensitive string unit of measure. If no format is given the returned value will default to "hours." Possible options include:
 
 * "days"
 * "hours"
