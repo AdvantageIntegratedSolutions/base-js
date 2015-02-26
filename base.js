@@ -1139,7 +1139,7 @@ var BaseHelpers = {
     var month = this.formatDateElement((date.getUTCMonth() + 1));
     var day = this.formatDateElement(date.getUTCDate());
 
-    date = [month, day, date.getUTCFullYear()].join("-");
+    var date = [month, day, date.getUTCFullYear()].join("-");
 
     return date;
   },
