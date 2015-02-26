@@ -1135,6 +1135,7 @@ var BaseHelpers = {
 
   dateToString: function(milliseconds){
     var offset = offset || this.options.offset;
+    var date = new Date( parseInt(milliseconds) );
 
     var month = this.formatDateElement((date.getUTCMonth() + 1));
     var day = this.formatDateElement(date.getUTCDate());
