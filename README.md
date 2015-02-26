@@ -465,7 +465,7 @@ var date = BaseHelpers.dateToString("1410454590146");
 ###DateTimeToString
 **BaseHelpers.dateTimeToString(milliseconds [, timeZone])** => **[string] date/time format**
 
-The optional timeZone parameter accepts a case-insensitive string timezone name. BaseHelpers.dateTimeToString() will is aware of DST and will adjust accordingly. If no offset is given the returned value will default to UTC format. Possible options include:
+The optional timeZone parameter accepts a case-insensitive string timezone name. BaseHelpers.dateTimeToString() is aware of DST and will adjust accordingly. If no offset is given the returned value will default to UTC format. Possible options include:
 
 * "UTC"
 * "Eastern"
