@@ -1002,6 +1002,23 @@ function Base(token, async){
     return BaseConnectInstance.post(data, callback, this.handle);
   };
 
+  this.setFieldProperties = function(dbid, fid, params, callback){
+    this.handle = function(response){
+      var error = BaseConnectInstance.getNode(response, "errcode");
+      return error == 0 ? true : false;
+    };
+
+    params["fid"] = fid;
+
+    var data = {
+      dbid: dbid,
+      action: "SetFieldProperties",
+      params: params
+    };
+
+    return BaseConnectInstance.post(data, callback, this.handle);
+  };
+
   this.getUserInfo = function(email, callback, handler){
     this.handle = function(response){
       var user = $(response).find("user");
