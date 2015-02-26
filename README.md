@@ -43,7 +43,7 @@ Related Libraries
   - [API_CreateTable]
   - [API_DeleteField]
   - [API_FieldAddChoices]
-  - [API_SetFieldProperties]
+  - [API_SetFieldProperties](#api_setfieldproperties)
   - [API_SetKeyField]
 
 * **Record (data) management**
@@ -123,6 +123,15 @@ var ticket = api.authenticate("6adfasdf8338adfadfbhkieoa874k494kadjff4774hfj3349
 
 ```javascript
 var signedOut = api.signOut();
+=> true;
+```
+
+###API_SetFieldProperties
+**setFieldProperties(dbid, fid, propertiesObj) => [bool] success?**
+
+```javascript
+var properties = { "required": "1", "unique": "0" };
+var propertiesSet = api.setFieldProperties("bdjwmnj33", 13, properties);
 => true;
 ```
 
@@ -454,19 +463,38 @@ var date = BaseHelpers.dateToString("1410454590146");
 ````
 
 ###DateTimeToString
-**BaseHelpers.dateTimeToString(milliseconds)** => **[string] date/time format**
+**BaseHelpers.dateTimeToString(milliseconds, [offset])** => **[string] date/time format**
+
+The optional offset parameter accepts an integer timezone offset to format the response. If no offset is given the response will default to UTC format.
 
 ```javascript
-var dateTime = BaseHelpers.dateTimeToString("1410454590146");
-=> "09-01-2014 12:03 pm"
+var dateTime = BaseHelpers.dateTimeToString("1420138800000");
+=> "01-01-2015 07:00 PM"
+````
+
+```javascript
+var dateTime = BaseHelpers.dateTimeToString("1420138800000", -7);
+=> "01-01-2015 12:00 PM"
 ````
 
 ###DurationToString
-**BaseHelpers.durationToString(milliseconds)** => **[string] hour format**
+**BaseHelpers.durationToString(milliseconds, [format])** => **[string] hour format**
+
+The optional format parameter accepts a case-insensitive string unit of measure. If no format is given the response will default to "hours." Possible options include:
+
+* "days"
+* "hours"
+* "minutes"
+* "seconds"
 
 ```javascript
-var duration = BaseHelpers.durationToString("1410454590146");
-=> "3 hours"
+var duration = BaseHelpers.durationToString("28800000");
+=> "8"
+````
+
+```javascript
+var duration = BaseHelpers.durationToString("28800000", "minutes");
+=> "480"
 ````
 
 ###TimeOfDayToString
