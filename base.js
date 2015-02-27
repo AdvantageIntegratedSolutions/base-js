@@ -1147,7 +1147,7 @@ var BaseHelpers = {
 
   dateTimeToString: function(milliseconds, timeZone) {
     var today = new Date();
-    var timeZone = timeZone ? timeZone.toLowerCase().trim() : this.options.timeZone;
+    var timeZone = timeZone ? timeZone.toLowerCase().trim() : this.options.timeZone.toLowerCase();
 
     Date.prototype.stdTimezoneOffset = function() {
       var jan = new Date(this.getFullYear(), 0, 1);
@@ -1193,7 +1193,7 @@ var BaseHelpers = {
   durationToString: function(milliseconds, format) {
     var ms = parseInt(milliseconds);
     var result;
-    var format = format ? format.trim().toLowerCase() : this.options.format;
+    var format = format ? format.trim().toLowerCase() : this.options.format.toLowerCase();
 
     var formatType = {
       "days": function() {
