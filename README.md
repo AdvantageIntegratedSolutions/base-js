@@ -446,6 +446,15 @@ var appRenamed = api.renameApp("BaseTesting2");
 ````
 
 ##Base Helpers
+BaseHelpers has an options property that can be used to set a global time zone for all dateTimeToString() calls and a format for all durationToString() calls.
+
+```javascript
+BaseHelpers.options = {
+  timeZone: 'Mountain',
+  format: 'Minutes'
+};
+````
+
 ###GetUrlParam
 **BaseHelpers.getUrlParam(name)** => **[string] param value**
 
@@ -465,7 +474,7 @@ var date = BaseHelpers.dateToString("1410454590146");
 ###DateTimeToString
 **BaseHelpers.dateTimeToString(milliseconds [, timeZone])** => **[string] date/time format**
 
-The optional timeZone parameter accepts a case-insensitive string timezone name. BaseHelpers.dateTimeToString() is aware of DST and will adjust accordingly. If no offset is given the returned value will default to UTC format. Possible options include:
+The optional timeZone parameter accepts a case-insensitive string timezone name. BaseHelpers.dateTimeToString() is aware of DST and will adjust accordingly. If no time zone is given the returned value will default to UTC format. Possible options include:
 
 * "UTC"
 * "Eastern"
