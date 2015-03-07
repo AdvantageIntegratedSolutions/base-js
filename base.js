@@ -1143,7 +1143,7 @@ var BaseHelpers = {
 
       return date;
     } else {
-      return '';
+      return ' ';
     }
   },
 
