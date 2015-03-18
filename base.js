@@ -1002,6 +1002,23 @@ function Base(token, async){
     return BaseConnectInstance.post(data, callback, this.handle);
   };
 
+  this.setFieldProperties = function(dbid, fid, params, callback){
+    this.handle = function(response){
+      var error = BaseConnectInstance.getNode(response, "errcode");
+      return error == 0 ? true : false;
+    };
+
+    params["fid"] = fid;
+
+    var data = {
+      dbid: dbid,
+      action: "SetFieldProperties",
+      params: params
+    };
+
+    return BaseConnectInstance.post(data, callback, this.handle);
+  };
+
   this.getUserInfo = function(email, callback, handler){
     this.handle = function(response){
       var user = $(response).find("user");
@@ -1095,6 +1112,11 @@ function Base(token, async){
 }
 
 var BaseHelpers = {
+  options: {
+    timeZone: 'utc',
+    format: 'hours'
+  },
+
   getUrlParam: function(name){
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -1112,23 +1134,47 @@ var BaseHelpers = {
   },
 
   dateToString: function(milliseconds){
-    if(milliseconds){
-      var date = new Date(parseInt(milliseconds));
-
+    if(milliseconds) {
+      var date = new Date( parseInt(milliseconds) );
       var month = this.formatDateElement((date.getUTCMonth() + 1));
       var day = this.formatDateElement(date.getUTCDate());
 
       date = [month, day, date.getUTCFullYear()].join("-");
-      return date;
-    };
 
-    return milliseconds;
+      return date;
+    } else {
+      return ' ';
+    }
   },
 
-  dateTimeToString: function(milliseconds){
-    if(milliseconds){
-      var date = new Date(parseInt(milliseconds));
+  dateTimeToString: function(milliseconds, timeZone) {
+    var today = new Date();
+    var timeZone = timeZone ? timeZone.toLowerCase().trim() : this.options.timeZone.toLowerCase();
 
+    Date.prototype.stdTimezoneOffset = function() {
+      var jan = new Date(this.getFullYear(), 0, 1);
+      var jul = new Date(this.getFullYear(), 6, 1);
+      return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+    }
+
+    Date.prototype.dst = function() {
+      return this.getTimezoneOffset() < this.stdTimezoneOffset();
+    }
+
+    var zoneOffsets = {
+      "utc": 0,
+      "eastern": today.dst() ? -4 : -5,
+      "central": today.dst() ? -5 : -6,
+      "mountain": today.dst() ? -6 : -7,
+      "pacific": today.dst() ? -7 : -8
+    };
+
+    var offset = zoneOffsets[timeZone];
+
+    if(milliseconds) {
+      var date = new Date( parseInt(milliseconds) + (60 * 60 * 1000 * offset) );
+
+      var year = this.formatDateElement((date.getUTCFullYear));
       var month = this.formatDateElement((date.getUTCMonth() + 1));
       var day = this.formatDateElement(date.getUTCDate());
       var hours = this.formatDateElement(date.getUTCHours());
@@ -1136,7 +1182,7 @@ var BaseHelpers = {
       var seconds = this.formatDateElement(date.getUTCSeconds());
 
       var dateTime = [month, day, date.getUTCFullYear()].join("-");
-      var ampm = parseInt(hours) >= 12 ? 'pm' : 'am';
+      var ampm = parseInt(hours) >= 12 ? 'PM' : 'AM';
       
       hours = hours % 12;
       hours = hours ? hours : 12; // the hour '0' should be '12'
@@ -1145,47 +1191,65 @@ var BaseHelpers = {
       dateTime += [hours, minutes].join(":")
       dateTime += " " + ampm
       return dateTime;
-    };
-
-    return milliseconds;
+    } else {
+      return '';
+    }
   },
 
-  durationToString: function(milliseconds){
-    var duration = "0";
+  durationToString: function(milliseconds, format) {
+    var ms = parseInt(milliseconds);
+    var result;
+    var format = format ? format.trim().toLowerCase() : this.options.format.toLowerCase();
 
-    if(milliseconds){
-      duration = parseInt(milliseconds) / 3600000;
+    var formatType = {
+      "days": function() {
+        return ms / 86400000;
+      },
+      "hours": function() {
+        return ms / 3600000;
+      },
+      "minutes": function() {
+        return ms / 60000;
+      },
+      "seconds": function() {
+        return ms / 1000;
+      }
     };
 
-    return duration.toString() + " hours";
+    if(milliseconds) {
+      if (formatType[format]) {
+        result = formatType[format]();
+      } 
+      else {
+        result = formatType["hours"]();
+        console.info("The format parameter passed to BaseHelpers.durationToString() was incorrect. Using the format for 'hours' instead.");
+      }
+
+      result = Math.round(result * 100) / 100;
+      return result.toString();
+    } else {
+      return '';
+    }
   },
 
   timeOfDayToString: function(milliseconds){
     var timeOfDay = "";
 
-    if(milliseconds){
-      timeOfDay = new Date().setHours("").setMinutes("").setSeconds("");
-      timeOfDay = timeOfDay.setMilliseconds(milliseconds);
-      timeOfDay = new Date(timeOfDay);
+    timeOfDay = new Date()
+    timeOfDay.setHours("");
+    timeOfDay.setMinutes("");
+    timeOfDay.setSeconds("");
+    timeOfDay.setMilliseconds(milliseconds);
 
-      var hours = parseInt(timeOfDay.getHours());
-      var minutes = timeOfDay.getMinutes().toString();
-      var zone = "am";
-      
-      if(hours >= 12){
-        zone = "pm"
+    var hours = timeOfDay.getHours().toString();
+    var minutes = timeOfDay.getMinutes().toString();
+    var ampm = hours > 12 ? "pm" : "am";
 
-        if(hours > 12){
-          hours = hours - 12
-        };
-      };
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes.length > 1 ? minutes : "0" + minutes;
 
-      if(minutes.length == 1){
-        minutes = "0" + minutes;
-      };
-
-      timeOfDay = hours.toString() + ":" + minutes + " " + zone
-    };
+    timeOfDay = hours + ":" + minutes + " " + ampm
 
     return timeOfDay;
   },
