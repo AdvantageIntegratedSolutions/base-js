@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="https://s3.amazonaws.com/ais_libraries/BaseJS/3.0/base.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="https://s3.amazonaws.com/ais_libraries/Bootstrap/3.2/css/bootstrap.min.css">
+
+		<style>
+			body{ margin-top: 20px; }
+			#alerts{ min-height: 50px; width: 100%; }
+			#main { min-height: 400px; }
+			.btn{ min-width: 100px; }
+			.alert{ display: none; margin-bottom: 0px !important; padding: 10px; }
+		</style>	
+
+		<script>
+			var config = {
+				table1: {
+					dbid: ''
+				},
+
+				table2: {
+					dbid: ''
+				},
+
+				table3: {
+					dbid: ''
+				},
+
+				table4: {
+					dbid: ''
+				}
+			};
+
+			var SimpleForm = {
+				bind: function(){
+					$('#cancel').click(function(){
+						alert("cancel event...");
+						//BaseHelpers.redirectToViewForm();
+						//BaseHelpers.redirectToEditForm();
+					});
+
+					$('#save').click(function(){
+						$(this).attr("disabled", "disabled");
+						$(this).html("Saving...");
+						SimpleForm.alert.success("10 records were created.", 1000);
+					});
+				},
+
+				alert: {
+					success: function(message, timeout){ this.show("successAlert", message, timeout) },
+					error: function(message, timeout){ this.show("errorAlert", message, timeout) },
+					info: function(message, timeout){ this.show("infoAlert", message, timeout) },
+					warning: function(message, timeout){ this.show("warningAlert", message, timeout) },
+
+					show: function(id, message, timeout){
+						id = "#" + id;
+
+						$(id).find(".message").html(message);
+						$(id).show();
+
+						if(timeout){
+							setTimeout(function(){
+								$(id).fadeOut(10000);
+							}, timeout);
+						};
+					}
+				},
+
+				validate: {
+					requiredFields: function(elements){
+						var valid = true;
+
+						$(".required").each(function(){
+							if($(this).val() == ""){
+								$(this).css("background-color", "#f2dede");
+								valid = false;
+							};
+						});
+
+						if(!valid){
+							SimpleForm.alert.error("Please fill out all required fields.");
+						};
+
+						return valid;
+					}
+				}
+			};
+
+			$(document).ready(function(){
+				var client = new Base();
+				var rid = BaseHelpers.getUrlParam("rid");
+
+				SimpleForm.bind();
+			});
+		</script>
+	</head>
+
+	<body>
+		<div class="container">
+			<legend id="title" class="lead">Page Title</legend>
+
+			<div id="alerts" class="pull-right text-center">
+				<div id="successAlert" class="alert alert-success"><span class="message"></span></div>
+				<div id="errorAlert" class="alert alert-danger"><span class="message"></span></div>
+				<div id="infoAlert" class="alert alert-info"><span class="message"></span></div>
+				<div id="warningAlert" class="alert alert-warning"><span class="message"></span></div>
+			</div>
+
+			<div id="main">
+
+			</div>
+
+			<hr>
+
+			<button id="cancel" class="btn btn-default">Cancel</button>
+			<button id="save" class="btn btn-primary pull-right">Save</button>
+		</div>
+	</body>
+</html>
