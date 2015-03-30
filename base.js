@@ -212,6 +212,8 @@ function BaseConnect(){
         param += ">"
         param += value;
       };
+    }else{
+      param += ">";
     };
 
     param += "</field>";
