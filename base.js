@@ -1,16 +1,64 @@
-function BaseConnect(){
+function BaseConnect(config){
+  this.config = config;
+  this.inverseConfig = BaseHelpers.inverseConfig(config);
+
   this.apptoken = null;
   this.async = null;
 
   this.post = function(data, callback, handler){
     var type = data.type || "API";
     var action = type + "_" + data.action;
-    var postData = this.buildPostData(data);
+    var postData = this.buildPostData(data.dbid, data);
 
-    return this.xmlPost(data.dbid, action, postData, callback, handler);
+    if(!data.dbid){
+      var dbid = "main"
+    }else{
+      if(this.config){
+        var dbid = this.config[data.dbid].dbid;
+      }else{
+        var dbid = data.dbid;
+      };      
+    };
+
+    return this.xmlPost(dbid, action, postData, callback, handler);
   };
 
-  this.buildPostData = function(data){
+  this.replaceFieldNames = function(query, dbid){
+    var config = this.config;
+
+    query = query.split(/(AND|OR)/).map(function(queryPart){
+      if(queryPart != "AND" && queryPart != "OR"){
+        var field = queryPart.match(/\{'*(.*)'\..*'/)[1];
+
+        if(isNaN(field)){
+          var fid = config[dbid][field];  
+          queryPart = queryPart.replace(field, fid);
+        };
+      };
+
+      return queryPart;
+    });
+
+    return query.join("");
+  };
+
+  this.replaceOptionFieldNames = function(value, dbid){
+    var config = this.config;
+
+    value = value.split(".");
+    value = value.map(function(fieldName){
+      if(isNaN(fieldName)){
+        var fid = config[dbid][fieldName];
+        return fid;
+      }else{
+        return fieldName;
+      }
+    });
+
+    return value.join(".");
+  };
+
+  this.buildPostData = function(dbid, data){
     var postData = ["<qdbapi>"];
 
     if(this.apptoken){
@@ -21,8 +69,18 @@ function BaseConnect(){
       var value = data.params[key];
 
       if(key == "clist" || key == "slist" || key == "options"){
-        if(Object.prototype.toString.call(value) == "[object Array]"){
+        if(typeof value == "object"){
           value = value.join(".");
+        };
+
+        if(this.config && (key == "clist" || key == "slist")){
+          if(value){
+            value = this.replaceOptionFieldNames(value, dbid);  
+          };
+        };
+      }else if(key == "query"){
+        if(this.config){
+          value = this.replaceFieldNames(value, dbid);
         };
       };
 
@@ -31,8 +89,14 @@ function BaseConnect(){
       };
     };
 
-    for(key in data.fieldParams){
-      postData.push(this.createFieldParameter(key, data.fieldParams[key]));
+    for(field in data.fieldParams){
+      if(this.config){
+        var fid = this.config[dbid][field];
+      }else{
+        var fid = field;
+      };
+      
+      postData.push(this.createFieldParameter(fid, data.fieldParams[field]));
     };
 
     for(key in data.fidParams){
@@ -52,7 +116,7 @@ function BaseConnect(){
     return $(response).find(tag).text();
   };
 
-  this.getRecords = function(response){    
+  this.getRecords = function(dbid, response){
     var records = $(response).find("records").find("record");
 
     var recordsArray = [];
@@ -77,7 +141,15 @@ function BaseConnect(){
           var value = $(field).text();
         };
 
-        record[id] = value;
+        if(this.config){
+          var tableConfig = this.inverseConfig[dbid];
+          if(tableConfig[id]){
+            id = tableConfig[id.toString()];
+            record[id] = value;   
+          };
+        }else{
+          record[id] = value;  
+        };
       };
 
       recordsArray.push(record);
@@ -366,9 +438,9 @@ function BaseConnect(){
   };
 }
 
-function Base(token, async){
-  var BaseConnectInstance = new BaseConnect();
-  BaseConnectInstance.setVariables(token, async);
+function Base(settings){
+  var BaseConnectInstance = new BaseConnect(settings.config);
+  BaseConnectInstance.setVariables(settings.token, settings.async);
 
   this.getOneTimeTicket = function(callback){
     this.handle = function(response){
@@ -376,7 +448,6 @@ function Base(token, async){
     };
 
     var data = {
-      dbid: "main",
       action: "GetOneTimeTicket"
     };
 
@@ -389,7 +460,6 @@ function Base(token, async){
     };
 
     var data = {
-      dbid: "main",
       action: "Authenticate",
       params: { "ticket" : ticket, "hours": hours }
     };
@@ -404,7 +474,6 @@ function Base(token, async){
     };
 
     var data = {
-      dbid: "main",
       action: "SignOut",
     };
 
@@ -516,7 +585,6 @@ function Base(token, async){
     };
 
     var data = {
-      dbid: "main",
       action: "CreateDatabase",
       type: "API",
       params: { "dbname": name, "dbdesc": description, "createapptoken": createAppToken || false }
@@ -562,7 +630,6 @@ function Base(token, async){
     };
 
     var data = {
-      dbid: "main",
       action: "FindDBByName",
       type: "API", 
       params: { "dbname": name }
@@ -617,7 +684,6 @@ function Base(token, async){
     };
 
     var data = {
-      dbid: "main",
       action: "GetAppDTMInfo",
       type: "API",
       params: { "dbid": dbid }
@@ -671,7 +737,6 @@ function Base(token, async){
     };
 
     var data = {
-      dbid: "main",
       action: "GrantedDBs",
       type: "API",
       params: params
@@ -682,7 +747,7 @@ function Base(token, async){
 
   this.doQuery = function(dbid, params, callback, handle){
     this.handle = function(response){
-      return BaseConnectInstance.getRecords(response, "records");
+      return BaseConnectInstance.getRecords(dbid, response, "records");
     };
 
     var queryParams = {"fmt": "structured"}
@@ -729,7 +794,7 @@ function Base(token, async){
 
   this.find = function(dbid, rid, callback){
     this.handle = function(response){
-      var records = BaseConnectInstance.getRecords(response, "records");
+      var records = BaseConnectInstance.getRecords(dbid, response, "records");
       if(records.length > 0){
         if(records.length > 1){
           return records;
@@ -758,7 +823,7 @@ function Base(token, async){
 
   this.first = function(dbid, params, callback){
     this.handle = function(response){
-      var records = BaseConnectInstance.getRecords(response, "records");
+      var records = BaseConnectInstance.getRecords(dbid, response, "records");
       if(records.length > 0){
         return records[0];
       }else{
@@ -771,7 +836,7 @@ function Base(token, async){
 
   this.last = function(dbid, params, callback){
     this.handle = function(response){
-      var records = BaseConnectInstance.getRecords(response, "records");
+      var records = BaseConnectInstance.getRecords(dbid, response, "records");
       if(records.length > 0){
         return records[records.length - 1];
       }else{
@@ -784,7 +849,7 @@ function Base(token, async){
 
   this.all = function(dbid, params, callback){
     this.handle = function(response){
-      var records = BaseConnectInstance.getRecords(response, "records");
+      var records = BaseConnectInstance.getRecords(dbid, response, "records");
       if(records.length > 0){
         return records;
       }else{
@@ -885,7 +950,12 @@ function Base(token, async){
     var clist = [];
 
     for(key in csvArray[0]){
-      clist.push(key);
+      if(BaseConnectInstance.config){
+        tableConfig = BaseConnectInstance.config[dbid];
+        key = tableConfig[key];
+      };
+      
+      clist.push(key);  
     };
 
     clist = clist.join(".");
@@ -1044,7 +1114,6 @@ function Base(token, async){
     };
 
     var data = {
-      dbid: "main",
       action: "GetUserInfo",
       params: {"email": email}
     };
@@ -1117,6 +1186,22 @@ var BaseHelpers = {
   options: {
     timeZone: 'utc',
     format: 'hours'
+  },
+
+  inverseConfig: function(config){
+    var inverseConfig = {};
+
+    for(var table in config){
+      var newObject = {};
+
+      for(var field in config[table]){
+        newObject[config[table][field].toString()] = field;
+      };
+
+      inverseConfig[table] = newObject;
+    };
+
+    return inverseConfig;
   },
 
   getUrlParam: function(name){
@@ -1224,7 +1309,7 @@ var BaseHelpers = {
       } 
       else {
         result = formatType["hours"]();
-        console.info("The format parameter passed to BaseHelpers.durationToString() was incorrect. Using the format for 'hours' instead.");
+        console.log("The format parameter passed to BaseHelpers.durationToString() was incorrect. Using the format for 'hours' instead.");
       }
 
       result = Math.round(result * 100) / 100;

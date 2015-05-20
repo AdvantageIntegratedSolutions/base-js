@@ -7,249 +7,165 @@
 
 		<script>
 			$(document).ready(function(){		
-				var mainDbid = "bjbsgxy2r";
-				var demoDbid = "bjbsgxy3t";
-				
 				//Initiate connection to application
-				var client = new Base("cgfsmfcdc5vyp5k5s7h6b6v3m9v");
+				var config = {
+					main: {
+						dbid: "bjbsgxy2r",
+						rid: 3
+					},
+
+					teachers: {
+						dbid: "bjbsgxy3t",
+						rid: 3,
+						firstName: 8,
+						lastName: 9
+					}
+				};
+
+				var client = new Base({
+					token: "cgfsmfcdc5vyp5k5s7h6b6v3m9v",
+					async: false,
+					config: config
+				});
 
 				//Get Ticket
-				var ticket = client.getOneTimeTicket();
-				console.log("TICKET: " + ticket);
+				// var ticket = client.getOneTimeTicket();
+				// console.log("TICKET: " + ticket);
 
-				var ticket = client.authenticate(ticket, 1);
-				console.log("AUTH TICKET: " + ticket);
+				// var ticket = client.authenticate(ticket, 1);
+				// console.log("AUTH TICKET: " + ticket);
 
-				var dbid = client.findDbByName("BaseJS Testing");
-				console.log("FindDBByName: " + dbid);
+				// var dbid = client.findDbByName("BaseJS Testing");
+				// console.log("FindDBByName: " + dbid);
 
-				var ancestorInfo = client.getAncestorInfo(dbid);
-				console.log(ancestorInfo);
+				// var ancestorInfo = client.getAncestorInfo("main");
+				// console.log(ancestorInfo);
 
-				var dbInfo = client.getDbInfo(dbid);
-				console.log(dbInfo);
+				// var dbInfo = client.getDbInfo("main");
+				// console.log(dbInfo);
 
-				var genAddRecordForm = client.genAddRecordForm(demoDbid, {"8": "test"});
-				console.log(genAddRecordForm);
+				// var genAddRecordForm = client.genAddRecordForm("teachers", {"8": "test"});
+				// console.log(genAddRecordForm);
 
-				var grantedDbs = client.grantedDbs();
-				console.log(grantedDbs);
+				// var grantedDbs = client.grantedDbs();
+				// console.log(grantedDbs);
 
-				var dtmInfo = client.getAppDtmInfo(dbid);
-				console.log(dtmInfo);
+				// var dtmInfo = client.getAppDtmInfo("main");
+				// console.log(dtmInfo);
 
-				var variable = client.setDBVar("bjbsgxy2r", "test", "hello world");
-				console.log("SET VAR: " + variable);
-				var variableValue = client.getDBVar("bjbsgxy2r", "test");
-				console.log("GET VAR: " + variableValue);
+				// var variable = client.setDBVar("main", "test", "hello world");
+				// console.log("SET VAR: " + variable);
+				// var variableValue = client.getDBVar("main", "test");
+				// console.log("GET VAR: " + variableValue);
 
-				var pageId = client.uploadPage("bjbsgxy2r", null, "test.txt", "asdfadsf");
-				console.log("UPLOAD PAGE: " + pageId);
+				// var pageId = client.uploadPage("main", null, "test.txt", "asdfadsf");
+				// console.log("UPLOAD PAGE: " + pageId);
 
-				var htmlPage = client.getDbPage("bjbsgxy2r", pageId);
-				console.log(htmlPage);
+				// var htmlPage = client.getDbPage("main", pageId);
+				// console.log(htmlPage);
 
-				var success = client.deletePage("bjbsgxy2r", pageId);
-				console.log("DELETE PAGE: " + success);
+				// var success = client.deletePage("main", pageId);
+				// console.log("DELETE PAGE: " + success);
 
 				//Get User Info
-				var response = client.getUserInfo("zsiglin@advantagequickbase.com");
-				console.log("USER INFO: " + response["id"]);
+				// var response = client.getUserInfo("zsiglin@advantagequickbase.com");
+				// console.log("USER INFO: " + response["id"]);
 
-				//Get User Roles
-				var response = client.getUserRoles(mainDbid);
-				console.log(response);
+				// //Get User Roles
+				// var response = client.getUserRoles("main");
+				// console.log(response);
 
-				var response = client.changeUserRole(mainDbid, "58755660.cwj9", "12", "11");
-				console.log(response);
+				// var response = client.changeUserRole("main", "58755660.cwj9", "12", "11");
+				// console.log(response);
 
 				//Add Record
-				var newRecordHash = { 8: "Mike", 9: "Johnson", 14: "4", 15: "2pm" }
-				var rid = client.addRecord(demoDbid, newRecordHash);
-				console.log("ADD RECORD: " + rid);
+				// var newRecordHash = { firstName: "Mike", lastName: "Johnson" }
+				// var rid = client.addRecord("teachers", newRecordHash);
+				// console.log("ADD RECORD: " + rid);
 
-				var newRecordHash = { 8: "Mike", 9: "Johnson", 14: "5", 15: "3pm" }
-				var rid2 = client.addRecord(demoDbid, newRecordHash);
+				// var newRecordHash = { 8: "Mike", 9: "Johnson"}
+				// var rid2 = client.addRecord("bjbsgxy3t", newRecordHash);
 
-				var numberOfRecords = client.getNumRecords(demoDbid);
-				console.log(numberOfRecords);
+				// var numberOfRecords = client.getNumRecords(demoDbid);
+				// console.log(numberOfRecords);
 
 				//Edit Record
-				var editRecordHash = { 8: "Stephan", 9: "Smith" }
-				var response = client.editRecord(demoDbid, rid, editRecordHash);
-				console.log("EDIT RECORD: " + response);
+				// var editRecordHash = { firstName: "Stephan", lastName: "Smith" }
+				// var response = client.editRecord("teachers", "3894", editRecordHash);
+				// console.log("EDIT RECORD: " + response);
 
-				var response = client.changeRecordOwner(demoDbid, rid, "zsiglin@advantagequickbase.com");
-				console.log("CHANGE RECORD OWNER: " + response);
+				// var response = client.changeRecordOwner("teachers", "3894", "zsiglin@advantagequickbase.com");
+				// console.log("CHANGE RECORD OWNER: " + response);
 
-				var response = client.copyMasterDetail(demoDbid, {destrid: "0", sourcerid: rid, copyfid: "8"});
-				console.log("COPY RECORDS: " + response);
+				// var response = client.copyMasterDetail("teachers", {destrid: "0", sourcerid: "3894", copyfid: "8"});
+				// console.log("COPY RECORDS: " + response);
 
-				//Find
-				var response = client.find(demoDbid, rid);
-				console.log("FIND: " + response);
-				console.log(response["3"])
+				// //Find
+				// var response = client.find("teachers", "3894");
+				// console.log("FIND: " + response);
 
-				var response = client.getRecordInfo(demoDbid, rid);
-				console.log("GetRecordInfo:")
-				console.log(response);
+				// var response = client.getRecordInfo("teachers", "3894");
+				// console.log("GetRecordInfo:")
+				// console.log(response);
 
-				var response = client.find(demoDbid, [rid, rid2]);
-				console.log("FIND 2: " + response);
+				// var response = client.find("teachers", ["3894", "3895"]);
+				// console.log("FIND 2: " + response);
 
-				var response = client.first(demoDbid, {"query": "{'3'.XEX.''}", "slist": "3"});
-				console.log("FIRST: " + response);
+				// var response = client.first("teachers", {"query": "{'rid'.XEX.''}", "clist": "3"});
+				// console.log("FIRST: " + response);
 
-				var response = client.last(demoDbid, {"query": "{'3'.XEX.''}", "slist": "3"});
-				console.log("LAST: " + response);
-
-				//DoQuery
-				var query = "{'3'.XEX.''}"
-				var response = client.doQuery(demoDbid, {"query": query})
-				console.log("QUERY 1: " + response);
-
-				var qid = "1"
-				var response = client.doQuery(demoDbid, {"qid": qid, "clist": ["1", "2", "3", "4", "5", "14", "15"]})
-				console.log("QUERY 2: " + response);
-
-				var response = client.all(demoDbid);
-				console.log("ALL: " + response);
-
-				var response = client.getRids(demoDbid)
-				console.log("FIND RIDS: " + response);
-
-				var dateCreated = BaseHelpers.dateToString(response[0]["1"]);
-				var dateModified = BaseHelpers.dateTimeToString(response[0]["2"]);
-				var totalHours = BaseHelpers.durationToString(response[0]["14"]);
-				var timeOfDay = BaseHelpers.timeOfDayToString(response[0]["15"]);
-
-				console.log("DATE CREATED: " + dateCreated);
-				console.log("DATE MODIFIED: " + dateModified);
-				console.log("TOTAL HOURS: " + totalHours);
-				console.log("TIME OF DAY: " + timeOfDay);
-
-				//DoQueryCount
-				var query = "{'3'.XEX.''}"
-				var response = client.doQueryCount(demoDbid, query)
-				console.log("DO QUERY COUNT: " + response);
-
-				//Delete Record
-				var response = client.deleteRecord(demoDbid, rid);
-				console.log("DELETE: " + response);
-
-				var csvArray = [
-					{ 8: 'Mike"s', 9: "John>s&o<n" },
-					{ 8: "Step,hani'e", 9: "Wallace" },
-					{ 8: "Jackson", 9: "Williams" },
-					{ 8: "Martin", 9: "Douglas" }
-				]
-				var response = client.importFromCSV(demoDbid, csvArray);
-				console.log("IMPORT: " + response);
-
-				//Delete Mass Records
-				var response = client.purgeRecords(demoDbid, "{'3'.XEX.''}")
-				console.log("PURGE: " + response);
-
-				//Get Table Fields
-				var response = client.getTableFields(demoDbid);
-				console.log("GET TABLE FIELDS: " + response);
-
-				//ASYNC
-				var asyncClient = new Base("cgfsmfcdc5vyp5k5s7h6b6v3m9v", true);
-
-				//Get Ticket
-				asyncClient.getOneTimeTicket(function(response){
-					console.log("TICKET: " + response);
-				});
-
-				asyncClient.setDBVar("bjbsgxy2r", "test", "hello world", function(response){
-					console.log("SET VAR: " + response);
-				});
-
-				asyncClient.getDBVar("bjbsgxy2r", "test", function(response){
-					console.log("GET VAR: " + response)
-				});
-
-				//Get User Info
-				asyncClient.getUserInfo("", function(response){
-					console.log("USER INFO: " + response);
-				});
-
-				//Add Record
-				var newRecordHash = { 8: "Mike", 9: "Johnson", 14: "4", 15: "2pm" }
-				asyncClient.addRecord(demoDbid, newRecordHash, function(rid){
-					console.log("ADD RECORD: " + rid);
-
-					//Edit Record
-					var editRecordHash = { 8: "Stephan", 9: "Smith" }
-					asyncClient.editRecord(demoDbid, rid, editRecordHash, function(response){
-						console.log("EDIT RECORD: " + response);
-					});
-				});
-
-				//Find
-				asyncClient.find(demoDbid, rid, function(response){
-					console.log("FIND: " + response);
-				});
-				
-				asyncClient.find(demoDbid, [rid, rid2], function(response){
-					console.log("FIND 2: " + response);
-				});
-				
-				asyncClient.first(demoDbid, {"query": "{'3'.XEX.''}", "slist": "3"}, function(response){
-					console.log("FIRST: " + response);
-				});
-				
-				asyncClient.last(demoDbid, {"query": "{'3'.XEX.''}", "slist": "3"}, function(response){
-					console.log("LAST: " + response);
-				});
+				// var response = client.last("teachers", {"query": "{'rid'.XEX.''}", "clist": "rid"});
+				// console.log("LAST: " + response);
 
 				//DoQuery
-				var query = "{'3'.XEX.''}"
-				asyncClient.doQuery(demoDbid, {"query": query}, function(response){
-					console.log("QUERY 1: " + response);
-				});
+				// var query = "{'rid'.XEX.''}"
+				// var response = client.doQuery("teachers", {"query": query, "clist": "rid"})
+				// console.log(response)
 
-				var qid = "1"
-				asyncClient.doQuery(demoDbid, {"qid": qid, "clist": ["1", "2", "3", "4", "5", "14", "15"]}, function(response){
-					console.log("QUERY 2: " + response);
-				});
+				// var qid = "1"
+				// var response = client.doQuery("teachers", {"qid": qid, "clist": ["rid"]})
+				// console.log("QUERY 2: " + response);
 
-				asyncClient.all(demoDbid, null, function(response){
-					console.log("ALL: " + response);
-				});
+				// var response = client.all("teachers");
+				// console.log(response);
 
-				//DoQueryCount
-				var query = "{'3'.XEX.''}"
-				client.doQueryCount(demoDbid, query, function(response){
-					console.log("DO QUERY COUNT: " + response);
-				});
+				// var response = client.getRids("teachers")
+				// console.log("FIND RIDS: " + response);
 
-				//Delete Record
-				client.deleteRecord(demoDbid, rid, function(response){
-					console.log("DELETE: " + response);
-				});
-				
-				var csvArray = [
-					{ 8: 'Mike"s', 9: "John>s&o<n" },
-					{ 8: "Step,hani'e", 9: "Wallace" },
-					{ 8: "Jackson", 9: "Williams" },
-					{ 8: "Martin", 9: "Douglas" }
-				]
-				
-				client.importFromCSV(demoDbid, csvArray, function(response){
-					console.log("IMPORT: " + response);
-				});
-				
+				// var dateCreated = BaseHelpers.dateToString(response[0]["1"]);
+				// var dateModified = BaseHelpers.dateTimeToString(response[0]["2"]);
+				// var totalHours = BaseHelpers.durationToString(response[0]["14"]);
+				// var timeOfDay = BaseHelpers.timeOfDayToString(response[0]["15"]);
+
+				// console.log("DATE CREATED: " + dateCreated);
+				// console.log("DATE MODIFIED: " + dateModified);
+				// console.log("TOTAL HOURS: " + totalHours);
+				// console.log("TIME OF DAY: " + timeOfDay);
+
+				// //DoQueryCount
+				// var query = "{'rid'.XEX.''}"
+				// var response = client.doQueryCount("teachers", query)
+				// console.log("DO QUERY COUNT: " + response);
+
+				// //Delete Record
+				// var response = client.deleteRecord("teachers", "3894");
+				// console.log("DELETE: " + response);
+
+				// var csvArray = [
+				// 	{ firstName: 'Mike"s', lastName: "John>s&o<n" },
+				// 	{ firstName: "Step,hani'e", lastName: "Wallace" },
+				// 	{ firstName: "Jackson", lastName: "Williams" },
+				// 	{ firstName: "Martin", lastName: "Douglas" }
+				// ]
+				// var response = client.importFromCSV("teachers", csvArray);
+				// console.log("IMPORT: " + response);
+
 				//Delete Mass Records
-				client.purgeRecords(demoDbid, "{'3'.XEX.''}", function(response){
-					console.log("PURGE: " + response);
-				});
+				// var response = client.purgeRecords("teachers", "{'rid'.XEX.''}")
+				// console.log("PURGE: " + response);
 
-				//Get Table Fields
-				client.getTableFields(demoDbid, function(response){
-					console.log("GET TABLE FIELDS: " + response);
-				});
+				// //Get Table Fields
+				// var response = client.getTableFields("teachers");
 			});
 
 		</script>
