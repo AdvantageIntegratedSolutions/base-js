@@ -1,22 +1,28 @@
 function BaseConnect(config){
   this.config = config;
-  this.inverseConfig = BaseHelpers.inverseConfig(config);
+  this.inverseTables = BaseHelpers.inverseTables(config.tables);
 
-  this.apptoken = null;
-  this.async = null;
+  this.apptoken = config.token;
+  this.async = config.async || false;
+  this.databaseId = config.databaseId;
 
   this.post = function(data, callback, handler){
     var type = data.type || "API";
     var action = type + "_" + data.action;
     var postData = this.buildPostData(data.dbid, data);
+    var dbid = "";
 
     if(!data.dbid){
-      var dbid = "main"
+      dbid = this.databaseId;
     }else{
-      if(this.config){
-        var dbid = this.config[data.dbid].dbid;
+      if(this.config && data.dbid != "main"){
+        if(data.dbid == this.databaseId){
+          dbid = this.databaseId;
+        }else{
+          dbid = this.config.tables[data.dbid].dbid;
+        };
       }else{
-        var dbid = data.dbid;
+        dbid = data.dbid;
       };      
     };
 
@@ -98,7 +104,7 @@ function BaseConnect(config){
         var field = queryPart.match(/\{'*(.*)'\..*'/)[1];
 
         if(isNaN(field)){
-          var fid = config[dbid][field];  
+          var fid = config.tables[dbid][field];  
           queryPart = queryPart.replace(field, fid);
         };
       };
@@ -115,7 +121,7 @@ function BaseConnect(config){
     value = value.split(".");
     value = value.map(function(fieldName){
       if(isNaN(fieldName)){
-        var fid = config[dbid][fieldName];
+        var fid = config.tables[dbid][fieldName];
         return fid;
       }else{
         return fieldName;
@@ -160,6 +166,8 @@ function BaseConnect(config){
         if(this.config){
           value = this.replaceFieldNames(value, dbid);
         };
+
+        key = "query";
       };
 
       if(value){
@@ -169,12 +177,12 @@ function BaseConnect(config){
 
     for(field in data.fieldParams){
       if(this.config){
-        var fid = this.config[dbid][field];
+        var fid = this.config.tables[dbid][field];
       }else{
         var fid = field;
       };
       
-      var fieldValue = this.handleXMLCharacters(data.fieldParams[field]);
+      var fieldValue = this.handleXMLCharacters(data.fieldParams[field]);      
       postData.push(this.createFieldParameter(fid, fieldValue));
     };
 
@@ -197,7 +205,6 @@ function BaseConnect(config){
 
   this.getRecords = function(dbid, response){
     var records = $(response).find("records").find("record");
-
     var recordsArray = [];
 
     for(var i=0; i < records.length; i++){
@@ -221,7 +228,7 @@ function BaseConnect(config){
         };
 
         if(this.config){
-          var tableConfig = this.inverseConfig[dbid];
+          var tableConfig = this.inverseTables[dbid];
           if(tableConfig[id]){
             id = tableConfig[id.toString()];
             record[id] = value;   
@@ -481,11 +488,6 @@ function BaseConnect(config){
     return xml;
   };
 
-  this.setVariables = function(token, async){
-    this.apptoken = token;
-    this.async = async || false;
-  };
-
   this.initHttpConnection = function(context){
     var connection = null;
     this.context = context;
@@ -517,9 +519,419 @@ function BaseConnect(config){
   };
 }
 
-function Base(settings){
-  var BaseConnectInstance = new BaseConnect(settings.config);
-  BaseConnectInstance.setVariables(settings.token, settings.async);
+function Base(config){
+  var BaseConnectInstance = new BaseConnect(config);
+  this.databaseId = config.databaseId;
+
+  this.Table = function(key, config){
+    this[key] = config;
+    this.tableName = key;
+    this.dbid = config.dbid;
+
+    this.doQuery = function(params, callback, handle){
+      var tableName = this.tableName;
+
+      this.handle = function(response){
+        return BaseConnectInstance.getRecords(tableName, response, "records");
+      };
+
+      var queryParams = {"fmt": "structured"}
+      if(params.query || params.qid){
+        if(params.query){
+          queryParams.query = params.query;
+        }else{
+          queryParams.qid = params.qid;
+        };
+      }else{
+        queryParams.query = "{'3'.XEX.''}"
+      };
+
+      if(BaseConnectInstance.config && !params.clist){
+        var table = BaseConnectInstance.config[tableName];
+        
+        var clist = [];
+        for(key in table){
+          var value = table[key];
+
+          if(!isNaN(value)){
+            clist.push(key);
+          };
+        };
+
+        params.clist = clist.join(".");
+      };
+
+      queryParams.clist = params.clist;
+      queryParams.slist = params.slist
+      queryParams.options = params.options
+
+      var data = {
+        dbid: tableName,
+        action: "DoQuery",
+        params: queryParams
+      };
+
+      if(handle){
+        this.handle = handle;
+      };
+
+      return BaseConnectInstance.post(data, callback, this.handle);
+    };
+
+    this.find = function(rid, callback){
+      var tableName = this.tableName;
+
+      this.handle = function(response){
+        var records = BaseConnectInstance.getRecords(tableName, response, "records");
+        if(records.length > 0){
+          if(records.length > 1){
+            return records;
+          }else{
+            return records[0];
+          };
+        }else{
+          return {};
+        };
+      };
+      
+      if(Object.prototype.toString.call(rid) == "[object Array]"){
+        var query = { "3": { in: rid }}
+      }else{
+        var query = { "3": rid };
+      };
+      
+      return this.doQuery({"query": query}, callback, this.handle);
+    };
+
+    this.first = function(params, callback){
+      var tableName = this.tableName;
+
+      this.handle = function(response){
+        var records = BaseConnectInstance.getRecords(tableName, response, "records");
+        if(records.length > 0){
+          return records[0];
+        }else{
+          return {};
+        };
+      };
+
+      return this.doQuery(params, callback, this.handle);
+    };
+
+    this.last = function(params, callback){
+      var tableName = this.tableName;
+
+      this.handle = function(response){
+        var records = BaseConnectInstance.getRecords(tableName, response, "records");
+        if(records.length > 0){
+          return records[records.length - 1];
+        }else{
+          return {};
+        };
+      };
+
+      return this.doQuery(params, callback, this.handle);
+    };
+
+    this.all = function(params, callback){
+      var tableName = this.tableName;
+
+      this.handle = function(response){
+        var records = BaseConnectInstance.getRecords(tableName, response, "records");
+        if(records.length > 0){
+          return records;
+        }else{
+          return {};
+        };
+      };
+
+      if(!params){
+        params = {};
+      };
+
+      params["query"] = { "3": { XEX: "" } };
+      return this.doQuery(params, callback, this.handle);
+    };
+
+    this.getRids = function(query, callback){
+      this.handle = function(response){
+        return BaseConnectInstance.getRids(response);
+      };
+
+      params = {
+        clist: "3"
+      };
+
+      if(query){
+        params["query"] = query;
+      }else{
+        params["query"] = { "3": { XEX: "" } }  
+      };
+
+      return this.doQuery(params, callback, this.handle);
+    };
+
+    this.doQueryCount = function(query, callback){
+      this.handle = function(response){
+        return BaseConnectInstance.getNode(response, "numMatches");
+      };
+
+      var data = {
+        dbid: this.tableName,
+        action: "DoQueryCount",
+        params: {"query": query}
+      };
+
+      return BaseConnectInstance.post(data, callback, this.handle);
+    };
+
+    this.addRecord = function(fieldParams, callback){
+      this.handle = function(response){
+        return parseInt(BaseConnectInstance.getNode(response, "rid"));
+      };
+
+      var data = {
+        dbid: this.tableName,
+        action: "AddRecord",
+        fieldParams: fieldParams
+      };
+
+      return BaseConnectInstance.post(data, callback, this.handle);
+    };
+
+    this.editRecord = function(rid, fieldParams, callback){
+      this.handle = function(response){
+        var rid = BaseConnectInstance.getNode(response, "rid");
+        return rid ? true : false;
+      };
+
+      var data = {
+        dbid: this.tableName,
+        action: "EditRecord",
+        fieldParams: fieldParams,
+        params: {"rid": rid}
+      }
+
+      return BaseConnectInstance.post(data, callback, this.handle);
+    };
+
+    this.changeRecordOwner = function(rid, owner, callback){
+      this.handle = function(response){
+        return true;
+      };
+
+      var data = {
+        dbid: this.tableName,
+        action: "ChangeRecordOwner",
+        params: {"rid": rid, "newowner": owner}
+      };
+
+      return BaseConnectInstance.post(data, callback, this.handle);
+    };
+
+    this.copyMasterDetail = function(params, callback){
+      this.handle = function(response){
+        return BaseConnectInstance.getNode(response, "numCreated");
+      };
+
+      var data = {
+        dbid: this.tableName,
+        action: "CopyMasterDetail",
+        params: params
+      };
+
+      return BaseConnectInstance.post(data, callback, this.handle);
+    };
+
+    this.getRecordInfo = function(rid, callback){
+      this.handle = function(response){
+
+        var allFields = {};
+        var fields = $(response).find("field");
+
+        for(var i=0; i < fields.length; i++){
+          var field = fields[i];
+          var fieldHash = {
+            "name": BaseConnectInstance.getNode(field, "name"),
+            "type": BaseConnectInstance.getNode(field, "type"),
+            "value": BaseConnectInstance.getNode(field, "value")
+          };
+
+          allFields[$(field).find("fid").text()] = fieldHash;
+        };
+
+        var info = {
+          "rid": BaseConnectInstance.getNode(response, "rid"),
+          "num_fields": BaseConnectInstance.getNode(response, "num_fields"),
+          "update_id": BaseConnectInstance.getNode(response, "update_id"),
+          "fields": allFields
+        };
+
+        return info;
+      };
+
+      var data = {
+        dbid: this.tableName,
+        action: "GetRecordInfo",
+        params: { "rid": rid }
+      };
+
+      return BaseConnectInstance.post(data, callback, this.handle);
+    };
+
+    this.deleteRecord = function(rid, callback){
+      this.handle = function(response){
+        var rid = BaseConnectInstance.getNode(response, "rid");
+        return rid ? true : false;
+      };
+
+      var data = {
+        dbid: this.tableName,
+        action: "DeleteRecord",
+        params: {"rid": rid}
+      };
+
+      return BaseConnectInstance.post(data, callback, this.handle);
+    };
+
+    this.purgeRecords = function(query, callback){
+      this.handle = function(response){
+        var numberOfRecordDeleted = BaseConnectInstance.getNode(response, "num_records_deleted");
+        return parseInt(numberOfRecordDeleted);
+      };
+
+      var data = {
+        dbid: this.tableName,
+        action: "PurgeRecords",
+        params: {"query": query}
+      };
+
+      return BaseConnectInstance.post(data, callback, this.handle);
+    };
+
+    this.importFromCSV = function(csvArray, callback){
+      this.handle = function(response){
+        return BaseConnectInstance.getNewRids(response);
+      };
+
+      var csv = "";
+      var clist = [];
+
+      for(key in csvArray[0]){
+        if(BaseConnectInstance.config){
+          tableConfig = BaseConnectInstance.config.tables[this.tableName];
+          key = tableConfig[key];
+        };
+        
+        clist.push(key);  
+      };
+
+      clist = clist.join(".");
+
+      for(var i=0; i < csvArray.length; i++){
+        var row = csvArray[i];
+        var rowValues = [];
+
+        for(key in row){
+          value = row[key];
+          value = value.toString().replace(/"/g, '""');
+          rowValues.push('"' + value + '"');
+        };
+
+        rowValues.join(",")
+        rowValues += "\n"
+
+        csv += (rowValues);
+      };
+
+      var data = {
+        dbid: this.tableName,
+        action: "ImportFromCSV",
+        params: {"clist": clist},
+        csvData: csv
+      }
+
+      return BaseConnectInstance.post(data, callback, this.handle);
+    };
+
+    this.getTableFields = function(callback){
+      this.handle = function(response){
+        return BaseConnectInstance.getFields(response);
+      };
+
+      var data = {
+        dbid: this.tableName,
+        action: "GetSchema"
+      };
+
+      return BaseConnectInstance.post(data, callback, this.handle);
+    };
+
+    this.genAddRecordForm = function(params, callback){
+      this.handle = function(response){
+        return response;
+      };
+
+      var data = {
+        dbid: this.tableName,
+        action: "GenAddRecordForm",
+        fidParams: params
+      };
+
+      return BaseConnectInstance.post(data, callback, this.handle);
+    };
+
+    this.getNumRecords = function(callback){
+      this.handle = function(response){
+        return parseInt(BaseConnectInstance.getNode(response, "num_records"));
+      };
+
+      var data = {
+        dbid: this.tableName,
+        action: "GetNumRecords"
+      };
+
+      return BaseConnectInstance.post(data, callback, this.handle);
+    };
+
+    this.setFieldProperties = function(fid, params, callback){
+      this.handle = function(response){
+        var error = BaseConnectInstance.getNode(response, "errcode");
+        return error == 0 ? true : false;
+      };
+
+      params["fid"] = fid;
+
+      var data = {
+        dbid: this.tableName,
+        action: "SetFieldProperties",
+        params: params
+      };
+
+      return BaseConnectInstance.post(data, callback, this.handle);
+    };
+
+    this.getTableReports = function(callback){
+      this.handle = function(response){
+        return BaseConnectInstance.getReports(response);
+      };
+
+      var data = {
+        dbid: this.tableName,
+        action: "GetSchema"
+      };
+
+      return BaseConnectInstance.post(data, callback, this.handle);
+    };
+  };
+
+  this.setTables = function(tables){
+    for(key in tables){
+      this[key] = new this.Table(key, tables[key]);
+    };
+  };
+
+  this.setTables(config.tables);
 
   this.getOneTimeTicket = function(callback){
     this.handle = function(response){
@@ -559,13 +971,13 @@ function Base(settings){
     return BaseConnectInstance.post(data, callback, this.handle);
   };
 
-  this.getDBVar = function(dbid, name, callback){
+  this.getDBVar = function(name, callback){
     this.handle = function(response){
       return BaseConnectInstance.getNode(response, "value");
     };
 
     var data = {
-      dbid: dbid,
+      dbid: this.databaseId,
       action: "GetDBvar",
       params: {"varname": name}
     };
@@ -573,13 +985,13 @@ function Base(settings){
     return BaseConnectInstance.post(data, callback, this.handle)
   };
 
-  this.setDBVar = function(dbid, name, value, callback){
+  this.setDBVar = function(name, value, callback){
     this.handle = function(response){
       return true;
     };
 
     var data = {
-      dbid: dbid,
+      dbid: this.databaseId,
       action: "SetDBvar",
       params: {"varname": name, "value": value}
     };
@@ -587,7 +999,7 @@ function Base(settings){
     return BaseConnectInstance.post(data, callback, this.handle);
   };
 
-  this.uploadPage = function(dbid, id, name, body, callback){
+  this.uploadPage = function(id, name, body, callback){
     this.handle = function(response){
       return BaseConnectInstance.getNode(response, "pageID");
     };
@@ -604,7 +1016,7 @@ function Base(settings){
     };
 
     var data = {
-      dbid: dbid,
+      dbid: this.databaseId,
       action: "AddReplaceDBPage",
       params: params
     };
@@ -612,14 +1024,14 @@ function Base(settings){
     return BaseConnectInstance.post(data, callback, this.handle);
   };
 
-  this.deletePage = function(dbid, pageId, callback){
+  this.deletePage = function(pageId, callback){
     this.handle = function(response){
       var error = BaseConnectInstance.getNode(response, "errcode");
       return error == "0" ? true : false;
     };
 
     var data = {
-      dbid: dbid,
+      dbid: this.databaseId,
       action: "PageDelete",
       type: "QBI",
       params: {"pageid": pageId}
@@ -628,13 +1040,13 @@ function Base(settings){
     return BaseConnectInstance.post(data, callback, this.handle);
   };
 
-  this.getDbPage = function(dbid, pageId, callback){
+  this.getDbPage = function(pageId, callback){
     this.handle = function(response){
       return BaseConnectInstance.getNode(response, "pagebody");
     };
 
     var data = {
-      dbid: dbid,
+      dbid: this.databaseId,
       action: "GetDBPage",
       type: "API",
       params: { "pageID": pageId }
@@ -643,13 +1055,13 @@ function Base(settings){
     return BaseConnectInstance.post(data, callback, this.handle);
   };
 
-  this.cloneDatabase = function(dbid, params, callback){
+  this.cloneDatabase = function(params, callback){
     this.handle = function(response){
       return BaseConnectInstance.getNode(response, "newdbid");
     };
 
     var data = {
-      dbid: dbid,
+      dbid: this.databaseId,
       action: "CloneDatabase",
       type: "API",
       params: params
@@ -672,14 +1084,14 @@ function Base(settings){
     return BaseConnectInstance.post(data, callback, this.handle);
   };
 
-  this.deleteDatabase = function(dbid, callback){
+  this.deleteDatabase = function(callback){
     this.handle = function(response){
       var error = BaseConnectInstance.getNode(response, "errcode");
       return error == "0" ? true : false;
     };
 
     var data = {
-      dbid: dbid,
+      dbid: this.databaseId,
       action: "DeleteDatabase",
       type: "API"
     };
@@ -687,14 +1099,14 @@ function Base(settings){
     return BaseConnectInstance.post(data, callback, this.handle);
   };
 
-  this.renameApp = function(dbid, name, callback){
+  this.renameApp = function(name, callback){
     this.handle = function(response){
       var error = BaseConnectInstance.getNode(response, "errcode");
       return error == "0" ? true : false;
     };
 
     var data = {
-      dbid: dbid,
+      dbid: this.databaseId,
       action: "RenameApp",
       type: "API", 
       params: { "newappname": name }
@@ -717,26 +1129,7 @@ function Base(settings){
     return BaseConnectInstance.post(data, callback, this.handle);
   };
 
-  this.getAncestorInfo = function(dbid, callback){
-    this.handle = function(response){
-      var info = {
-        "ancestorAppId": BaseConnectInstance.getNode(response, "ancestorappid"),
-        "oldestAncestorAppId": BaseConnectInstance.getNode(response, "oldestancestorappid")
-      };
-
-      return info;
-    };
-
-    var data = {
-      dbid: dbid,
-      action: "GetAncestorInfo",
-      type: "API"
-    };
-
-    return BaseConnectInstance.post(data, callback, this.handle);
-  };
-
-  this.getAppDtmInfo = function(dbid, callback){
+  this.getAppDtmInfo = function(callback){
     this.handle = function(response){
 
       var allTables = {};
@@ -765,13 +1158,13 @@ function Base(settings){
     var data = {
       action: "GetAppDTMInfo",
       type: "API",
-      params: { "dbid": dbid }
+      params: { "dbid": this.databaseId }
     };
 
     return BaseConnectInstance.post(data, callback, this.handle);
   };
 
-  this.getDbInfo = function(dbid, callback){
+  this.getDbInfo = function(callback){
     this.handle = function(response){
       var info = {
         "dbname": BaseConnectInstance.getNode(response, "dbname"),
@@ -788,7 +1181,7 @@ function Base(settings){
     };
 
     var data = {
-      dbid: dbid,
+      dbid: this.databaseId,
       action: "GetDBInfo",
       type: "API"
     };
@@ -824,367 +1217,6 @@ function Base(settings){
     return BaseConnectInstance.post(data, callback, this.handle);
   };
 
-  this.doQuery = function(dbid, params, callback, handle){
-    this.handle = function(response){
-      return BaseConnectInstance.getRecords(dbid, response, "records");
-    };
-
-    var queryParams = {"fmt": "structured"}
-    if(params.query || params.qid){
-      if(params.query){
-        queryParams.query = params.query;
-      }else{
-        queryParams.qid = params.qid;
-      };
-    }else{
-      queryParams.query = "{'3'.XEX.''}"
-    };
-
-    if(BaseConnectInstance.config && !params.clist){
-      var table = BaseConnectInstance.config[dbid];
-      
-      var clist = [];
-      for(key in table){
-        var value = table[key];
-
-        if(!isNaN(value)){
-          clist.push(key);
-        };
-      };
-
-      params.clist = clist.join(".");
-    };
-
-    queryParams.clist = params.clist;
-    queryParams.slist = params.slist
-    queryParams.options = params.options
-
-    var data = {
-      dbid: dbid,
-      action: "DoQuery",
-      params: queryParams
-    };
-
-    if(handle){
-      this.handle = handle;
-    };
-
-    return BaseConnectInstance.post(data, callback, this.handle);
-  };
-
-  this.doQueryCount = function(dbid, query, callback){
-    this.handle = function(response){
-      return BaseConnectInstance.getNode(response, "numMatches");
-    };
-
-    var data = {
-      dbid: dbid,
-      action: "DoQueryCount",
-      params: {"query": query}
-    };
-
-    return BaseConnectInstance.post(data, callback, this.handle);
-  };
-
-  this.find = function(dbid, rid, callback){
-    this.handle = function(response){
-      var records = BaseConnectInstance.getRecords(dbid, response, "records");
-      if(records.length > 0){
-        if(records.length > 1){
-          return records;
-        }else{
-          return records[0];
-        };
-      }else{
-        return {};
-      };
-    };
-
-    var query = [];
-    
-    if(Object.prototype.toString.call(rid) == "[object Array]"){
-      for(var i=0; i < rid.length; i++){
-        query.push("{'3'.EX.'"+rid[i]+"'}");
-      };
-    }else{
-      query.push("{'3'.EX.'"+rid+"'}");
-    }
-
-    query = query.join("OR");
-
-    return this.doQuery(dbid, {"query": query}, callback, this.handle);
-  };
-
-  this.first = function(dbid, params, callback){
-    this.handle = function(response){
-      var records = BaseConnectInstance.getRecords(dbid, response, "records");
-      if(records.length > 0){
-        return records[0];
-      }else{
-        return {};
-      };
-    };
-
-    return this.doQuery(dbid, params, callback, this.handle);
-  };
-
-  this.last = function(dbid, params, callback){
-    this.handle = function(response){
-      var records = BaseConnectInstance.getRecords(dbid, response, "records");
-      if(records.length > 0){
-        return records[records.length - 1];
-      }else{
-        return {};
-      };
-    };
-
-    return this.doQuery(dbid, params, callback, this.handle);
-  };
-
-  this.all = function(dbid, params, callback){
-    this.handle = function(response){
-      var records = BaseConnectInstance.getRecords(dbid, response, "records");
-      if(records.length > 0){
-        return records;
-      }else{
-        return {};
-      };
-    };
-
-    if(!params){
-      params = {};
-    };
-
-    params["query"] = "{'3'.XEX.''}";
-    return this.doQuery(dbid, params, callback, this.handle);
-  };
-
-  this.getRids = function(dbid, params, callback){
-    this.handle = function(response){
-      return BaseConnectInstance.getRids(response);
-    };
-
-    if(!params){
-      params = {};
-    }
-
-    params["clist"] = "3";
-    return this.doQuery(dbid, params, callback, this.handle);
-  };
-
-  this.genAddRecordForm = function(dbid, params, callback){
-    this.handle = function(response){
-      return response;
-    };
-
-    var data = {
-      dbid: dbid,
-      action: "GenAddRecordForm",
-      fidParams: params
-    };
-
-    return BaseConnectInstance.post(data, callback, this.handle);
-  };
-
-  this.getNumRecords = function(dbid, callback){
-    this.handle = function(response){
-      return parseInt(BaseConnectInstance.getNode(response, "num_records"));
-    };
-
-    var data = {
-      dbid: dbid,
-      action: "GetNumRecords"
-    };
-
-    return BaseConnectInstance.post(data, callback, this.handle);
-  };
-
-  this.getRecordInfo = function(dbid, rid, callback){
-    this.handle = function(response){
-
-      var allFields = {};
-      var fields = $(response).find("field");
-
-      for(var i=0; i < fields.length; i++){
-        var field = fields[i];
-        var fieldHash = {
-          "name": BaseConnectInstance.getNode(field, "name"),
-          "type": BaseConnectInstance.getNode(field, "type"),
-          "value": BaseConnectInstance.getNode(field, "value")
-        };
-
-        allFields[$(field).find("fid").text()] = fieldHash;
-      };
-
-      var info = {
-        "rid": BaseConnectInstance.getNode(response, "rid"),
-        "num_fields": BaseConnectInstance.getNode(response, "num_fields"),
-        "update_id": BaseConnectInstance.getNode(response, "update_id"),
-        "fields": allFields
-      };
-
-      return info;
-    };
-
-    var data = {
-      dbid: dbid,
-      action: "GetRecordInfo",
-      params: { "rid": rid }
-    };
-
-    return BaseConnectInstance.post(data, callback, this.handle);
-  };
-
-  this.importFromCSV = function(dbid, csvArray, callback){
-    this.handle = function(response){
-      return BaseConnectInstance.getNewRids(response);
-    };
-
-    var csv = "";
-    var clist = [];
-
-    for(key in csvArray[0]){
-      if(BaseConnectInstance.config){
-        tableConfig = BaseConnectInstance.config[dbid];
-        key = tableConfig[key];
-      };
-      
-      clist.push(key);  
-    };
-
-    clist = clist.join(".");
-
-    for(var i=0; i < csvArray.length; i++){
-      var row = csvArray[i];
-      var rowValues = [];
-
-      for(key in row){
-        value = row[key];
-        value = value.toString().replace(/"/g, '""');
-        rowValues.push('"' + value + '"');
-      };
-
-      rowValues.join(",")
-      rowValues += "\n"
-
-      csv += (rowValues);
-    };
-
-    var data = {
-      dbid: dbid,
-      action: "ImportFromCSV",
-      params: {"clist": clist},
-      csvData: csv
-    }
-
-    return BaseConnectInstance.post(data, callback, this.handle);
-  };
-
-  this.addRecord = function(dbid, fieldParams, callback){
-    this.handle = function(response){
-      return parseInt(BaseConnectInstance.getNode(response, "rid"));
-    };
-
-    var data = {
-      dbid: dbid,
-      action: "AddRecord",
-      fieldParams: fieldParams
-    };
-
-    return BaseConnectInstance.post(data, callback, this.handle);
-  };
-
-  this.editRecord = function(dbid, rid, fieldParams, callback){
-    this.handle = function(response){
-      var rid = BaseConnectInstance.getNode(response, "rid");
-      return rid ? true : false;
-    };
-
-    var data = {
-      dbid: dbid,
-      action: "EditRecord",
-      fieldParams: fieldParams,
-      params: {"rid": rid}
-    }
-
-    return BaseConnectInstance.post(data, callback, this.handle);
-  };
-
-  this.changeRecordOwner = function(dbid, rid, owner, callback){
-    this.handle = function(response){
-      return true;
-    };
-
-    var data = {
-      dbid: dbid,
-      action: "ChangeRecordOwner",
-      params: {"rid": rid, "newowner": owner}
-    };
-
-    return BaseConnectInstance.post(data, callback, this.handle);
-  };
-
-  this.copyMasterDetail = function(dbid, params, callback){
-    this.handle = function(response){
-      return BaseConnectInstance.getNode(response, "numCreated");
-    };
-
-    var data = {
-      dbid: dbid,
-      action: "CopyMasterDetail",
-      params: params
-    };
-
-    return BaseConnectInstance.post(data, callback, this.handle);
-  };
-
-  this.deleteRecord = function(dbid, rid, callback){
-    this.handle = function(response){
-      var rid = BaseConnectInstance.getNode(response, "rid");
-      return rid ? true : false;
-    };
-
-    var data = {
-      dbid: dbid,
-      action: "DeleteRecord",
-      params: {"rid": rid}
-    };
-
-    return BaseConnectInstance.post(data, callback, this.handle);
-  };
-
-  this.purgeRecords = function(dbid, query, callback){
-    this.handle = function(response){
-      var numberOfRecordDeleted = BaseConnectInstance.getNode(response, "num_records_deleted");
-      return parseInt(numberOfRecordDeleted);
-    };
-
-    var data = {
-      dbid: dbid,
-      action: "PurgeRecords",
-      params: {"query": query}
-    };
-
-    return BaseConnectInstance.post(data, callback, this.handle);
-  };
-
-  this.setFieldProperties = function(dbid, fid, params, callback){
-    this.handle = function(response){
-      var error = BaseConnectInstance.getNode(response, "errcode");
-      return error == 0 ? true : false;
-    };
-
-    params["fid"] = fid;
-
-    var data = {
-      dbid: dbid,
-      action: "SetFieldProperties",
-      params: params
-    };
-
-    return BaseConnectInstance.post(data, callback, this.handle);
-  };
-
   this.getUserInfo = function(email, callback, handler){
     this.handle = function(response){
       var user = $(response).find("user");
@@ -1208,6 +1240,7 @@ function Base(settings){
     };
 
     var data = {
+      dbid: "main",
       action: "GetUserInfo",
       params: {"email": email}
     };
@@ -1215,26 +1248,26 @@ function Base(settings){
     return BaseConnectInstance.post(data, callback, this.handle);
   };
 
-  this.getUserRoles = function(dbid, callback){
+  this.getUserRoles = function(callback){
     this.handle = function(response){
       return BaseConnectInstance.formatUserRoles(response);
     };
 
     var data = {
-      dbid: dbid,
+      dbid: this.databaseId,
       action: "UserRoles"
     };
 
     return BaseConnectInstance.post(data, callback, this.handle);
   };
 
-  this.changeUserRole = function(dbid, userId, roleId, newRoleId, callback){
+  this.changeUserRole = function(userId, roleId, newRoleId, callback){
     this.handle = function(response){
       return true;
     };
 
     var data = {
-      dbid: dbid,
+      dbid: this.databaseId,
       action: "ChangeUserRole",
       params: {
         userId: userId,
@@ -1248,32 +1281,6 @@ function Base(settings){
 
     return BaseConnectInstance.post(data, callback, this.handle);
   };
-
-  this.getTableFields = function(dbid, callback){
-    this.handle = function(response){
-      return BaseConnectInstance.getFields(response);
-    };
-
-    var data = {
-      dbid: dbid,
-      action: "GetSchema"
-    };
-
-    return BaseConnectInstance.post(data, callback, this.handle);
-  };
-
-  this.getTableReports = function(dbid, callback){
-    this.handle = function(response){
-      return BaseConnectInstance.getReports(response);
-    };
-
-    var data = {
-      dbid: dbid,
-      action: "GetSchema"
-    };
-
-    return BaseConnectInstance.post(data, callback, this.handle);
-  };
 }
 
 var BaseHelpers = {
@@ -1282,8 +1289,8 @@ var BaseHelpers = {
     format: 'hours'
   },
 
-  inverseConfig: function(config){
-    var inverseConfig = {};
+  inverseTables: function(config){
+    var inverseTables = {};
 
     for(var table in config){
       var newObject = {};
@@ -1292,10 +1299,10 @@ var BaseHelpers = {
         newObject[config[table][field].toString()] = field;
       };
 
-      inverseConfig[table] = newObject;
+      inverseTables[table] = newObject;
     };
 
-    return inverseConfig;
+    return inverseTables;
   },
 
   getUrlParam: function(name){
