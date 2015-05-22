@@ -206,8 +206,8 @@ var page = db.getDbPage("6");
 var query = { rid: 123 }
 var records = db.teachers.doQuery(query, { clist: "rid.firstName.lastName"});
 =>  [
-     {rid: "14029302955", firstName: "Lord of the Flies", lastName: "William Golding"}, 
-     {rid: "14029302927", firstName: "A Tale of Two Cities", lastName: "Charles Dickens"}
+     { rid: "14029302955", firstName: "Lord of the Flies", lastName: "William Golding" }, 
+     { rid: "14029302927", firstName: "A Tale of Two Cities", lastName: "Charles Dickens" }
     ]
 ```
 
@@ -215,7 +215,7 @@ var records = db.teachers.doQuery(query, { clist: "rid.firstName.lastName"});
 **doQueryCount(query)** => **[int] # of records in query**
 
 ```javascript
-var count = db.teachers.doQueryCount({rid: 123});
+var count = db.teachers.doQueryCount({ rid: 123 });
 => 39
 ```
 
@@ -223,7 +223,7 @@ var count = db.teachers.doQueryCount({rid: 123});
 **genAddRecordForm(fids)** => **[html] html rendered add record form
 
 ```javascript
-var count = db.teachers.genAddRecordForm({lastName: "Golding"});
+var count = db.teachers.genAddRecordForm({ lastName: "Golding" });
 => <html></html>
 ```
 
@@ -240,41 +240,41 @@ var count = db.teachers.getNumRecords();
 
 ```javascript
 var count = db.teachers.getRecordInfo(103);
-=> {rid: "3676", num_fields: "16", update_id: "1422057167760", fields: Object}
+=> { rid: "3676", num_fields: "16", update_id: "1422057167760", fields: Object }
 ```
 
 ###Find
 **find(rid)** => **[json] record**
 ```javascript
 var record = db.teachers.find("12");
-=> {1: "1402930292", 7: "Lord of the Flies", 8: "William Golding"}
+=> { rid: "1402930292", firstName: "Lord of the Flies", lastName: "William Golding" }
 ```
 
 ###First
 **first(query, queryOptions)** => **[json] record**
 ```javascript
-var record = db.teachers.first({ firstName: "William" }, { slist : "3"});
-=> {rid: "1402930292", firstName: "Lord of the Flies", lastName: "William Golding"}
+var record = db.teachers.first({ firstName: "William" }, { slist : "3" });
+=> { rid: "1402930292", firstName: "Lord of the Flies", lastName: "William Golding" }
 ```
 
 ###Last
 **last(query, queryOptions)** => **[json] record**
 ```javascript
 var record = db.teachers.last({ rid: { XEX: "" } }, { slist: "3" });
-=> {rid: "1402933332", firstName: "Animal Farm", lastName: "George Orwell"}
+=> { rid: "1402933332", firstName: "Animal Farm", lastName: "George Orwell" }
 ```
 
 ###All
 **all(queryOptions)** => **[array] records**
 ```javascript
-var record = db.teachers.all({"slist": "3"});
-=> [{rid: "1402933332", firstName: "Animal Farm", lastName: "George Orwell"}]
+var record = db.teachers.all({ "slist": "3" });
+=> [{ rid: "1402933332", firstName: "Animal Farm", lastName: "George Orwell" }]
 ```
 
 ###GetRids
 **getRids(query)** => **[array] rids**
 ```javascript
-var rids = db.teachers.getRids({rid: { GT: 100 } });
+var rids = db.teachers.getRids({ rid: { GT: 100 } });
 => ["101", "102", "103", "104"]
 ```
 
@@ -282,13 +282,13 @@ var rids = db.teachers.getRids({rid: { GT: 100 } });
 **importFromCSV(data)** => **[array] new rids**
 
 ```javascript
-var new_data = [
-  {firstName: "Lord of the Flies", lastName: "William Golding"},
-  {firstName: "A Tale of Two Cities", lastName: "Charles Dickens"},
-  {firstName: "Animal Farm", lastName: "George Orwell"}
+var newData = [
+  { firstName: "Lord of the Flies", lastName: "William Golding" },
+  { firstName: "A Tale of Two Cities", lastName: "Charles Dickens" },
+  { firstName: "Animal Farm", lastName: "George Orwell" }
 ];
 
-rids = db.database.importFromCSV(new_data);
+rids = db.database.importFromCSV(newData);
 => [13, 14, 15]
 ````
 
@@ -321,7 +321,7 @@ var callSuccessful = db.teachers.changeRecordOwner(136, "zsiglin@advantagequickb
 ###API_CopyMasterDetail
 **copyMasterDetail(options)** => **[int] # of records copied**
 ```javascript
-var numberCopied = db.teachers.copyMasterDetail({destrid: "0", sourcerid: "1204", copyfid: "8"});
+var numberCopied = db.teachers.copyMasterDetail({ destrid: "0", sourcerid: "1204", copyfid: "8" });
 => 1
 ````
 
@@ -337,7 +337,7 @@ var callSuccessful = db.teachers.deleteRecord(136);
 **purgeRecords(query)** => **[int] # of records deleted**
 
 ```javascript
-var numberOfRecordsDeleted = db.teachers.purgeRecords({ rid: in[1, 2, 3]});
+var numberOfRecordsDeleted = db.teachers.purgeRecords({ rid: in[1, 2, 3] });
 => 9
 ````
 
@@ -347,7 +347,16 @@ var numberOfRecordsDeleted = db.teachers.purgeRecords({ rid: in[1, 2, 3]});
 
 ```javascript
 var userInfo = db.getUserInfo();
-=> {"id":"57527431.cnhu","firstName":"Kit","lastName":"Hensel","login":"kith","email":"khensel@advantagequickbase.com","screenName":"kith","isVerified":"1","externalAuth":"0"}
+=> {
+      "id":"57527431.cnhu",
+      "firstName":"Kit",
+      "lastName":"Hensel",
+      "login":"kith",
+      "email":"khensel@advantagequickbase.com",
+      "screenName":"kith",
+      "isVerified":"1",
+      "externalAuth":"0"
+    }
 ````
 
 ###Get User Roles
@@ -406,7 +415,7 @@ var applicationAccess = db.getAppDtmInfo();
      "requestNextAllowedTime": "140509599595",
      "lastModifiedTime": "14959595959",
      "lastRecModTime": "14959695938",
-     "tables": { "bedfeag5": {"lastModifiedTime": 149392928283, "lastRecModTime": 14959583922}}
+     "tables": { "bedfeag5": { "lastModifiedTime": 149392928283, "lastRecModTime": 14959583922 } }
     }
 ````
 
@@ -429,7 +438,7 @@ var databases = db.grantedDbs("abc1234");
 **cloneDatabase(params)** => **[string] dbid**
 
 ```javascript
-var dbid = db.cloneDatabase({"newdbname": "BaseClone", "newdbdesc": "Testing clone"});
+var dbid = db.cloneDatabase({ "newdbname": "BaseClone", "newdbdesc": "Testing clone" });
 ````
 
 ###API_CreateDatabase
@@ -589,7 +598,7 @@ var newRecordHash = { firstName: "Mike&Ike", lastName: "Johnson" }
 var rid = database.teachers.addRecord(newRecordHash);
 console.log("ADD RECORD: " + rid);
 
-var newRecordHash = { 8: "Mike", 9: "Johnson"}
+var newRecordHash = { firstName: "Mike", lastName: "Johnson"}
 var rid2 = database.teachers.addRecord(newRecordHash);
 
 var numberOfRecords = database.teachers.getNumRecords();
