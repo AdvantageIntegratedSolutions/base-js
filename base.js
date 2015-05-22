@@ -840,7 +840,22 @@ function Base(settings){
       queryParams.query = "{'3'.XEX.''}"
     };
 
-    queryParams.clist = params.clist || "a"
+    if(BaseConnectInstance.config && !params.clist){
+      var table = BaseConnectInstance.config[dbid];
+      
+      var clist = [];
+      for(key in table){
+        var value = table[key];
+
+        if(!isNaN(value)){
+          clist.push(key);
+        };
+      };
+
+      params.clist = clist.join(".");
+    };
+
+    queryParams.clist = params.clist;
     queryParams.slist = params.slist
     queryParams.options = params.options
 

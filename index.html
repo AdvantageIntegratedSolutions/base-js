@@ -17,6 +17,7 @@
 					teachers: {
 						dbid: "bjbsgxy3t",
 						rid: 3,
+						recordOwner: 5,
 						firstName: 8,
 						lastName: 9
 					}
@@ -138,7 +139,7 @@
 				];
 
 				queries.forEach(function(query){
-					var response = client.doQuery("teachers", {"query": query, "clist": "rid"})
+					var response = client.doQuery("teachers", {"query": query})
 					console.log(response)
 				});
 
