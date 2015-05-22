@@ -23,6 +23,73 @@ function BaseConnect(config){
     return this.xmlPost(dbid, action, postData, callback, handler);
   };
 
+  this.generateQuickbaseQuery = function(query){
+    var validQuery = [];
+
+    var handleEx = function(key, value){
+      return "{'"+key+"'.EX.'"+value+"'}";
+    };
+
+    var handleOtherOperators = function(key, value){
+      var operator = Object.keys(value)[0];
+      var compareValue = value[operator];
+      var queryPart = "";
+
+      if(operator == "in"){
+        var queryParts = [];
+
+        compareValue.forEach(function(v){
+          queryParts.push("{'"+key+"'.EX.'"+v+"'}");
+        });
+
+        queryPart = "(" + queryParts.join("OR") + ")";
+      }else{
+        queryPart = "{'"+key+"'."+operator+".'"+compareValue+"'}";
+      };
+
+      return queryPart;
+    };
+
+    var handleOr = function(key, value){
+      var queryPart = [];
+
+      value.forEach(function(query){
+        var key = Object.keys(query)[0];
+        var value = query[key];
+
+        if(typeof value == "object"){
+          var query = handleOtherOperators(key, value);
+          queryPart.push(query);
+        }else{
+          var query = handleEx(key, value);
+          queryPart.push(query);
+        };
+      });
+
+      return "(" + queryPart.join("OR") + ")";
+    };
+
+    for(key in query){
+      var value = query[key];
+      var queryPart = "";
+
+      if(key == "or"){
+        queryPart = handleOr(key, value);
+      }else{
+        if(typeof value == "object"){
+          queryPart = handleOtherOperators(key, value);
+        }else{
+          queryPart = handleEx(key, query[key]);
+        };
+      };
+
+      validQuery.push(queryPart);
+    };
+
+    validQuery = validQuery.join("AND");
+    return validQuery;
+  };
+
   this.replaceFieldNames = function(query, dbid){
     var config = this.config;
 
@@ -58,6 +125,15 @@ function BaseConnect(config){
     return value.join(".");
   };
 
+  this.handleXMLCharacters = function(string){
+    return string
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&apos;')
+  };
+
   this.buildPostData = function(dbid, data){
     var postData = ["<qdbapi>"];
 
@@ -79,6 +155,8 @@ function BaseConnect(config){
           };
         };
       }else if(key == "query"){
+        value = this.generateQuickbaseQuery(value);
+
         if(this.config){
           value = this.replaceFieldNames(value, dbid);
         };
@@ -96,7 +174,8 @@ function BaseConnect(config){
         var fid = field;
       };
       
-      postData.push(this.createFieldParameter(fid, data.fieldParams[field]));
+      var fieldValue = this.handleXMLCharacters(data.fieldParams[field]);
+      postData.push(this.createFieldParameter(fid, fieldValue));
     };
 
     for(key in data.fidParams){

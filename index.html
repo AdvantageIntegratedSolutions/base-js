@@ -79,7 +79,7 @@
 				// console.log(response);
 
 				//Add Record
-				// var newRecordHash = { firstName: "Mike", lastName: "Johnson" }
+				// var newRecordHash = { firstName: "Mike&Ike", lastName: "Johnson" }
 				// var rid = client.addRecord("teachers", newRecordHash);
 				// console.log("ADD RECORD: " + rid);
 
@@ -118,9 +118,29 @@
 				// console.log("LAST: " + response);
 
 				//DoQuery
-				// var query = "{'rid'.XEX.''}"
+				// var query = {rid: { XEX: 3 }, firstName: "Kit", age: {OBF: "1970"}};
+
 				// var response = client.doQuery("teachers", {"query": query, "clist": "rid"})
 				// console.log(response)
+
+				//var query = { or: [{ firstName: "Kit"}, {lastName: "Hensel"}] }
+
+				var queries = [
+					{ firstName: "Kit" },
+					{ firstName: { XEX: "Kit" } },
+					{ firstName: "Kit", lastName: "Hensel" },
+					{ or: [{ firstName: "Kit" }, { lastName: "Hensel" }] },
+					{ or: [{ firstName: { XEX: "Kit"} }, { lastName: "Hensel" }] },
+					{ or: [{ firstName: { CT: "Kit"} }, { lastName: "Hensel" }, { firstName: { CT: "Jack" } }] },
+					{ firstName: "Kit", or: [{ lastName: "Hensel" }, {age: 28}] },
+					{ firstName: "Kit", or: [{ lastName: "Hensel" }, {age: 28}], rid: 3 },
+					{ firstName: { in: ["Kit", "Jack"]}}
+				];
+
+				queries.forEach(function(query){
+					var response = client.doQuery("teachers", {"query": query, "clist": "rid"})
+					console.log(response)
+				});
 
 				// var qid = "1"
 				// var response = client.doQuery("teachers", {"qid": qid, "clist": ["rid"]})
