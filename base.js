@@ -528,7 +528,7 @@ function Base(config){
     this.tableName = key;
     this.dbid = config.dbid;
 
-    this.doQuery = function(params, callback, handle){
+    this.doQuery = function(query, params, callback, handle){
       var tableName = this.tableName;
 
       this.handle = function(response){
@@ -536,17 +536,25 @@ function Base(config){
       };
 
       var queryParams = {"fmt": "structured"}
-      if(params.query || params.qid){
-        if(params.query){
-          queryParams.query = params.query;
+      if(query){
+        var isQid = !isNaN(query);
+
+        if(isQid){
+          queryParams.qid = query;
         }else{
-          queryParams.qid = params.qid;
+          queryParams.query = query;
         };
       }else{
         queryParams.query = "{'3'.XEX.''}"
       };
 
-      if(BaseConnectInstance.config && !params.clist){
+      if(params){
+        var clist = params.clist;  
+      }else{
+        var params = {};
+      };
+
+      if(BaseConnectInstance.config && !clist){
         var table = BaseConnectInstance.config[tableName];
         
         var clist = [];
@@ -600,10 +608,10 @@ function Base(config){
         var query = { "3": rid };
       };
       
-      return this.doQuery({"query": query}, callback, this.handle);
+      return this.doQuery(query, null, callback, this.handle);
     };
 
-    this.first = function(params, callback){
+    this.first = function(query, params, callback){
       var tableName = this.tableName;
 
       this.handle = function(response){
@@ -615,10 +623,10 @@ function Base(config){
         };
       };
 
-      return this.doQuery(params, callback, this.handle);
+      return this.doQuery(query, params, callback, this.handle);
     };
 
-    this.last = function(params, callback){
+    this.last = function(query, params, callback){
       var tableName = this.tableName;
 
       this.handle = function(response){
@@ -630,7 +638,7 @@ function Base(config){
         };
       };
 
-      return this.doQuery(params, callback, this.handle);
+      return this.doQuery(query, params, callback, this.handle);
     };
 
     this.all = function(params, callback){
@@ -645,12 +653,7 @@ function Base(config){
         };
       };
 
-      if(!params){
-        params = {};
-      };
-
-      params["query"] = { "3": { XEX: "" } };
-      return this.doQuery(params, callback, this.handle);
+      return this.doQuery({ "3": { XEX: "" } }, params, callback, this.handle);
     };
 
     this.getRids = function(query, callback){
@@ -662,13 +665,11 @@ function Base(config){
         clist: "3"
       };
 
-      if(query){
-        params["query"] = query;
-      }else{
-        params["query"] = { "3": { XEX: "" } }  
+      if(!query){
+        query = { "3": { XEX: "" } }  
       };
 
-      return this.doQuery(params, callback, this.handle);
+      return this.doQuery(query, params, callback, this.handle);
     };
 
     this.doQueryCount = function(query, callback){

@@ -112,7 +112,7 @@
 				];
 
 				queries.forEach(function(query){
-					var response = database.teachers.doQuery({"query": query})
+					var response = database.teachers.doQuery(query)
 					console.log(response)
 				});
 
@@ -122,7 +122,7 @@
 				console.log("FIND: " + response);
 
 				var qid = "1"
-				var response = database.teachers.doQuery({"qid": qid, "clist": ["rid"]})
+				var response = database.teachers.doQuery(qid, { clist: ["rid"]})
 				console.log("QUERY 2: " + response);
 
 				var response = database.teachers.all();
@@ -131,10 +131,10 @@
 				var response = database.teachers.getRids({ rid: "3924" })
 				console.log("FIND RIDS: " + response);
 
-				var response = database.teachers.first({"query": { rid: { XEX: "" } }, "clist": "rid"});
+				var response = database.teachers.first({ rid: { XEX: "" } }, { clist: "rid"});
 				console.log("FIRST: " + response);
 
-				var response = database.teachers.last({"query": { rid: { XEX: "" } }, "clist": "rid"});
+				var response = database.teachers.last({ rid: { XEX: "" } }, { clist: "rid"});
 				console.log("LAST: " + response);
 
 				//DoQueryCount

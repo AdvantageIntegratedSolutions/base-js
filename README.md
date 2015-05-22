@@ -192,7 +192,7 @@ var page = db.getDbPage("6");
 
 ##Retrieving Records
 ###API_DoQuery
-**doQuery(queryOptions) => [array] records**
+**doQuery(query, queryOptions) => [array] records**
 
 "queryOptions" expects a hash containing any of the following options:
 
@@ -204,7 +204,7 @@ var page = db.getDbPage("6");
 
 ```javascript
 var query = { rid: 123 }
-var records = db.teachers.doQuery({"query": query, "clist": "rid.firstName.lastName"});
+var records = db.teachers.doQuery(query, { clist: "rid.firstName.lastName"});
 =>  [
      {rid: "14029302955", firstName: "Lord of the Flies", lastName: "William Golding"}, 
      {rid: "14029302927", firstName: "A Tale of Two Cities", lastName: "Charles Dickens"}
@@ -251,16 +251,16 @@ var record = db.teachers.find("12");
 ```
 
 ###First
-**first(queryOptions)** => **[json] record**
+**first(query, queryOptions)** => **[json] record**
 ```javascript
-var record = db.teachers.first({"query": {firstName: "William"}, "slist" : "3"});
+var record = db.teachers.first({ firstName: "William" }, { slist : "3"});
 => {rid: "1402930292", firstName: "Lord of the Flies", lastName: "William Golding"}
 ```
 
 ###Last
-**last(queryOptions)** => **[json] record**
+**last(query, queryOptions)** => **[json] record**
 ```javascript
-var record = db.teachers.last({"query": { rid: { XEX: "" } }, "slist": "3"});
+var record = db.teachers.last({ rid: { XEX: "" } }, { slist: "3" });
 => {rid: "1402933332", firstName: "Animal Farm", lastName: "George Orwell"}
 ```
 
@@ -272,9 +272,9 @@ var record = db.teachers.all({"slist": "3"});
 ```
 
 ###GetRids
-**getRids(queryOptions)** => **[array] rids**
+**getRids(query)** => **[array] rids**
 ```javascript
-var rids = db.teachers.getRids({"query": {rid: { GT: 100 } });
+var rids = db.teachers.getRids({rid: { GT: 100 } });
 => ["101", "102", "103", "104"]
 ```
 
@@ -581,7 +581,7 @@ var queries = [
 ];
 
 queries.forEach(function(query){
-  var response = database.teachers.doQuery({"query": query})
+  var response = database.teachers.doQuery(query)
   console.log(response)
 });
 
