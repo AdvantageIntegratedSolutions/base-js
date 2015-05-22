@@ -99,14 +99,29 @@ Related Libraries
 ###New Connection
 
 ```javascript
-var api = new Base(apptoken, async);
+var config = {
+  token: "cgfsmfcdc5vyp5k5s7h6b6v3m9v",
+  async: false,
+  databaseId: "bjbsgxy2r",
+  tables: {
+    teachers: {
+      dbid: "bjbsgxy3t",
+      rid: 3,
+      recordOwner: 5,
+      firstName: 8,
+      lastName: 9
+    }
+  }
+};
+
+var db = new Base(config);
 ```
 
 ###API_GetOneTimeTicket
 **getOneTimeTicket() => [string] ticket**
 
 ```javascript
-var ticket = api.getOneTimeTicket();
+var ticket = db.getOneTimeTicket();
 => "6adfasdf8338adfadfbhkieoa874k494kadjff4774hfj334953"
 ```
 
@@ -114,7 +129,7 @@ var ticket = api.getOneTimeTicket();
 **authenticate(ticket, hours) => [string] ticket**
 
 ```javascript
-var ticket = api.authenticate("6adfasdf8338adfadfbhkieoa874k494kadjff4774hfj334953", 12);
+var ticket = db.authenticate("6adfasdf8338adfadfbhkieoa874k494kadjff4774hfj334953", 12);
 => "6adfasdf8338adf44322ieoa874k494kadjff477444443953"
 ```
 
@@ -122,206 +137,207 @@ var ticket = api.authenticate("6adfasdf8338adfadfbhkieoa874k494kadjff4774hfj3349
 **signOut() => [bool] success?**
 
 ```javascript
-var signedOut = api.signOut();
+var signedOut = db.signOut();
 => true;
 ```
 
 ###API_SetFieldProperties
-**setFieldProperties(dbid, fid, propertiesObj) => [bool] success?**
+**setFieldProperties(fid, propertiesObj) => [bool] success?**
 
 ```javascript
 var properties = { "required": "1", "unique": "0" };
-var propertiesSet = api.setFieldProperties("bdjwmnj33", 13, properties);
+var propertiesSet = db.teachers.setFieldProperties(13, properties);
 => true;
 ```
 
 ###API_SetDBVar
-**setDBVar(dbid, name, value) => [bool] success?**
+**setDBVar(name, value) => [bool] success?**
 
 ```javascript
-var callSuccessful = api.setDBVar("bdjwmnj33", "appName", "Project Manager");
+var callSuccessful = db.setDBVar("appName", "Project Manager");
 => true
 ```
 
 ###API_GetDBVar
-**getDBVar(dbid, name) => [string] value**
+**getDBVar(name) => [string] value**
 
 ```javascript
-var value = api.getDBVar("bdjwmnj33", "appName");
+var value = db.getDBVar("appName");
 => "Project Manager"
 ```
 
 ###UploadPage
-**uploadPage(dbid, id, name, body) => [string] pageId**
+**uploadPage(id, name, body) => [string] pageId**
 
 ```javascript
-var pageId = api.uploadPage("bdjwmnj33", null, "test.txt", "hello world");
+var pageId = db.uploadPage(null, "test.txt", "hello world");
 => "6"
 ```
 
 ###DeletePage
-**deletePage(dbid, id) => [bool] success?**
+**deletePage(id) => [bool] success?**
 
 ```javascript
-var deleted = api.deletePage("bdjwmnj33", "6");
+var deleted = db.deletePage("6");
 => true
 ```
 
 ###API_GetDBPage
-**getDbPage(dbid, id) => [html] pageBody**
+**getDbPage(id) => [html] pageBody**
 
 ```javascript
-var page = api.getDbPage("bdjwmnj33", "6");
+var page = db.getDbPage("6");
 => <html></html>
 ```
 
 ##Retrieving Records
 ###API_DoQuery
-**doQuery(dbid, queryOptions) => [array] records**
+**doQuery(queryOptions) => [array] records**
 
 "queryOptions" expects a hash containing any of the following options:
 
-* "query" - typical Quickbase query string. ex: `"{3.EX.'123'}"`
+* "query" - object of fieldnames/values
 * "qid" - report or query id to load (should not be used with `query` or `qname`)
 * "clist" - a list (Array or Period-separated string) of fields to return
 * "slist" - a list (Array or Period-separated string) of fields to sort by
 * "options" - string of additional options. ex: `"num-200.skp-#{records_processed}"`
 
 ```javascript
-var records = api.doQuery("bdjwmnj33", {"query": "{3.EX.'123'}", "clist": "3.6.10"});
+var query = { rid: 123 }
+var records = db.teachers.doQuery({"query": query, "clist": "rid.firstName.lastName"});
 =>  [
-     {1: "14029302955", 7: "Lord of the Flies", 8: "William Golding"}, 
-     {1: "14029302927", 7: "A Tale of Two Cities", 8: "Charles Dickens"}
+     {rid: "14029302955", firstName: "Lord of the Flies", lastName: "William Golding"}, 
+     {rid: "14029302927", firstName: "A Tale of Two Cities", lastName: "Charles Dickens"}
     ]
 ```
 
 ###API_DoQueryCount
-**doQueryCount(dbid, query)** => **[int] # of records in query**
+**doQueryCount(query)** => **[int] # of records in query**
 
 ```javascript
-var count = api.doQueryCount("bdjwmnj33", "{'3'.EX.'123'}");
+var count = db.teachers.doQueryCount({rid: 123});
 => 39
 ```
 
 ###API_GenAddRecordForm
-**genAddRecordForm(dbid, fids)** => **[html] html rendered add record form
+**genAddRecordForm(fids)** => **[html] html rendered add record form
 
 ```javascript
-var count = api.genAddRecordForm("bdjwmnj33", {"8": "John Smith"});
+var count = db.teachers.genAddRecordForm({lastName: "Golding"});
 => <html></html>
 ```
 
 ###API_GetNumRecords
-**getNumRecords(dbid)** => **[int] number of records in table
+**getNumRecords()** => **[int] number of records in table
 
 ```javascript
-var count = api.getNumRecords("bdjwmnj33");
+var count = db.teachers.getNumRecords();
 => 2
 ```
 
 ###API_GetRecordInfo
-**getRecordInfo(dbid, rid)** => **{obj} record info
+**getRecordInfo(rid)** => **{obj} record info
 
 ```javascript
-var count = api.getRecordInfo("bdjwmnj33", 103);
+var count = db.teachers.getRecordInfo(103);
 => {rid: "3676", num_fields: "16", update_id: "1422057167760", fields: Object}
 ```
 
 ###Find
-**find(dbid, rid)** => **[json] record**
+**find(rid)** => **[json] record**
 ```javascript
-var record = api.find("bdjwmnj33", "12");
+var record = db.teachers.find("12");
 => {1: "1402930292", 7: "Lord of the Flies", 8: "William Golding"}
 ```
 
 ###First
-**first(dbid, queryOptions)** => **[json] record**
+**first(queryOptions)** => **[json] record**
 ```javascript
-var record = api.first("bdjwmnj33", {"query": "{'3'.XEX.''}", "slist" : "3"});
-=> {1: "1402930292", 7: "Lord of the Flies", 8: "William Golding"}
+var record = db.teachers.first({"query": {firstName: "William"}, "slist" : "3"});
+=> {rid: "1402930292", firstName: "Lord of the Flies", lastName: "William Golding"}
 ```
 
 ###Last
-**last(dbid, queryOptions)** => **[json] record**
+**last(queryOptions)** => **[json] record**
 ```javascript
-var record = api.last("bdjwmnj33", {"query": "{'3'.XEX.''}", "slist": "3"});
-=> {1: "1402933332", 7: "Animal Farm", 8: "George Orwell"}
+var record = db.teachers.last({"query": { rid: { XEX: "" } }, "slist": "3"});
+=> {rid: "1402933332", firstName: "Animal Farm", lastName: "George Orwell"}
 ```
 
 ###All
-**all(dbid, queryOptions)** => **[array] records**
+**all(queryOptions)** => **[array] records**
 ```javascript
-var record = api.all("bdjwmnj33", {"slist": "3"});
-=> [{1: "1402933332", 7: "Animal Farm", 8: "George Orwell"}]
+var record = db.teachers.all({"slist": "3"});
+=> [{rid: "1402933332", firstName: "Animal Farm", lastName: "George Orwell"}]
 ```
 
 ###GetRids
-**getRids(dbid, queryOptions)** => **[array] rids**
+**getRids(queryOptions)** => **[array] rids**
 ```javascript
-var rids = api.getRids("bdjwmnj33", {"query": "{'3'.GT.'100'}"});
+var rids = db.teachers.getRids({"query": {rid: { GT: 100 } });
 => ["101", "102", "103", "104"]
 ```
 
 ###API_ImportFromCSV
-**importFromCSV(dbid, data)** => **[array] new rids**
+**importFromCSV(data)** => **[array] new rids**
 
 ```javascript
 var new_data = [
-  {7: "Lord of the Flies", 8: "William Golding"},
-  {7: "A Tale of Two Cities", 8: "Charles Dickens"},
-  {7: "Animal Farm", 8: "George Orwell"}
+  {firstName: "Lord of the Flies", lastName: "William Golding"},
+  {firstName: "A Tale of Two Cities", lastName: "Charles Dickens"},
+  {firstName: "Animal Farm", lastName: "George Orwell"}
 ];
 
-rids = api.importFromCSV("abcd1234", new_data);
+rids = db.database.importFromCSV(new_data);
 => [13, 14, 15]
 ````
 
 ###API_AddRecord
-**addRecord(dbid, newRecord)** => **[int] new rid**
+**addRecord(newRecord)** => **[int] new rid**
 
 ```javascript
-var newRecord = {6: "Book", 7: "My New Title", 8: "John Smith"};
-var newRid = api.addRecord("abcd1234", newRecord);
+var newRecord = { firstName: "My New Title", lastName: "John Smith" };
+var newRid = db.teachers.addRecord(newRecord);
 => 13
 ````
 
 ###API_EditRecord
-**editRecord(dbid, rid, updatedRecord )** => **[bool] success?**
+**editRecord(rid, updatedRecord )** => **[bool] success?**
 
 ```javascript
-var updatedRecord = {7: "My Second Title", 8: "John Smith"};
-var callSuccessful = api.editRecord("abcd1234", 136, updatedRecord);
+var updatedRecord = { firstName: "My Second Title", lastName: "John Smith"};
+var callSuccessful = db.teachers.editRecord(136, updatedRecord);
 => false
 ````
 
 ###API_ChangeRecordOwner
-**changeRecordOwner(dbid, rid, user)** => **[bool] success?**
+**changeRecordOwner(rid, user)** => **[bool] success?**
 
 ```javascript
-var callSuccessful = api.changeRecordOwner("abcd1234", 136, "zsiglin@advantagequickbase.com");
+var callSuccessful = db.teachers.changeRecordOwner(136, "zsiglin@advantagequickbase.com");
 => true
 ````
 
 ###API_CopyMasterDetail
-**copyMasterDetail(dbid, options)** => **[int] # of records copied**
+**copyMasterDetail(options)** => **[int] # of records copied**
 ```javascript
-var numberCopied = api.copyMasterDetail("abcd1234", {destrid: "0", sourcerid: "1204", copyfid: "8"});
+var numberCopied = db.teachers.copyMasterDetail({destrid: "0", sourcerid: "1204", copyfid: "8"});
 => 1
 ````
 
 ###API_DeleteRecord
-**deleteRecord(dbid, rid)** => **[bool] success?**
+**deleteRecord(rid)** => **[bool] success?**
 
 ```javascript
-var callSuccessful = api.deleteRecord("abcd1234", 136);
+var callSuccessful = db.teachers.deleteRecord(136);
 => true
 ````
 
 ###API_PurgeRecords
-**purgeRecords(dbid, query)** => **[int] # of records deleted**
+**purgeRecords(query)** => **[int] # of records deleted**
 
 ```javascript
-var numberOfRecordsDeleted = api.purgeRecords("abcd1234", "{3.EX.'123'}");
+var numberOfRecordsDeleted = db.teachers.purgeRecords({ rid: in[1, 2, 3]});
 => 9
 ````
 
@@ -330,15 +346,15 @@ var numberOfRecordsDeleted = api.purgeRecords("abcd1234", "{3.EX.'123'}");
 ######Ignore email parameter to get current user info
 
 ```javascript
-var userInfo = api.getUserInfo();
+var userInfo = db.getUserInfo();
 => {"id":"57527431.cnhu","firstName":"Kit","lastName":"Hensel","login":"kith","email":"khensel@advantagequickbase.com","screenName":"kith","isVerified":"1","externalAuth":"0"}
 ````
 
 ###Get User Roles
-**getUserInfo(dbid)** => **[array] users & roles**
+**getUserInfo()** => **[array] users & roles**
 
 ```javascript
-var userInfo = api.getUserRoles("abcd1234");
+var userInfo = db.teachers.getUserRoles();
 => [
     {
       "id", "57527431.cnhu", 
@@ -352,48 +368,40 @@ var userInfo = api.getUserRoles("abcd1234");
 ````
 
 ###API_ChangeUserRole
-**changeUserRole(dbid, userId, roleId, newRoleId, callback)** => **[bool] success?**
+**changeUserRole(userId, roleId, newRoleId, callback)** => **[bool] success?**
 
 ```javascript
-var userInfo = api.changeUserRole("abcd1234", "57527431.cnhu", "12", "11");
+var userInfo = db.changeUserRole("57527431.cnhu", "12", "11");
 => true
 ````
 
 ###GetTableFields
-**getTableFields(dbid)** => **{obj} fields**
+**getTableFields()** => **{obj} fields**
 
 ```javascript
-var fields = api.getTableFields("abcd1234");
+var fields = db.teachers.getTableFields();
 ````
 
 ###GetTableReports
-**getTableReports(dbid)** => **{obj} fields**
+**getTableReports()** => **{obj} fields**
 
 ```javascript
-var reports = api.getTableReports("abcd1234");
+var reports = db.teachers.getTableReports();
 ````
 
 ###API_FindDBByName
 **findDbByName(name)** => **[string] dbid**
 
 ```javascript
-var dbid = api.findDbByName("BaseJS Testing");
+var dbid = db.findDbByName("BaseJS Testing");
 => b3dkifkg
 ````
 
-###API_GetAncestorInfo
-**getAncestorInfo(dbid)** => **{obj} ancestor info**
-
-```javascript
-var dbid = api.getAncestorInfo("abc1234");
-=> { "ancestorAppId": "bddefadg", "oldestAncestorAppId": "bdefgad3"}
-````
-
 ###API_GetAppDTMInfo
-**getAppDtmInfo(dbid)** => **{obj} application access times**
+**getAppDtmInfo()** => **{obj} application access times**
 
 ```javascript
-var applicationAccess = api.getAppDtmInfo("abc1234");
+var applicationAccess = db.getAppDtmInfo();
 => { "requestTime": "149494949494", 
      "requestNextAllowedTime": "140509599595",
      "lastModifiedTime": "14959595959",
@@ -403,10 +411,10 @@ var applicationAccess = api.getAppDtmInfo("abc1234");
 ````
 
 ###API_GetDBInfo
-**getDbInfo(dbid)** => **{obj} db info**
+**getDbInfo()** => **{obj} db info**
 
 ```javascript
-var info = api.getDbInfo("abc1234");
+var info = db.getDbInfo();
 => { createdTime: "1410366888912", dbname: "BaseJS Testing", lastRecModTime: "1422054152243", mgrID: "57527431.cnhu", mgrName: "kith", numRecords: "0"time_zone: "(UTC-07:00) Mountain Time (US & Canada)"version: "2.0" }
 ```` 
 
@@ -414,35 +422,35 @@ var info = api.getDbInfo("abc1234");
 **grantedDbs(params)** => **[array] databases**
 
 ```javascript
-var databases = api.grantedDbs("abc1234");
+var databases = db.grantedDbs("abc1234");
 ```` 
 
 ###API_CloneDatabase
-**cloneDatabase(dbid, params)** => **[string] dbid**
+**cloneDatabase(params)** => **[string] dbid**
 
 ```javascript
-var dbid = api.cloneDatabase("abcd1234", {"newdbname": "BaseClone", "newdbdesc": "Testing clone"});
+var dbid = db.cloneDatabase({"newdbname": "BaseClone", "newdbdesc": "Testing clone"});
 ````
 
 ###API_CreateDatabase
 **createDatabase(name, description, generateAppToken)** => **[string] dbid**
 
 ```javascript
-var dbid = api.createDatabase("New Base Testing", "New app for testing", false);
+var dbid = db.createDatabase("New Base Testing", "New app for testing", false);
 ````
 
 ###API_DeleteDatabase
-**deleteDatabase(dbid)** => **[bool] success?**
+**deleteDatabase()** => **[bool] success?**
 
 ```javascript
-var databaseDeleted = api.deleteDatabase("abcd1234");
+var databaseDeleted = db.deleteDatabase();
 ````
 
 ###API_RenameApp
-**renameApp(dbid)** => **[bool] success?**
+**renameApp(name)** => **[bool] success?**
 
 ```javascript
-var appRenamed = api.renameApp("BaseTesting2");
+var appRenamed = db.renameApp("BaseTesting2");
 ````
 
 ##Base Helpers
@@ -543,29 +551,51 @@ BaseHelpers.downloadFile("abcd1234", 12, 5);
 
 ##Example
 ```javascript
-//Initiate connection to application
-var client = new Base();
+var config = {
+  token: "cgfsmfcdc5vyp5k5s7h6b6v3m9v",
+  async: false,
+  databaseId: "bjbsgxy2r",
+  tables: {
+    teachers: {
+      dbid: "bjbsgxy3t",
+      rid: 3,
+      recordOwner: 5,
+      firstName: 8,
+      lastName: 9
+    }
+  }
+};
 
-//Get Ticket
-var response = client.getOneTimeTicket();
+var database = new Base(config);
 
-//Add Record
-var newRecordHash = { 8: "Mike", 9: "Johnson", 10: {filename: "test.csv", body: "hello world"} }
-var rid = client.addRecord(demoDbid, newRecordHash);
+var queries = [
+  { firstName: "Kit" },
+  { firstName: { XEX: "Kit" } },
+  { firstName: "Kit", lastName: "Hensel" },
+  { or: [{ firstName: "Kit" }, { lastName: "Hensel" }] },
+  { or: [{ firstName: { XEX: "Kit"} }, { lastName: "Hensel" }] },
+  { or: [{ firstName: { CT: "Kit"} }, { lastName: "Hensel" }, { firstName: { CT: "Jack" } }] },
+  { firstName: "Kit", or: [{ lastName: "Hensel" }] },
+  { firstName: "Kit", or: [{ lastName: "Hensel" }], rid: 3 },
+  { firstName: { in: ["Kit", "Jack"]}}
+];
+
+queries.forEach(function(query){
+  var response = database.teachers.doQuery({"query": query})
+  console.log(response)
+});
+
+var newRecordHash = { firstName: "Mike&Ike", lastName: "Johnson" }
+var rid = database.teachers.addRecord(newRecordHash);
+console.log("ADD RECORD: " + rid);
+
+var newRecordHash = { 8: "Mike", 9: "Johnson"}
+var rid2 = database.teachers.addRecord(newRecordHash);
+
+var numberOfRecords = database.teachers.getNumRecords();
+console.log(numberOfRecords);
 
 //Edit Record
-var editRecordHash = { 8: "Stephan", 9: "Smith" }
-var response = client.editRecord(demoDbid, rid, editRecordHash);
-
-//Find
-var response = client.find(demoDbid, rid);
-
-//DoQuery
-var query = "{'3'.XEX.''}"
-var response = client.doQuery(demoDbid, {"query": query});
-
-var qid = "1"
-var response = client.doQuery(demoDbid, {"qid": qid, "clist": ["1", "2", "3", "4", "5"]});
-
-var dateCreated = BaseHelpers.dateToString(response[0]["1"]);
-var dateModified = BaseHelpers.dateTimeToString(response[0]["2"]);
+var editRecordHash = { firstName: "Stephan", lastName: "Smith" }
+var response = database.teachers.editRecord("3924", editRecordHash);
+console.log("EDIT RECORD: " + response);
