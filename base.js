@@ -5,6 +5,8 @@ function BaseConnect(config){
   this.apptoken = config.token;
   this.async = config.async || false;
   this.databaseId = config.databaseId;
+  this.serverSide = config.serverSide || false;
+  this.realm = config.realm;
 
   this.post = function(data, callback, handler){
     var type = data.type || "API";
@@ -195,8 +197,13 @@ function BaseConnect(config){
     };
 
     postData.push("</qdbapi>");
+    postData = postData.join("");
 
-    return postData.join("");
+    if(this.serverSide){
+      return { "xml": postData }
+    }else{
+      return postData;
+    };
   };
 
   this.getNode = function(response, tag){
@@ -441,34 +448,43 @@ function BaseConnect(config){
 
   this.xmlPost = function(dbid, action, data, callback, handler){
     var url = "/db/" + dbid + "?act=" + action;
-  
+    var postData = {
+      url: url,
+      data: data,
+      dataType: "xml",
+      type: "POST",
+      context: this
+    };
+
+    if(this.serverSide){
+      data["realm"] = this.realm;
+      data["url"] = url;
+      data["call"] = action;
+      data["apptoken"] = this.apptoken;
+
+      postData["dataType"] = "text";
+      postData["data"] = data;
+      postData["url"] = "https://link.advantagesoftware.net/basejs/submit";
+    }else{
+      postData["contentType"] = "text/xml";
+    };
+
     if(this.async){
-      $.ajax({ 
-        url: url, 
-        type: "POST",
-        context: this,
-        contentType: "text/xml",
-        data: data,
-        dataType: "xml",
-        success: function(xml){
-          return callback(handler(xml));
-        }
-      });
+      postData["success"] = function(xml){
+        return callback(handler(xml));
+      };
+
+      $.ajax(postData);
     }else{
       var response = null;
 
-      $.ajax({ 
-        url: url, 
-        type: "POST",
-        context: this,
-        contentType: "text/xml",
-        data: data,
-        dataType: "xml",
-        async: false,
-        success: function(xml){
-          response = handler(xml);
-        }
-      });
+      postData["success"] = function(xml){
+        response = handler(xml);
+      };
+
+      postData["async"] = false;
+
+      $.ajax(postData);
 
       return response;
     };
