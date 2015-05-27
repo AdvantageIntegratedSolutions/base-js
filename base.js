@@ -571,7 +571,7 @@ function Base(config){
       };
 
       if(BaseConnectInstance.config && !clist){
-        var table = BaseConnectInstance.config[tableName];
+        var table = BaseConnectInstance.config.tables[tableName];
         
         var clist = [];
         for(key in table){
