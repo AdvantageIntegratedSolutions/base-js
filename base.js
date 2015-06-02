@@ -489,50 +489,6 @@ function BaseConnect(config){
       return response;
     };
   };
-
-  this.parseResponse = function(xml){
-    var errorCode = this.getNode(xml, "errcode");
-    
-    if(errorCode != "0"){
-      console.log(
-        "*****ERROR*****: (" + this.getNode(xml, "action") + ")" + "(CODE: " + errorCode + ")",
-        "MESSAGE: " + this.getNode(xml, "errtext") + " - " + this.getNode(xml, "errdetail")
-      );
-    };
-
-    this.ticket = this.getNode(xml, "ticket");
-    return xml;
-  };
-
-  this.initHttpConnection = function(context){
-    var connection = null;
-    this.context = context;
-
-    try{
-      if(!connection){
-        connection = new XMLHttpRequest();
-      };
-    }
-    catch(e){
-    }
-    try{
-      if(!connection){
-        connection = new ActiveXObject("Msxml2.XMLHTTP");
-      };
-    }
-    catch(e){
-    }
-    try{
-      if(!connection){
-        connection = new ActiveXObject("Microsoft.XMLHTTP");
-      };
-    }
-    catch(e){
-      alert("This browser does not support BaseJS.");
-    };
-
-    return connection;
-  };
 }
 
 function Base(config){
@@ -1109,6 +1065,7 @@ function Base(config){
 
     var data = {
       dbid: this.databaseId,
+      dbid: "main",
       action: "DeleteDatabase",
       type: "API"
     };
@@ -1124,6 +1081,7 @@ function Base(config){
 
     var data = {
       dbid: this.databaseId,
+      dbid: "main",
       action: "RenameApp",
       type: "API", 
       params: { "newappname": name }
@@ -1139,6 +1097,7 @@ function Base(config){
 
     var data = {
       action: "FindDBByName",
+      dbid: "main",
       type: "API", 
       params: { "dbname": name }
     };
@@ -1174,6 +1133,7 @@ function Base(config){
 
     var data = {
       action: "GetAppDTMInfo",
+      dbid: "main",
       type: "API",
       params: { "dbid": this.databaseId }
     };
@@ -1227,6 +1187,7 @@ function Base(config){
 
     var data = {
       action: "GrantedDBs",
+      dbid: "main",
       type: "API",
       params: params
     };
