@@ -477,12 +477,19 @@ function BaseConnect(config){
       postData["contentType"] = "text/xml";
     };
 
-    if(this.async){
+    if(this.async == "callback"){
+      postData["contentType"] = "text/xml";
       postData["success"] = function(xml){
         return callback(handler(xml));
       };
 
       $.ajax(postData);
+      
+    } else if(this.async == "promise"){
+      postData["dataType"] = "text";
+      postData["dataFilter"] = handler;
+
+      return $.ajax(postData);
     }else{
       var response = null;
 
