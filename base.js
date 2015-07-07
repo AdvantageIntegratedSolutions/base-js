@@ -529,51 +529,7 @@ function BaseConnect(config){
       return response;
     };
   };
-
-  this.parseResponse = function(xml){
-    var errorCode = this.getNode(xml, "errcode");
-
-    if(errorCode != "0"){
-      console.log(
-        "*****ERROR*****: (" + this.getNode(xml, "action") + ")" + "(CODE: " + errorCode + ")",
-        "MESSAGE: " + this.getNode(xml, "errtext") + " - " + this.getNode(xml, "errdetail")
-      );
-    };
-
-    this.ticket = this.getNode(xml, "ticket");
-    return xml;
-  };
-
-  this.initHttpConnection = function(context){
-    var connection = null;
-    this.context = context;
-
-    try{
-      if(!connection){
-        connection = new XMLHttpRequest();
-      };
-    }
-    catch(e){
-    }
-    try{
-      if(!connection){
-        connection = new ActiveXObject("Msxml2.XMLHTTP");
-      };
-    }
-    catch(e){
-    }
-    try{
-      if(!connection){
-        connection = new ActiveXObject("Microsoft.XMLHTTP");
-      };
-    }
-    catch(e){
-      alert("This browser does not support BaseJS.");
-    };
-
-    return connection;
-  };
-}
+};
 
 function Base(config){
   var BaseConnectInstance = new BaseConnect(config);
