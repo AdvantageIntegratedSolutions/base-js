@@ -29,6 +29,7 @@ function BaseConnect(config){
     };
 
     return this.xmlPost(dbid, action, postData, callback, handler);
+
   };
 
   this.generateQuickbaseQuery = function(query){
@@ -502,9 +503,7 @@ function BaseConnect(config){
     } else if(this.async == "promise"){
       postData["dataType"] = "text";
       postData["dataFilter"] = handler;
-
-      return $.ajax(postData)
-      .then(function(res) {
+      postData["dataFilter"] = function(res) {
         var res = $(res);
         var errcode = res.find('errcode').text();
         if (errcode != 0) {
@@ -513,8 +512,12 @@ function BaseConnect(config){
           console.error("[" + action + "]: " + errtext + " - " + errdetail);
           return new $.Deferred().reject();
         }
-        return res;
-      });
+        else {
+          return handler(res)
+        }
+      }
+
+      return $.ajax(postData);
     }else{
       var response = null;
 
