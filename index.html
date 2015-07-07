@@ -10,7 +10,7 @@
 				//Initiate connection to application
 				var config = {
 					token: "cgfsmfcdc5vyp5k5s7h6b6v3m9v",
-					async: false,
+					async: "callback",
 					databaseId: "bjbsgxy2r",
 					tables: {
 						teachers: {
@@ -99,24 +99,28 @@
 				// console.log(response);
 
 
-				var queries = [
-					{ firstName: "Kit" },
-					{ firstName: { XEX: "Kit" } },
-					{ firstName: "Kit", lastName: "Hensel" },
-					{ or: [{ firstName: "Kit" }, { lastName: "Hensel" }] },
-					{ or: [{ firstName: { XEX: "Kit"} }, { lastName: "Hensel" }] },
-					{ or: [{ firstName: { CT: "Kit"} }, { lastName: "Hensel" }, { firstName: { CT: "Jack" } }] },
-					{ firstName: "Kit", or: [{ lastName: "Hensel" }] },
-					{ firstName: "Kit", or: [{ lastName: "Hensel" }], rid: 3 },
-					{ firstName: { in: ["Kit", "Jack"]}},
-					{ rid: { GT: "1", LT: "10" }}
-				];
+				// var queries = [
+				// 	{ firstName: "Kit" },
+				// 	{ firstName: { XEX: "Kit" } },
+				// 	{ firstName: "Kit", lastName: "Hensel" },
+				// 	{ or: [{ firstName: "Kit" }, { lastName: "Hensel" }] },
+				// 	{ or: [{ firstName: { XEX: "Kit"} }, { lastName: "Hensel" }] },
+				// 	{ or: [{ firstName: { CT: "Kit"} }, { lastName: "Hensel" }, { firstName: { CT: "Jack" } }] },
+				// 	{ firstName: "Kit", or: [{ lastName: "Hensel" }] },
+				// 	{ firstName: "Kit", or: [{ lastName: "Hensel" }], rid: 3 },
+				// 	{ firstName: { in: ["Kit", "Jack"]}},
+				// 	{ rid: { GT: "1", LT: "10" }}
+				// ];
 
-				queries.forEach(function(query){
-					var response = database.teachers.doQuery(query)
-					console.log(response)
+				// queries.forEach(function(query){	
+				// 	database.teachers.doQuery(query, {}, function(response){
+				// 		console.log(response);
+				// 	});
+				// });
+
+				database.teachers.getTableFields(function(response){
+					console.log(response);
 				});
-
 
 				//Find
 				// var response = database.teachers.find("3924");

@@ -289,6 +289,7 @@ function BaseConnect(config){
 
     for(var i=0; i < fields.length; i++){
       var field = fields[i];
+
       var fieldHash = {
         "label": $(field).find("label").text(),
         "nowrap": $(field).find("nowrap").text(),
@@ -306,6 +307,19 @@ function BaseConnect(config){
         "display_user": $(field).find("display_user").text(),
         "default_kind": $(field).find("default_kind").text()
       }
+
+      var choices = $(field).find("choices").find("choice");
+
+      if(choices.length > 0){
+        var fieldChoices = [];
+        for(var j=0; j < choices.length; j++){
+
+          var choice = $(choices[j]).text();
+          fieldChoices.push(choice);
+        };
+
+        fieldHash["choices"] = fieldChoices;
+      };
 
       fieldsObj[$(field).attr("id")] = fieldHash;
     };
