@@ -25,7 +25,7 @@ function BaseConnect(config){
         };
       }else{
         dbid = data.dbid;
-      };      
+      };
     };
 
     return this.xmlPost(dbid, action, postData, callback, handler);
@@ -114,7 +114,7 @@ function BaseConnect(config){
         var field = queryPart.match(/\{'*(.*)'\..*'/)[1];
 
         if(isNaN(field)){
-          var fid = config.tables[dbid][field];  
+          var fid = config.tables[dbid][field];
           queryPart = queryPart.replace(field, fid);
         };
       };
@@ -167,7 +167,7 @@ function BaseConnect(config){
 
         if(this.config && (key == "clist" || key == "slist")){
           if(value){
-            value = this.replaceOptionFieldNames(value, dbid);  
+            value = this.replaceOptionFieldNames(value, dbid);
           };
         };
       }else if(key == "query"){
@@ -191,8 +191,8 @@ function BaseConnect(config){
       }else{
         var fid = field;
       };
-      
-      var fieldValue = this.handleXMLCharacters(data.fieldParams[field]);      
+
+      var fieldValue = this.handleXMLCharacters(data.fieldParams[field]);
       postData.push(this.createFieldParameter(fid, fieldValue));
     };
 
@@ -246,10 +246,10 @@ function BaseConnect(config){
           var tableConfig = this.inverseTables[dbid];
           if(tableConfig[id]){
             id = tableConfig[id.toString()];
-            record[id] = value;   
+            record[id] = value;
           };
         }else{
-          record[id] = value;  
+          record[id] = value;
         };
       };
 
@@ -259,7 +259,7 @@ function BaseConnect(config){
     return recordsArray;
   };
 
-  this.getRids = function(response){    
+  this.getRids = function(response){
     var records = $(response).find("records").find("record");
     var ridsArray = [];
 
@@ -363,7 +363,7 @@ function BaseConnect(config){
           "id": $(role).attr("id"),
           "name": $(role).find("name").text(),
           "accessId": $(role).find("access").attr("id"),
-          "access": $(role).find("access").text() 
+          "access": $(role).find("access").text()
         }
 
         userRoles.push(roleHash);
@@ -498,12 +498,23 @@ function BaseConnect(config){
       };
 
       $.ajax(postData);
-      
+
     } else if(this.async == "promise"){
       postData["dataType"] = "text";
       postData["dataFilter"] = handler;
 
-      return $.ajax(postData);
+      return $.ajax(postData)
+      .then(function(res) {
+        var res = $(res);
+        var errcode = res.find('errcode').text();
+        if (errcode != 0) {
+          var errtext = res.find('errtext').text();
+          var errdetail = res.find('errdetail').text();
+          console.error("[" + action + "]: " + errtext + " - " + errdetail);
+          return new $.Deferred().reject();
+        }
+        return res;
+      });
     }else{
       var response = null;
 
@@ -521,7 +532,7 @@ function BaseConnect(config){
 
   this.parseResponse = function(xml){
     var errorCode = this.getNode(xml, "errcode");
-    
+
     if(errorCode != "0"){
       console.log(
         "*****ERROR*****: (" + this.getNode(xml, "action") + ")" + "(CODE: " + errorCode + ")",
@@ -594,14 +605,14 @@ function Base(config){
       };
 
       if(params){
-        var clist = params.clist;  
+        var clist = params.clist;
       }else{
         var params = {};
       };
 
       if(BaseConnectInstance.config && !clist){
         var table = BaseConnectInstance.config.tables[tableName];
-        
+
         var clist = [];
         for(key in table){
           var value = table[key];
@@ -646,13 +657,13 @@ function Base(config){
           return {};
         };
       };
-      
+
       if(Object.prototype.toString.call(rid) == "[object Array]"){
         var query = { "3": { in: rid }}
       }else{
         var query = { "3": rid };
       };
-      
+
       return this.doQuery(query, null, callback, this.handle);
     };
 
@@ -711,7 +722,7 @@ function Base(config){
       };
 
       if(!query){
-        query = { "3": { XEX: "" } }  
+        query = { "3": { XEX: "" } }
       };
 
       return this.doQuery(query, params, callback, this.handle);
@@ -868,8 +879,8 @@ function Base(config){
           tableConfig = BaseConnectInstance.config.tables[this.tableName];
           key = tableConfig[key];
         };
-        
-        clist.push(key);  
+
+        clist.push(key);
       };
 
       clist = clist.join(".");
@@ -1051,7 +1062,7 @@ function Base(config){
     };
 
     var params = {
-      "pagetype": "1", 
+      "pagetype": "1",
       "pagebody": body
     };
 
@@ -1154,7 +1165,7 @@ function Base(config){
     var data = {
       dbid: this.databaseId,
       action: "RenameApp",
-      type: "API", 
+      type: "API",
       params: { "newappname": name }
     };
 
@@ -1168,7 +1179,7 @@ function Base(config){
 
     var data = {
       action: "FindDBByName",
-      type: "API", 
+      type: "API",
       params: { "dbname": name }
     };
 
@@ -1417,7 +1428,7 @@ var BaseHelpers = {
 
       var dateTime = [month, day, date.getUTCFullYear()].join("-");
       var ampm = parseInt(hours) >= 12 ? 'PM' : 'AM';
-      
+
       hours = hours % 12;
       hours = hours ? hours : 12; // the hour '0' should be '12'
 
@@ -1453,7 +1464,7 @@ var BaseHelpers = {
     if(milliseconds) {
       if (formatType[format]) {
         result = formatType[format]();
-      } 
+      }
       else {
         result = formatType["hours"]();
         console.log("The format parameter passed to BaseHelpers.durationToString() was incorrect. Using the format for 'hours' instead.");

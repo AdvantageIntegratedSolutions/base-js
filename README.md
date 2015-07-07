@@ -119,6 +119,9 @@ var config = {
 var db = new Base(config);
 ```
 
+###Async Options
+The 'async' option for the config object accepts one of three parameters: false, 'callback', or 'promise'
+
 ###API_GetOneTimeTicket
 **getOneTimeTicket() => [string] ticket**
 
@@ -208,7 +211,7 @@ var page = db.getDbPage("6");
 var query = { rid: 123 }
 var records = db.teachers.doQuery(query, { clist: "rid.firstName.lastName"});
 =>  [
-     { rid: "14029302955", firstName: "Lord of the Flies", lastName: "William Golding" }, 
+     { rid: "14029302955", firstName: "Lord of the Flies", lastName: "William Golding" },
      { rid: "14029302927", firstName: "A Tale of Two Cities", lastName: "Charles Dickens" }
     ]
 ```
@@ -368,11 +371,11 @@ var userInfo = db.getUserInfo();
 var userInfo = db.teachers.getUserRoles();
 => [
     {
-      "id", "57527431.cnhu", 
-      "firstName": "Kit", 
-      "lastName": "Hensel", 
-      "lastAccess": "1418230947817", 
-      "lastAccessAppLocal": "12-10-2014 10:02 AM", 
+      "id", "57527431.cnhu",
+      "firstName": "Kit",
+      "lastName": "Hensel",
+      "lastAccess": "1418230947817",
+      "lastAccessAppLocal": "12-10-2014 10:02 AM",
       "roles": [{"id": "12", "access": "Administrator", "name": "Administrator"}]
     }
   ]
@@ -413,7 +416,7 @@ var dbid = db.findDbByName("BaseJS Testing");
 
 ```javascript
 var applicationAccess = db.getAppDtmInfo();
-=> { "requestTime": "149494949494", 
+=> { "requestTime": "149494949494",
      "requestNextAllowedTime": "140509599595",
      "lastModifiedTime": "14959595959",
      "lastRecModTime": "14959695938",
@@ -427,14 +430,14 @@ var applicationAccess = db.getAppDtmInfo();
 ```javascript
 var info = db.getDbInfo();
 => { createdTime: "1410366888912", dbname: "BaseJS Testing", lastRecModTime: "1422054152243", mgrID: "57527431.cnhu", mgrName: "kith", numRecords: "0"time_zone: "(UTC-07:00) Mountain Time (US & Canada)"version: "2.0" }
-```` 
+````
 
 ###API_GrantedDBs
 **grantedDbs(params)** => **[array] databases**
 
 ```javascript
 var databases = db.grantedDbs("abc1234");
-```` 
+````
 
 ###API_CloneDatabase
 **cloneDatabase(params)** => **[string] dbid**
