@@ -487,7 +487,7 @@ function BaseConnect(config){
 
       postData["dataType"] = "text";
       postData["data"] = data;
-      postData["url"] = "https://link.advantagesoftware.net/basejs/submit";
+      postData["url"] = "/basejs/submit";
     } else {
       postData["contentType"] = "text/xml";
     };
