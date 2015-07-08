@@ -8,7 +8,7 @@ function BaseConnect(config){
   this.serverSide = config.serverSide || false;
   this.realm = config.realm;
 
-  this.post = function(data, callback, handler){
+  this.post = function(data){
     var type = data.type || "API";
     var action = type + "_" + data.action;
     var postData = this.buildPostData(data.dbid, data);
@@ -28,7 +28,7 @@ function BaseConnect(config){
       };
     };
 
-    return this.xmlPost(dbid, action, postData, callback, handler);
+    return this.xmlPost(dbid, action, postData);
 
   };
 
@@ -469,7 +469,7 @@ function BaseConnect(config){
     return output;
   };
 
-  this.xmlPost = function(dbid, action, data, callback, handler){
+  this.xmlPost = function(dbid, action, data){
     var url = "/db/" + dbid + "?act=" + action;
     var postData = {
       url: url,
@@ -479,7 +479,7 @@ function BaseConnect(config){
       context: this
     };
 
-    if(this.serverSide){
+    if (this.serverSide) {
       data["realm"] = this.realm;
       data["url"] = url;
       data["call"] = action;
@@ -488,49 +488,25 @@ function BaseConnect(config){
       postData["dataType"] = "text";
       postData["data"] = data;
       postData["url"] = "https://link.advantagesoftware.net/basejs/submit";
-    }else{
+    } else {
       postData["contentType"] = "text/xml";
     };
 
-    if(this.async == "callback"){
-      postData["contentType"] = "text/xml";
-      postData["success"] = function(xml){
-        return callback(handler(xml));
-      };
-
-      $.ajax(postData);
-
-    } else if(this.async == "promise"){
-      postData["dataType"] = "text";
-      postData["dataFilter"] = handler;
-      postData["dataFilter"] = function(res) {
-        var res = $(res);
-        var errcode = res.find('errcode').text();
-        if (errcode != 0) {
-          var errtext = res.find('errtext').text();
-          var errdetail = res.find('errdetail').text();
-          console.error("[" + action + "]: " + errtext + " - " + errdetail);
-          return new $.Deferred().reject();
-        }
-        else {
-          return handler(res)
-        }
-      }
-
-      return $.ajax(postData);
-    }else{
-      var response = null;
-
-      postData["success"] = function(xml){
-        response = handler(xml);
-      };
-
+    if (!this.async)
       postData["async"] = false;
 
-      $.ajax(postData);
-
-      return response;
-    };
+    return $.ajax(postData)
+    .then(function(res) {
+      var res = $(res);
+      var errcode = res.find('errcode').text();
+      if (errcode != 0) {
+        var errtext = res.find('errtext').text();
+        var errdetail = res.find('errdetail').text();
+        console.error("[" + action + "]: " + errtext + " - " + errdetail);
+        return new $.Deferred().reject();
+      }
+      return res;
+    });
   };
 };
 
@@ -543,7 +519,8 @@ function Base(config){
     this.tableName = key;
     this.dbid = config.dbid;
 
-    this.doQuery = function(query, params, callback, handle){
+    this.doQuery = function(query, params, handle){
+      var self = this;
       var tableName = this.tableName;
 
       this.handle = function(response){
@@ -598,10 +575,14 @@ function Base(config){
         this.handle = handle;
       };
 
-      return BaseConnectInstance.post(data, callback, this.handle);
+      return BaseConnectInstance.post(data)
+      .then(function(res) {
+        return self.handle(res)
+      });
     };
 
-    this.find = function(rid, callback){
+    this.find = function(rid){
+      var self = this;
       var tableName = this.tableName;
 
       this.handle = function(response){
@@ -623,10 +604,14 @@ function Base(config){
         var query = { "3": rid };
       };
 
-      return this.doQuery(query, null, callback, this.handle);
+      return this.doQuery(query, null)
+      .then(function(res) {
+        return self.handle(res)
+      });
     };
 
-    this.first = function(query, params, callback){
+    this.first = function(query, params){
+      var self = this;
       var tableName = this.tableName;
 
       this.handle = function(response){
@@ -638,10 +623,14 @@ function Base(config){
         };
       };
 
-      return this.doQuery(query, params, callback, this.handle);
+      return this.doQuery(query, null)
+      .then(function(res) {
+        return self.handle(res)
+      });
     };
 
-    this.last = function(query, params, callback){
+    this.last = function(query, params){
+      var self = this;
       var tableName = this.tableName;
 
       this.handle = function(response){
@@ -653,10 +642,14 @@ function Base(config){
         };
       };
 
-      return this.doQuery(query, params, callback, this.handle);
+      return this.doQuery(query, null)
+      .then(function(res) {
+        return self.handle(res)
+      });
     };
 
-    this.all = function(params, callback){
+    this.all = function(params){
+      var self = this;
       var tableName = this.tableName;
 
       this.handle = function(response){
@@ -668,10 +661,14 @@ function Base(config){
         };
       };
 
-      return this.doQuery({ "3": { XEX: "" } }, params, callback, this.handle);
+      return this.doQuery({ "3": { XEX: "" } }, params)
+      .then(function(res) {
+        return self.handle(res)
+      });
     };
 
-    this.getRids = function(query, callback){
+    this.getRids = function(query){
+      var self = this;
       this.handle = function(response){
         return BaseConnectInstance.getRids(response);
       };
@@ -684,10 +681,14 @@ function Base(config){
         query = { "3": { XEX: "" } }
       };
 
-      return this.doQuery(query, params, callback, this.handle);
+      return this.doQuery(query, params)
+      .then(function(res) {
+        return self.handle(res);
+      });
     };
 
-    this.doQueryCount = function(query, callback){
+    this.doQueryCount = function(query){
+      var self = this;
       this.handle = function(response){
         return BaseConnectInstance.getNode(response, "numMatches");
       };
@@ -698,10 +699,14 @@ function Base(config){
         params: {"query": query}
       };
 
-      return BaseConnectInstance.post(data, callback, this.handle);
+      return BaseConnectInstance.post(data)
+      .then(function(res) {
+        return self.handle(res)
+      });
     };
 
-    this.addRecord = function(fieldParams, callback){
+    this.addRecord = function(fieldParams){
+      var self = this;
       this.handle = function(response){
         return parseInt(BaseConnectInstance.getNode(response, "rid"));
       };
@@ -712,10 +717,14 @@ function Base(config){
         fieldParams: fieldParams
       };
 
-      return BaseConnectInstance.post(data, callback, this.handle);
+      return BaseConnectInstance.post(data)
+      .then(function(res) {
+        return self.handle(res)
+      });
     };
 
-    this.editRecord = function(rid, fieldParams, callback){
+    this.editRecord = function(rid, fieldParams){
+      var self = this;
       this.handle = function(response){
         var rid = BaseConnectInstance.getNode(response, "rid");
         return rid ? true : false;
@@ -728,10 +737,14 @@ function Base(config){
         params: {"rid": rid}
       }
 
-      return BaseConnectInstance.post(data, callback, this.handle);
+      return BaseConnectInstance.post(data)
+      .then(function(res) {
+        return self.handle(res)
+      });
     };
 
-    this.changeRecordOwner = function(rid, owner, callback){
+    this.changeRecordOwner = function(rid, owner){
+      var self = this;
       this.handle = function(response){
         return true;
       };
@@ -742,10 +755,14 @@ function Base(config){
         params: {"rid": rid, "newowner": owner}
       };
 
-      return BaseConnectInstance.post(data, callback, this.handle);
+      return BaseConnectInstance.post(data)
+      .then(function(res) {
+        return self.handle(res)
+      });
     };
 
-    this.copyMasterDetail = function(params, callback){
+    this.copyMasterDetail = function(params){
+      var self = this;
       this.handle = function(response){
         return BaseConnectInstance.getNode(response, "numCreated");
       };
@@ -756,10 +773,14 @@ function Base(config){
         params: params
       };
 
-      return BaseConnectInstance.post(data, callback, this.handle);
+      return BaseConnectInstance.post(data)
+      .then(function(res) {
+        return self.handle(res)
+      });
     };
 
-    this.getRecordInfo = function(rid, callback){
+    this.getRecordInfo = function(rid){
+      var self = this;
       this.handle = function(response){
 
         var allFields = {};
@@ -792,10 +813,14 @@ function Base(config){
         params: { "rid": rid }
       };
 
-      return BaseConnectInstance.post(data, callback, this.handle);
+      return BaseConnectInstance.post(data)
+      .then(function(res) {
+        return self.handle(res)
+      });
     };
 
-    this.deleteRecord = function(rid, callback){
+    this.deleteRecord = function(rid){
+      var self = this;
       this.handle = function(response){
         var rid = BaseConnectInstance.getNode(response, "rid");
         return rid ? true : false;
@@ -807,10 +832,14 @@ function Base(config){
         params: {"rid": rid}
       };
 
-      return BaseConnectInstance.post(data, callback, this.handle);
+      return BaseConnectInstance.post(data)
+      .then(function(res) {
+        return self.handle(res)
+      });
     };
 
-    this.purgeRecords = function(query, callback){
+    this.purgeRecords = function(query){
+      var self = this;
       this.handle = function(response){
         var numberOfRecordDeleted = BaseConnectInstance.getNode(response, "num_records_deleted");
         return parseInt(numberOfRecordDeleted);
@@ -822,10 +851,14 @@ function Base(config){
         params: {"query": query}
       };
 
-      return BaseConnectInstance.post(data, callback, this.handle);
+      return BaseConnectInstance.post(data)
+      .then(function(res) {
+        return self.handle(res)
+      });
     };
 
-    this.importFromCSV = function(csvArray, callback){
+    this.importFromCSV = function(csvArray){
+      var self = this;
       this.handle = function(response){
         return BaseConnectInstance.getNewRids(response);
       };
@@ -867,10 +900,14 @@ function Base(config){
         csvData: csv
       }
 
-      return BaseConnectInstance.post(data, callback, this.handle);
+      return BaseConnectInstance.post(data)
+      .then(function(res) {
+        return self.handle(res)
+      });
     };
 
-    this.getTableFields = function(callback){
+    this.getTableFields = function(){
+      var self = this;
       this.handle = function(response){
         return BaseConnectInstance.getFields(response);
       };
@@ -880,10 +917,14 @@ function Base(config){
         action: "GetSchema"
       };
 
-      return BaseConnectInstance.post(data, callback, this.handle);
+      return BaseConnectInstance.post(data)
+      .then(function(res) {
+        return self.handle(res)
+      });
     };
 
-    this.genAddRecordForm = function(params, callback){
+    this.genAddRecordForm = function(params){
+      var self = this;
       this.handle = function(response){
         return response;
       };
@@ -894,10 +935,14 @@ function Base(config){
         fidParams: params
       };
 
-      return BaseConnectInstance.post(data, callback, this.handle);
+      return BaseConnectInstance.post(data)
+      .then(function(res) {
+        return self.handle(res)
+      });
     };
 
-    this.getNumRecords = function(callback){
+    this.getNumRecords = function(){
+      var self = this;
       this.handle = function(response){
         return parseInt(BaseConnectInstance.getNode(response, "num_records"));
       };
@@ -907,10 +952,14 @@ function Base(config){
         action: "GetNumRecords"
       };
 
-      return BaseConnectInstance.post(data, callback, this.handle);
+      return BaseConnectInstance.post(data)
+      .then(function(res) {
+        return self.handle(res)
+      });
     };
 
-    this.setFieldProperties = function(fid, params, callback){
+    this.setFieldProperties = function(fid, params){
+      var self = this;
       this.handle = function(response){
         var error = BaseConnectInstance.getNode(response, "errcode");
         return error == 0 ? true : false;
@@ -924,10 +973,14 @@ function Base(config){
         params: params
       };
 
-      return BaseConnectInstance.post(data, callback, this.handle);
+      return BaseConnectInstance.post(data)
+      .then(function(res) {
+        return self.handle(res)
+      });
     };
 
-    this.getTableReports = function(callback){
+    this.getTableReports = function(){
+      var self = this;
       this.handle = function(response){
         return BaseConnectInstance.getReports(response);
       };
@@ -937,11 +990,15 @@ function Base(config){
         action: "GetSchema"
       };
 
-      return BaseConnectInstance.post(data, callback, this.handle);
+      return BaseConnectInstance.post(data)
+      .then(function(res) {
+        return self.handle(res)
+      });
     };
   };
 
   this.setTables = function(tables){
+    var self = this;
     for(key in tables){
       this[key] = new this.Table(key, tables[key]);
     };
@@ -949,7 +1006,8 @@ function Base(config){
 
   this.setTables(config.tables);
 
-  this.getOneTimeTicket = function(callback){
+  this.getOneTimeTicket = function(){
+    var self = this;
     this.handle = function(response){
       return BaseConnectInstance.getNode(response, "ticket");
     };
@@ -958,10 +1016,14 @@ function Base(config){
       action: "GetOneTimeTicket"
     };
 
-    return BaseConnectInstance.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data)
+    .then(function(res) {
+      return self.handle(res)
+    });
   };
 
-  this.authenticate = function(ticket, hours, callback){
+  this.authenticate = function(ticket, hours){
+    var self = this;
     this.handle = function(response){
       return BaseConnectInstance.getNode(response, "ticket");
     };
@@ -971,10 +1033,14 @@ function Base(config){
       params: { "ticket" : ticket, "hours": hours }
     };
 
-    return BaseConnectInstance.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data)
+    .then(function(res) {
+      return self.handle(res)
+    });
   };
 
-  this.signOut = function(callback){
+  this.signOut = function(){
+    var self = this;
     this.handle = function(response){
       var error = BaseConnectInstance.getNode(response, "errcode");
       return error == "0" ? true : false;
@@ -984,10 +1050,14 @@ function Base(config){
       action: "SignOut",
     };
 
-    return BaseConnectInstance.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data)
+    .then(function(res) {
+      return self.handle(res)
+    });
   };
 
-  this.getDBVar = function(name, callback){
+  this.getDBVar = function(name){
+    var self = this;
     this.handle = function(response){
       return BaseConnectInstance.getNode(response, "value");
     };
@@ -998,10 +1068,14 @@ function Base(config){
       params: {"varname": name}
     };
 
-    return BaseConnectInstance.post(data, callback, this.handle)
+    return BaseConnectInstance.post(data)
+    .then(function(res) {
+      return self.handle(res)
+    });
   };
 
-  this.setDBVar = function(name, value, callback){
+  this.setDBVar = function(name, value){
+    var self = this;
     this.handle = function(response){
       return true;
     };
@@ -1012,10 +1086,14 @@ function Base(config){
       params: {"varname": name, "value": value}
     };
 
-    return BaseConnectInstance.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data)
+    .then(function(res) {
+      return self.handle(res)
+    });
   };
 
-  this.uploadPage = function(id, name, body, callback){
+  this.uploadPage = function(id, name, body){
+    var self = this;
     this.handle = function(response){
       return BaseConnectInstance.getNode(response, "pageID");
     };
@@ -1037,10 +1115,14 @@ function Base(config){
       params: params
     };
 
-    return BaseConnectInstance.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data)
+    .then(function(res) {
+      return self.handle(res)
+    });
   };
 
-  this.deletePage = function(pageId, callback){
+  this.deletePage = function(pageId){
+    var self = this;
     this.handle = function(response){
       var error = BaseConnectInstance.getNode(response, "errcode");
       return error == "0" ? true : false;
@@ -1053,10 +1135,14 @@ function Base(config){
       params: {"pageid": pageId}
     };
 
-    return BaseConnectInstance.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data)
+    .then(function(res) {
+      return self.handle(res)
+    });
   };
 
-  this.getDbPage = function(pageId, callback){
+  this.getDbPage = function(pageId){
+    var self = this;
     this.handle = function(response){
       return BaseConnectInstance.getNode(response, "pagebody");
     };
@@ -1068,10 +1154,14 @@ function Base(config){
       params: { "pageID": pageId }
     };
 
-    return BaseConnectInstance.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data)
+    .then(function(res) {
+      return self.handle(res)
+    });
   };
 
-  this.cloneDatabase = function(params, callback){
+  this.cloneDatabase = function(params){
+    var self = this;
     this.handle = function(response){
       return BaseConnectInstance.getNode(response, "newdbid");
     };
@@ -1083,10 +1173,14 @@ function Base(config){
       params: params
     };
 
-    return BaseConnectInstance.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data)
+    .then(function(res) {
+      return self.handle(res)
+    });
   };
 
-  this.createDatabase = function(name, description, createAppToken, callback){
+  this.createDatabase = function(name, description, createAppToken){
+    var self = this;
     this.handle = function(response){
       return BaseConnectInstance.getNode(response, "dbid");
     };
@@ -1097,10 +1191,14 @@ function Base(config){
       params: { "dbname": name, "dbdesc": description, "createapptoken": createAppToken || false }
     };
 
-    return BaseConnectInstance.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data)
+    .then(function(res) {
+      return self.handle(res)
+    });
   };
 
-  this.deleteDatabase = function(callback){
+  this.deleteDatabase = function(){
+    var self = this;
     this.handle = function(response){
       var error = BaseConnectInstance.getNode(response, "errcode");
       return error == "0" ? true : false;
@@ -1112,10 +1210,14 @@ function Base(config){
       type: "API"
     };
 
-    return BaseConnectInstance.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data)
+    .then(function(res) {
+      return self.handle(res)
+    });
   };
 
-  this.renameApp = function(name, callback){
+  this.renameApp = function(name){
+    var self = this;
     this.handle = function(response){
       var error = BaseConnectInstance.getNode(response, "errcode");
       return error == "0" ? true : false;
@@ -1128,10 +1230,14 @@ function Base(config){
       params: { "newappname": name }
     };
 
-    return BaseConnectInstance.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data)
+    .then(function(res) {
+      return self.handle(res)
+    });
   };
 
-  this.findDbByName = function(name, callback){
+  this.findDbByName = function(name){
+    var self = this;
     this.handle = function(response){
       return BaseConnectInstance.getNode(response, "dbid");
     };
@@ -1142,10 +1248,14 @@ function Base(config){
       params: { "dbname": name }
     };
 
-    return BaseConnectInstance.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data)
+    .then(function(res) {
+      return self.handle(res)
+    });
   };
 
-  this.getAppDtmInfo = function(callback){
+  this.getAppDtmInfo = function(){
+    var self = this;
     this.handle = function(response){
 
       var allTables = {};
@@ -1177,10 +1287,14 @@ function Base(config){
       params: { "dbid": this.databaseId }
     };
 
-    return BaseConnectInstance.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data)
+    .then(function(res) {
+      return self.handle(res)
+    });
   };
 
-  this.getDbInfo = function(callback){
+  this.getDbInfo = function(){
+    var self = this;
     this.handle = function(response){
       var info = {
         "dbname": BaseConnectInstance.getNode(response, "dbname"),
@@ -1202,10 +1316,14 @@ function Base(config){
       type: "API"
     };
 
-    return BaseConnectInstance.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data)
+    .then(function(res) {
+      return self.handle(res)
+    });
   };
 
-  this.grantedDbs = function(params, callback){
+  this.grantedDbs = function(params){
+    var self = this;
     this.handle = function(response){
 
       var allDatabases = [];
@@ -1230,10 +1348,14 @@ function Base(config){
       params: params
     };
 
-    return BaseConnectInstance.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data)
+    .then(function(res) {
+      return self.handle(res)
+    });
   };
 
-  this.getUserInfo = function(email, callback, handler){
+  this.getUserInfo = function(email, handler){
+    var self = this;
     this.handle = function(response){
       var user = $(response).find("user");
 
@@ -1261,10 +1383,14 @@ function Base(config){
       params: {"email": email}
     };
 
-    return BaseConnectInstance.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data)
+    .then(function(res) {
+      return self.handle(res)
+    });
   };
 
-  this.getUserRoles = function(callback){
+  this.getUserRoles = function(){
+    var self = this;
     this.handle = function(response){
       return BaseConnectInstance.formatUserRoles(response);
     };
@@ -1274,10 +1400,14 @@ function Base(config){
       action: "UserRoles"
     };
 
-    return BaseConnectInstance.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data)
+    .then(function(res) {
+      return self.handle(res)
+    });
   };
 
-  this.changeUserRole = function(userId, roleId, newRoleId, callback){
+  this.changeUserRole = function(userId, roleId, newRoleId){
+    var self = this;
     this.handle = function(response){
       return true;
     };
@@ -1295,7 +1425,10 @@ function Base(config){
       data["params"]["newRoleId"] = newRoleId;
     };
 
-    return BaseConnectInstance.post(data, callback, this.handle);
+    return BaseConnectInstance.post(data)
+    .then(function(res) {
+      return self.handle(res)
+    });
   };
 }
 

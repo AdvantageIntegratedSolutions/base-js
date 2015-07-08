@@ -3,7 +3,7 @@
 QuickBase API Javascript Library w/ JSON
 
 Versions
-* 4.4 - https://s3.amazonaws.com/ais_libraries/BaseJS/4.4/base.min.js
+* 4.4 - https://s3.amazonaws.com/ais_libraries/BaseJS/4.4/base.min.js - No longer supports callbacks, only promises
 * 4.3 - https://s3.amazonaws.com/ais_libraries/BaseJS/4.3/base.min.js
 * 3.0 - https://s3.amazonaws.com/ais_libraries/BaseJS/3.0/base.min.js
 
@@ -118,7 +118,7 @@ var db = new Base(config);
 ```
 
 ###Async Options
-The 'async' option for the config object accepts one of three parameters: false, 'callback', or 'promise'
+The 'async' option for the config object defaults to false, but when passed anything 'truthy' will return promises.
 
 ###API_GetOneTimeTicket
 **getOneTimeTicket() => [string] ticket**
