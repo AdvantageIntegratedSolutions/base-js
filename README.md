@@ -322,7 +322,7 @@ var callSuccessful = db.teachers.changeRecordOwner(136, "zsiglin@advantagequickb
 ````
 
 ###API_CopyMasterDetail
-**copyMasterDetail(options)** => **[int] # of records copied**
+**copyMasterDetail(options)** => **[int] record IDs of new copies or the record ID of the record to which the data was copied.**
 ```javascript
 var numberCopied = db.teachers.copyMasterDetail({ destrid: "0", sourcerid: "1204", copyfid: "8" });
 => 1

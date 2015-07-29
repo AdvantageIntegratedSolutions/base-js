@@ -764,7 +764,7 @@ function Base(config){
     this.copyMasterDetail = function(params){
       var self = this;
       this.handle = function(response){
-        return BaseConnectInstance.getNode(response, "numCreated");
+        return BaseConnectInstance.getNode(response, "parentrid");
       };
 
       var data = {
