@@ -6,6 +6,7 @@ function BaseConnect(config){
   this.async = config.async || false;
   this.databaseId = config.databaseId;
   this.serverSide = config.serverSide || false;
+  this.ticket = config.ticket;
   this.realm = config.realm;
 
   this.post = function(data){
@@ -489,9 +490,9 @@ function BaseConnect(config){
       postData["data"] = data;
       postData["url"] = "/basejs/submit";
     } else {
-      if(this.config.ticket){
-        postData["ticket"] = this.config.ticket;
-        postData["apptoken"] = this.config.token;
+      if(this.ticket){
+        postData["ticket"] = this.ticket;
+        postData["apptoken"] = this.apptoken;
       };
 
       postData["contentType"] = "text/xml";
