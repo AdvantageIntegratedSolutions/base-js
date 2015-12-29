@@ -489,6 +489,11 @@ function BaseConnect(config){
       postData["data"] = data;
       postData["url"] = "/basejs/submit";
     } else {
+      if(this.config.ticket){
+        postData["ticket"] = this.config.ticket;
+        postData["apptoken"] = this.config.token;
+      };
+
       postData["contentType"] = "text/xml";
     };
 
