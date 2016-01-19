@@ -159,6 +159,10 @@ function BaseConnect(config){
       postData.push(this.createParameter("apptoken", this.apptoken));
     };
 
+    if(this.ticket){
+      postData.push(this.createParameter("ticket", this.ticket));
+    };
+
     for(key in data.params){
       var value = data.params[key];
 
@@ -490,11 +494,6 @@ function BaseConnect(config){
       postData["data"] = data;
       postData["url"] = "/basejs/submit";
     } else {
-      if(this.ticket){
-        postData["ticket"] = this.ticket;
-        postData["apptoken"] = this.apptoken;
-      };
-
       postData["contentType"] = "text/xml";
     };
 
