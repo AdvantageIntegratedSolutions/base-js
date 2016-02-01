@@ -3,7 +3,7 @@
 QuickBase API Javascript Library w/ JSON
 
 Versions
-* 4.6 - https://s3.amazonaws.com/ais_libraries/BaseJS/4.5/base.min.js (change structure of .getTableFields response)
+* 4.6 - https://s3.amazonaws.com/ais_libraries/BaseJS/4.6/base.min.js (change structure of .getTableFields response)
 * 4.5 - https://s3.amazonaws.com/ais_libraries/BaseJS/4.5/base.min.js
 * 4.4 - https://s3.amazonaws.com/ais_libraries/BaseJS/4.4/base.min.js - No longer supports callbacks, only promises - deprecated
 * 4.3 - https://s3.amazonaws.com/ais_libraries/BaseJS/4.3/base.min.js
