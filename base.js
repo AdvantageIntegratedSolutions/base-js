@@ -5,7 +5,7 @@ function BaseConnect(config){
   this.apptoken = config.token;
   this.async = config.async || false;
   this.databaseId = config.databaseId;
-  this.serverSide = config.serverSide || false;
+  this.local = config.local || false;
   this.ticket = config.ticket;
   this.realm = config.realm;
 
@@ -16,7 +16,7 @@ function BaseConnect(config){
     var dbid = "";
 
     if(!data.dbid){
-      dbid = this.databaseId;
+      dbid = "main";
     }else{
       if(this.config && data.dbid != "main"){
         if(data.dbid == this.databaseId){
@@ -158,9 +158,16 @@ function BaseConnect(config){
       postData.push(this.createParameter("apptoken", this.apptoken));
     };
 
+    if(this.local && !this.ticket){
+      postData.push(this.createParameter("username", this.local.username));
+      postData.push(this.createParameter("password", this.local.password));
+    };
+
     if(this.ticket){
       postData.push(this.createParameter("ticket", this.ticket));
     };
+
+    postData.push(this.createParameter("realmhost", this.realm + ".quickbase.com"));
 
     for(key in data.params){
       var value = data.params[key];
@@ -212,7 +219,7 @@ function BaseConnect(config){
     postData.push("</qdbapi>");
     postData = postData.join("");
 
-    if(this.serverSide){
+    if(this.local){
       return { "xml": postData }
     }else{
       return postData;
@@ -485,15 +492,16 @@ function BaseConnect(config){
       context: this
     };
 
-    if(this.serverSide){
+    if(this.local){
       data["realm"] = this.realm;
-      data["url"] = url;
       data["call"] = action;
       data["apptoken"] = this.apptoken;
 
       postData["dataType"] = "text";
-      postData["data"] = data;
-      postData["url"] = "/basejs/submit";
+      postData["data"] = data.xml;
+
+      var proxy = "https://3soqpphli2.execute-api.us-east-1.amazonaws.com/testing/qbase/db/"
+      postData["url"] = proxy + dbid + "?act=" + action;
     }else{
       postData["contentType"] = "text/xml";
     };
@@ -954,14 +962,23 @@ function Base(config){
     return BaseConnectInstance.post(data, callback, this.handle);
   };
 
-  this.authenticate = function(ticket, hours, callback){
+  this.authenticate = function(auth, hours, callback){
     this.handle = function(response){
       return BaseConnectInstance.getNode(response, "ticket");
     };
 
     var data = {
       action: "Authenticate",
-      params: { "ticket" : ticket, "hours": hours }
+      params: { "hours": hours }
+    };
+
+    if(auth.ticket){
+      data["ticket"] = auth.ticket;
+    };
+
+    if(auth.username && auth.password){
+      data["username"] = auth.username;
+      data["password"] = auth.password;
     };
 
     return BaseConnectInstance.post(data, callback, this.handle);
