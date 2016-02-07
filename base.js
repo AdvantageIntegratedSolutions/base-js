@@ -5,7 +5,10 @@ function BaseConnect(config){
   this.apptoken = config.token;
   this.async = config.async || false;
   this.databaseId = config.databaseId;
-  this.local = config.local || false;
+
+  this.username = config.username;
+  this.password = config.password;
+
   this.ticket = config.ticket;
   this.realm = config.realm;
 
@@ -158,9 +161,9 @@ function BaseConnect(config){
       postData.push(this.createParameter("apptoken", this.apptoken));
     };
 
-    if(this.local && !this.ticket){
-      postData.push(this.createParameter("username", this.local.username));
-      postData.push(this.createParameter("password", this.local.password));
+    if(this.username && !this.ticket){
+      postData.push(this.createParameter("username", this.username));
+      postData.push(this.createParameter("password", this.password));
     };
 
     if(this.ticket){
@@ -219,7 +222,7 @@ function BaseConnect(config){
     postData.push("</qdbapi>");
     postData = postData.join("");
 
-    if(this.local){
+    if(this.username){
       return { "xml": postData }
     }else{
       return postData;
@@ -492,7 +495,7 @@ function BaseConnect(config){
       context: this
     };
 
-    if(this.local){
+    if(this.username){
       data["realm"] = this.realm;
       data["call"] = action;
       data["apptoken"] = this.apptoken;
