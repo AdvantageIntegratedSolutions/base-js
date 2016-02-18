@@ -170,7 +170,9 @@ function BaseConnect(config){
       postData.push(this.createParameter("ticket", this.ticket));
     };
 
-    postData.push(this.createParameter("realmhost", this.realm + ".quickbase.com"));
+    if(this.realm){
+      postData.push(this.createParameter("realmhost", this.realm + ".quickbase.com"));
+    };
 
     for(key in data.params){
       var value = data.params[key];
@@ -554,7 +556,7 @@ function Base(config){
         return BaseConnectInstance.getRecords(tableName, response, "records");
       };
 
-      var queryParams = {"fmt": "structured"}
+      var queryParams = {"fmt": "structured", "returnpercentage": "1"}
       if(query){
         var isQid = !isNaN(query);
 
