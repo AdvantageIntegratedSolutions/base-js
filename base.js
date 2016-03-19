@@ -504,19 +504,29 @@ function BaseConnect(config){
       context: this
     };
 
-    if(this.username){
+    if(this.username || this.quickstart){
       data["realm"] = this.realm;
       data["call"] = action;
       data["apptoken"] = this.apptoken;
       postData["dataType"] = "text";
-      postData["data"] = data.xml;
+    };
+
+    if(this.quickstart){
+      data = {
+        dbid: dbid,
+        realm: this.realm,
+        action: action,
+        apptoken: this.apptoken,
+        xml: data.xml
+      };
+
+      postData["data"] = JSON.stringify(data);
+      postData["url"] = this.proxies.quickstart;
     };
 
     if(this.username){
       postData["url"] = this.proxies.local + dbid + "?act=" + action;
-    }else if(this.quickstart){
-      postData["url"] = this.proxies.quickstart;
-      postData["data"] = JSON.stringify(data);
+      postData["data"] = data.xml;
     }else{
       postData["contentType"] = "text/xml";
     };
