@@ -9,8 +9,15 @@ function BaseConnect(config){
   this.username = config.username;
   this.password = config.password;
 
+  this.quickstart = config.quickstart || false;
+
   this.ticket = config.ticket;
   this.realm = config.realm;
+
+  this.proxies = {
+    local: "https://3soqpphli2.execute-api.us-east-1.amazonaws.com/testing/qbase/db/",
+    quickstart: "https://ken9jrw9tg.execute-api.us-east-1.amazonaws.com/quickstart"
+  };
 
   this.post = function(data, callback, handler){
     var type = data.type || "API";
@@ -497,16 +504,18 @@ function BaseConnect(config){
       context: this
     };
 
-    if(this.username){
+    if(this.username || this.quickstart){
       data["realm"] = this.realm;
       data["call"] = action;
       data["apptoken"] = this.apptoken;
-
       postData["dataType"] = "text";
       postData["data"] = data.xml;
+    };
 
-      var proxy = "https://3soqpphli2.execute-api.us-east-1.amazonaws.com/testing/qbase/db/"
-      postData["url"] = proxy + dbid + "?act=" + action;
+    if(this.username){
+      postData["url"] = this.proxies.local + dbid + "?act=" + action;
+    }else if(this.quickstart){
+      postData["url"] = this.proxies.quickstart;
     }else{
       postData["contentType"] = "text/xml";
     };
