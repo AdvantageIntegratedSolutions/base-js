@@ -231,7 +231,7 @@ function BaseConnect(config){
     postData.push("</qdbapi>");
     postData = postData.join("");
 
-    if(this.username){
+    if(this.username || this.quickstart){
       return { "xml": postData }
     }else{
       return postData;
@@ -504,7 +504,7 @@ function BaseConnect(config){
       context: this
     };
 
-    if(this.username || this.quickstart){
+    if(this.username){
       data["realm"] = this.realm;
       data["call"] = action;
       data["apptoken"] = this.apptoken;
@@ -516,6 +516,7 @@ function BaseConnect(config){
       postData["url"] = this.proxies.local + dbid + "?act=" + action;
     }else if(this.quickstart){
       postData["url"] = this.proxies.quickstart;
+      postData["data"] = JSON.stringify(data);
     }else{
       postData["contentType"] = "text/xml";
     };
