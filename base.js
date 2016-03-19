@@ -16,7 +16,7 @@ function BaseConnect(config){
 
   this.proxies = {
     local: "https://3soqpphli2.execute-api.us-east-1.amazonaws.com/testing/qbase/db/",
-    quickstart: "https://ken9jrw9tg.execute-api.us-east-1.amazonaws.com/quickstart"
+    quickstart: "https://ken9jrw9tg.execute-api.us-east-1.amazonaws.com/quickstart/proxy"
   };
 
   this.post = function(data, callback, handler){
