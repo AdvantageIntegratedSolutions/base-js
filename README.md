@@ -23,7 +23,7 @@ Related Libraries
   - [API_GetAppDTMInfo](#api_getappdtminfo)
   - [API_GetDBInfo](#api_getdbinfo)
   - [API_GetSchema]
-  	- [GetTables](#gettables)
+    - [GetTables](#gettables)
     - [GetTableFields](#gettablefields)
     - [GetTableReports](#gettablereports)
   - [API_GrantedDBs](#api_granteddbs)
@@ -392,8 +392,8 @@ var userInfo = db.changeUserRole("57527431.cnhu", "12", "11");
 ```javascript
 var tables = db.getTables();
 => {_dbid_customers: "bj3xvxt6t", 
-		_dbid_activities: "bj3xvxt68", 
-		_dbid_documents: "bj3xvxt69"}
+    _dbid_activities: "bj3xvxt68", 
+    _dbid_documents: "bj3xvxt69"}
 ````
 
 ###GetTableFields
