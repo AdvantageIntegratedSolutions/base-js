@@ -1180,6 +1180,31 @@ function Base(config){
     return BaseConnectInstance.post(data, callback, this.handle);
   };
 
+  this.getTables = function(callback){
+    this.handle = function(schema){
+    	var tables = $(schema).find("table").find("chdbid");
+    	var tablesObj = {};
+
+    	for(var i=0; i < tables.length; i++){
+    	  var table = tables[i];
+    	  var tableName = $(table).attr("name");
+    	  var tableId = $(table).text();
+
+    	  tablesObj[tableName] = tableId;
+    	}
+
+    	return tablesObj;
+    };
+
+    var data = {
+    	dbid: this.databaseId,
+      action: "GetSchema",
+      type: "API"
+    };
+
+    return BaseConnectInstance.post(data, callback, this.handle);
+  };
+
   this.getAppDtmInfo = function(callback){
     this.handle = function(response){
 
