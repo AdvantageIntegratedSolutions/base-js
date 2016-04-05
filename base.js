@@ -424,7 +424,12 @@ function BaseConnect(config){
     if(value){
       if(value.filename){
         param += " filename='" + value.filename + "'>";
-        param += this.base64Encode(value.body);
+
+        if(value.ignoreEncoding == true){
+          param += value.body;
+        }else{
+          param += this.base64Encode(value.body);
+        };
       }else{
         param += ">"
         param += value;
