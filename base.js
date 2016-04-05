@@ -501,7 +501,8 @@ function BaseConnect(config){
       data: data,
       dataType: "xml",
       type: "POST",
-      context: this
+      context: this,
+      contentType: "text/xml"
     };
 
     if(this.username || this.quickstart){
@@ -527,12 +528,9 @@ function BaseConnect(config){
     if(this.username){
       postData["url"] = this.proxies.local + dbid + "?act=" + action;
       postData["data"] = data.xml;
-    }else{
-      postData["contentType"] = "text/xml";
     };
 
     if(this.async == "callback"){
-      postData["contentType"] = "text/xml";
       postData["success"] = function(xml){
         return callback(handler(xml));
       };
