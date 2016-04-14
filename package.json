@@ -1,0 +1,48 @@
+{
+  "name": "BaseJS",
+  "version": "4.8",
+  "description": "JS Library for QuickBase",
+  "engines": {
+    "node": "5.5",
+    "npm": "3.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AdvantageIntegratedSolutions/BaseJS.git"
+  },
+  "devDependencies": {
+    "adm-zip": "^0.4.7",
+    "aws-lambda-mock-context": "^2.0.0",
+    "chai": "^3.5.0",
+    "gulp": "^3.9.1",
+    "gulp-awslambda": "^0.3.0",
+    "gulp-replace": "^0.5.4",
+    "gulp-zip": "^3.2.0",
+    "lambda-local": "0.0.9",
+    "mocha": "^2.4.5",
+    "require-dir": "^0.3.0",
+    "babel-preset-es2015": "^6.6.0",
+    "babelify": "^7.2.0",
+    "browser-sync": "^2.11.1",
+    "browserify": "^13.0.0",
+    "gulp-angular-templatecache": "^1.8.0",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-babel": "^6.1.2",
+    "gulp-concat": "^2.6.0",
+    "gulp-foreach": "^0.1.0",
+    "gulp-inject-string": "^1.1.0",
+    "gulp-insert": "^0.5.0",
+    "gulp-notify": "^2.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.2.0",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^1.5.1",
+    "gulp-webserver": "^0.9.1",
+    "path": "^0.12.7",
+    "pixl-xml": "^1.0.4",
+    "proxy-middleware": "^0.15.0",
+    "url": "^0.11.0",
+    "vinyl-source-stream": "^1.1.0",
+    "xmlhttprequest": "^1.8.0"
+  }
+}

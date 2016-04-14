@@ -1525,12 +1525,14 @@ var BaseHelpers = {
     return timeOfDay;
   },
 
-  redirectToEditForm: function(dbid, rid){
-    window.location = "/db/"+dbid+"?a=er&rid=" + rid;
+  redirectToEditForm: function(dbid, rid, root){
+    var root = root || '';
+    window.location = root + "/db/"+dbid+"?a=er&rid=" + rid;
   },
 
-  redirectToViewForm: function(dbid, rid){
-    window.location = "/db/"+dbid+"?a=dr&rid=" + rid;
+  redirectToViewForm: function(dbid, rid, root){
+    var root = root || '';
+    window.location = root + "/db/"+dbid+"?a=dr&rid=" + rid;
   },
 
   downloadFile: function(dbid, rid, fid, version){
