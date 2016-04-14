@@ -1,5 +1,5 @@
 module.exports = {
-  javascript: './src/base.js',
+  javascript: './src/*.js',
   html: "./test/index.html",
   output: "./dist",
   test: "./test",
