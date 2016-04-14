@@ -2,12 +2,13 @@ function QuickStart(config){
 	this.url = "https://ken9jrw9tg.execute-api.us-east-1.amazonaws.com/quickstart/proxy";
 	this.config = config;
 
-	this.createUser = function(user, callback){
+	this.createUser = function(data, callback){
 		this.handle = function(response){
 			return response;
 		};
 
-		this.post(user, callback, this.handler);
+		data["table"] = this.config.users;
+		this.post(data, callback, this.handler);
 	};
 
 	this.signIn = function(){
@@ -29,13 +30,10 @@ function QuickStart(config){
       contentType: "application/json"
     };
 
-    console.log(postData);
+    console.log(postData)
 
-    if(this.async == "callback"){
-    	this.callback(postData, callback, handler);
-    }else{
-    	this.promise(postData, callback, handler);
-    };
+    //TODO - add promises once we have the core complete.
+    this.callback(postData, callback, handler); 
 	};
 
 	this.callback = function(postData, callback, handler){
@@ -44,12 +42,5 @@ function QuickStart(config){
     };
 
     $.ajax(postData);
-	};
-
-	this.promise = function(postData, callback, handler){
-    postData["dataType"] = "text";
-    postData["dataFilter"] = handler;
-
-    return $.ajax(postData);
 	};
 };

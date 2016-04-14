@@ -1,7 +1,6 @@
 $(document).ready(function(){		
 	var quickStartConfig = {
-		async: "callback",
-		table: {
+		users: {
 			dbid: "bkqsdtu33",
 			rid: 3,
 			username: 6,
