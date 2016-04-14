@@ -1,5 +1,5 @@
 {
-  "name": "BaseJS",
+  "name": "base-js",
   "version": "4.8",
   "description": "JS Library for QuickBase",
   "engines": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/AdvantageIntegratedSolutions/BaseJS.git"
+    "url": "https://github.com/AdvantageIntegratedSolutions/base-js.git"
   },
   "devDependencies": {
     "adm-zip": "^0.4.7",
