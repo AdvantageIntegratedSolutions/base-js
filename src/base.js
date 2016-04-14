@@ -1,23 +1,20 @@
 function BaseConnect(config){
   this.config = config;
   this.inverseTables = BaseHelpers.inverseTables(config.tables);
-
   this.apptoken = config.token;
   this.async = config.async || false;
   this.databaseId = config.databaseId;
-
   this.username = config.username;
   this.password = config.password;
-
   this.quickstart = config.quickstart || false;
-
   this.ticket = config.ticket;
   this.realm = config.realm;
-
   this.proxies = {
     local: "https://3soqpphli2.execute-api.us-east-1.amazonaws.com/testing/qbase/db/",
     quickstart: "https://ken9jrw9tg.execute-api.us-east-1.amazonaws.com/quickstart/proxy"
   };
+
+  _self = this;
 
   this.post = function(data, callback, handler){
     var type = data.type || "API";
@@ -503,6 +500,30 @@ function BaseConnect(config){
     return output;
   };
 
+  this.quickstartPost = function(data, callback, handler, proxy){
+    if(proxy){ data = data.data };
+    data["quickstartAction"] = "proxy";
+    data["ticket"] = "placeholderTicket";
+
+    data = JSON.stringify(data);
+    
+    var postData = {
+      url: _self.proxies.quickstart,
+      data: data,
+      dataType: "json",
+      type: "POST",
+      contentType: "application/json"
+    };
+
+    postData["success"] = function(xml){
+      return callback(handler(xml));
+    };
+
+    console.log(postData);
+
+    $.ajax(postData);
+  };
+
   this.xmlPost = function(dbid, action, data, callback, handler){
     var url = "/db/" + dbid + "?act=" + action;
     var postData = {
@@ -530,7 +551,6 @@ function BaseConnect(config){
         xml: data.xml
       };
 
-      postData["data"] = JSON.stringify(data);
       postData["url"] = this.proxies.quickstart;
     };
 
@@ -539,31 +559,35 @@ function BaseConnect(config){
       postData["data"] = data.xml;
     };
 
-    if(this.async == "callback"){
-      postData["success"] = function(xml){
-        return callback(handler(xml));
-      };
-
-      $.ajax(postData);
-
-    } else if(this.async == "promise"){
-      postData["dataType"] = "text";
-      postData["dataFilter"] = handler;
-
-      return $.ajax(postData);
+    if(this.quickstart){
+      _self.quickstartPost(postData, callback, handler, true);
     }else{
-      var response = null;
+      if(this.async == "callback"){
+        postData["success"] = function(xml){
+          return callback(handler(xml));
+        };
 
-      postData["success"] = function(xml){
-        response = handler(xml);
-      };
+        $.ajax(postData);
 
-      postData["async"] = false;
+      } else if(this.async == "promise"){
+        postData["dataType"] = "text";
+        postData["dataFilter"] = handler;
 
-      $.ajax(postData);
+        return $.ajax(postData);
+      }else{
+        var response = null;
 
-      return response;
-    };
+        postData["success"] = function(xml){
+          response = handler(xml);
+        };
+
+        postData["async"] = false;
+
+        $.ajax(postData);
+
+        return response;
+      };      
+    }
   };
 }
 
@@ -1364,6 +1388,33 @@ function Base(config){
 
     return BaseConnectInstance.post(data, callback, this.handle);
   };
+
+  this.quickstart = {
+    register: function(data, callback){
+      this.handle = function(response){
+        return response;
+      };
+
+      data["quickstartAction"] = "Register";
+      data["table"] = _self.config.quickstartUsers;
+      _self.quickstartPost(data, callback, this.handler);
+    },
+
+    signIn: function(data, callback){
+      this.handle = function(response){
+        return response;
+      };
+
+      data["quickstartAction"] = "SignIn";
+      data["table"] = _self.config.quickstartUsers;
+
+      _self.quickstartPost(data, callback, this.handler);
+    },
+
+    signOut: function(){
+
+    }
+  }
 }
 
 var BaseHelpers = {
