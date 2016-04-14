@@ -501,9 +501,11 @@ function BaseConnect(config){
   };
 
   this.quickstartPost = function(data, callback, handler, proxy){
-    if(proxy){ data = data.data };
-    data["quickstartAction"] = "proxy";
-    data["ticket"] = "placeholderTicket";
+    if(proxy){ 
+      data = data.data 
+      data["quickstartAction"] = "proxy";
+      data["ticket"] = "placeholderTicket";
+    };
 
     data = JSON.stringify(data);
     
