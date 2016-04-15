@@ -118,7 +118,7 @@ var config = {
 var db = new Base(config);
 ```
 
-###Quickstart
+###QUICKSTART
 
 Set "quickstart" key in config to true.
 * For the users table include the following params:
@@ -157,9 +157,31 @@ var config = {
 var db = new Base(config);
 ```
 
+###QUICKSTART_Register
+var user = { username: "uSeRnAmE", password: "pAsSwOrD" };
+
+client.quickstart.register(user, function(response){
+  console.log(response);
+});
+
 ###QUICKSTART_SignIn
 
-###QUICKSTART_Register
+```javascript
+var client = new Base(config);
+var user = { username: "uSeRnAmE", password: "pAsSwOrD" };
+
+client.quickstart.signIn(user, function(response){
+  console.log(response);
+});
+
+###QUICKSTART_PROXY
+
+* Call API calls just like normal, the backend will take care of the rest.
+* ALLOWED API CALLS:
+  * DoQuery
+  * AddRecord
+  * EditRecord
+  * PurgeRecords
 
 ###Async Options
 The 'async' option for the config object defaults to false, but when passed anything 'truthy' will return promises.
