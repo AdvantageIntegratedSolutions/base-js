@@ -7,7 +7,18 @@ $(document).ready(function(){
 	    customers: {
 	    	dbid: "bkqdhyceg",
 	    	rid: 3,
-	    	name: 6
+	    	name: 6,
+	    	quickstart_users: true,
+	    	quickstart_username: 37,
+	    	quickstart_password: 38,
+	    	quickstart_key: 36
+	    },
+
+	    activities: {
+	    	dbid: "bkqdhycek",
+	    	rid: 3,
+	    	type: 7,
+	    	quickstart_key: 33
 	    }
 	  }
 	};

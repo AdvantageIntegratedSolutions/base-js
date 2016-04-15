@@ -598,6 +598,18 @@ function Base(config){
   this.databaseId = config.databaseId;
 
   this.Table = function(key, config){
+    this.removeQuickstartConfig = function(config){
+      delete config["quickstart_users"];
+      delete config["quickstart_username"];
+      delete config["quickstart_password"];
+      delete config["quickstart_key"];
+      return config;
+    };
+
+    if(BaseConnectInstance.config.quickstart){
+      config = this.removeQuickstartConfig(config);
+    };
+
     this[key] = config;
     this.tableName = key;
     this.dbid = config.dbid;

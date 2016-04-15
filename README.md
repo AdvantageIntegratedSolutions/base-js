@@ -118,6 +118,21 @@ var config = {
 var db = new Base(config);
 ```
 
+###Quickstart
+
+Set "quickstart" key in config to true.
+*For the users table include the following params:
+  * quickstart_users
+  * quickstart_username
+  * quickstart_password
+  * quickstart_key
+For tables that require portal access include:
+  * quickstart_key
+
+###QUICKSTART_SignIn
+
+###QUICKSTART_Register
+
 ###Async Options
 The 'async' option for the config object defaults to false, but when passed anything 'truthy' will return promises.
 
