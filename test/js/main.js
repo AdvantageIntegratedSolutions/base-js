@@ -4,14 +4,6 @@ $(document).ready(function(){
 	  async: "callback",
 	  databaseId: "bkqdhycdy",
 	  tables: {
-	    quickstartUsers: {
-				dbid: "bkqsdtu33",
-				rid: 3,
-				username: 6,
-				password: 7,
-				key: 9
-	    },
-
 	    customers: {
 	    	dbid: "bkqdhyceg",
 	    	rid: 3,

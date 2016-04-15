@@ -6,7 +6,7 @@ function BaseConnect(config){
   this.databaseId = config.databaseId;
   this.username = config.username;
   this.password = config.password;
-  this.quickstart = config.quickstart || false;
+  this.quickstartConfig = config.quickstart || false;
   this.ticket = config.ticket;
   this.realm = config.realm;
   this.proxies = {
@@ -232,7 +232,7 @@ function BaseConnect(config){
     postData.push("</qdbapi>");
     postData = postData.join("");
 
-    if(this.username || this.quickstart){
+    if(this.username || this.quickstartConfig){
       return { "xml": postData }
     }else{
       return postData;
@@ -537,14 +537,14 @@ function BaseConnect(config){
       contentType: "text/xml"
     };
 
-    if(this.username || this.quickstart){
+    if(this.username || this.quickstartConfig){
       data["realm"] = this.realm;
       data["call"] = action;
       data["apptoken"] = this.apptoken;
       postData["dataType"] = "text";
     };
 
-    if(this.quickstart){
+    if(this.quickstartConfig){
       data = {
         dbid: dbid,
         realm: this.realm,
@@ -561,7 +561,7 @@ function BaseConnect(config){
       postData["data"] = data.xml;
     };
 
-    if(this.quickstart){
+    if(this.quickstartConfig){
       _self.quickstartPost(postData, callback, handler, true);
     }else{
       if(this.async == "callback"){
@@ -1398,7 +1398,6 @@ function Base(config){
       };
 
       data["quickstartAction"] = "Register";
-      data["table"] = _self.config.quickstartUsers;
       _self.quickstartPost(data, callback, this.handler);
     },
 
@@ -1408,8 +1407,6 @@ function Base(config){
       };
 
       data["quickstartAction"] = "SignIn";
-      data["table"] = _self.config.quickstartUsers;
-
       _self.quickstartPost(data, callback, this.handler);
     },
 
