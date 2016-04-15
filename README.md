@@ -177,15 +177,17 @@ client.quickstart.signIn(user, function(response){
   console.log(response);
 });
 ```
+###QUICKSTART_DoQuery
+* same as [API_DoQuery](#api_doquery)
 
-###QUICKSTART_PROXY
+###QUICKSTART_AddRecord
+* same as [API_AddRecord](#api_addrecord)
 
-* Call API calls just like normal, the backend will take care of the rest.
-* ALLOWED API CALLS:
-  * DoQuery
-  * AddRecord
-  * EditRecord
-  * PurgeRecords
+###QUICKSTART_EditRecord
+* same as [API_EditRecord](#api_editrecord)
+
+###QUICKSTART_PurgeRecords
+* same as [API_PurgeRecords](#api_purgerecords)
 
 ###Async Options
 The 'async' option for the config object defaults to false, but when passed anything 'truthy' will return promises.
