@@ -14,7 +14,7 @@ function BaseConnect(config){
     quickstart: "https://ken9jrw9tg.execute-api.us-east-1.amazonaws.com/quickstart/proxy"
   };
 
-  _self = this;
+  var _self = this;
 
   this.post = function(data, callback, handler){
     var type = data.type || "API";
@@ -93,7 +93,7 @@ function BaseConnect(config){
       return "(" + queryPart.join("OR") + ")";
     };
 
-    for(key in query){
+    for(var key in query){
       var value = query[key];
       var queryPart = "";
 
@@ -182,7 +182,7 @@ function BaseConnect(config){
       postData.push(this.createParameter("realmhost", this.realm + ".quickbase.com"));
     };
 
-    for(key in data.params){
+    for(var key in data.params){
       var value = data.params[key];
 
       if(key == "clist" || key == "slist" || key == "options"){
@@ -1013,7 +1013,7 @@ function Base(config){
   };
 
   this.setTables = function(tables){
-    for(key in tables){
+    for(var key in tables){
       this[key] = new this.Table(key, tables[key]);
     };
   };
@@ -1227,22 +1227,22 @@ function Base(config){
 
   this.getTables = function(callback){
     this.handle = function(schema){
-    	var tables = $(schema).find("table").find("chdbid");
-    	var tablesObj = {};
+      var tables = $(schema).find("table").find("chdbid");
+      var tablesObj = {};
 
-    	for(var i=0; i < tables.length; i++){
-    	  var table = tables[i];
-    	  var tableName = $(table).attr("name");
-    	  var tableId = $(table).text();
+      for(var i=0; i < tables.length; i++){
+        var table = tables[i];
+        var tableName = $(table).attr("name");
+        var tableId = $(table).text();
 
-    	  tablesObj[tableName] = tableId;
-    	}
+        tablesObj[tableName] = tableId;
+      }
 
-    	return tablesObj;
+      return tablesObj;
     };
 
     var data = {
-    	dbid: this.databaseId,
+      dbid: this.databaseId,
       action: "GetSchema",
       type: "API"
     };
