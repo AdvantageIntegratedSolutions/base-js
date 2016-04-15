@@ -158,6 +158,7 @@ var db = new Base(config);
 ```
 
 ###QUICKSTART_Register
+**quickstart.register(user) => [json] user**
 ```javascript
 var user = { username: "uSeRnAmE", password: "pAsSwOrD" };
 
@@ -167,7 +168,7 @@ client.quickstart.register(user, function(response){
 ```
 
 ###QUICKSTART_SignIn
-
+**quickstart.signIn(user) => [json] user**
 ```javascript
 var client = new Base(config);
 var user = { username: "uSeRnAmE", password: "pAsSwOrD" };
