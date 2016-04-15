@@ -121,13 +121,41 @@ var db = new Base(config);
 ###Quickstart
 
 Set "quickstart" key in config to true.
-*For the users table include the following params:
+* For the users table include the following params:
   * quickstart_users
   * quickstart_username
   * quickstart_password
   * quickstart_key
-For tables that require portal access include:
+* For tables that require portal access include:
   * quickstart_key
+
+```javascript
+var config = {
+  quickstart: true,
+  async: "callback",
+  databaseId: "bkqdhycdy",
+  tables: {
+    customers: {
+      dbid: "bkqdhyceg",
+      rid: 3,
+      name: 6,
+      quickstart_users: true,
+      quickstart_username: 37,
+      quickstart_password: 38,
+      quickstart_key: 36
+    },
+
+    activities: {
+      dbid: "bkqdhycek",
+      rid: 3,
+      type: 7,
+      quickstart_key: 33
+    }
+  }
+};
+
+var db = new Base(config);
+```
 
 ###QUICKSTART_SignIn
 
