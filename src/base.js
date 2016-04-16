@@ -521,7 +521,7 @@ function BaseConnect(config){
     var postData = {
       url: this.proxies.quickstart,
       data: json,
-      dataType: "json",
+      dataType: "text",
       type: "POST",
       contentType: "application/json"
     };

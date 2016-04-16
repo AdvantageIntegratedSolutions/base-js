@@ -30,13 +30,13 @@ $(document).ready(function(){
 		password: "jasMine5281"
 	};
 
-	client.quickstart.register(user, function(response){
-		console.log(response);
-	});
+	// client.quickstart.register(user, function(response){
+	// 	console.log(response);
+	// });
 
-	client.quickstart.signIn(user, function(response){
-		console.log(response);
-	});
+	// client.quickstart.signIn(user, function(response){
+	// 	console.log(response);
+	// });
 
 	client.customers.doQuery({ rid: { XEX: "" }}, {}, function(customers){
 		console.log(customers);
