@@ -1405,7 +1405,7 @@ function Base(config){
 
   this.quickstart = {
     register: function(data, callback){
-      this.handle = function(response){
+      this.handler = function(response){
         return response;
       };
 
@@ -1414,7 +1414,7 @@ function Base(config){
     },
 
     signIn: function(data, callback){
-      this.handle = function(response){
+      this.handler = function(response){
         return response;
       };
 
