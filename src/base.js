@@ -14,7 +14,7 @@ function BaseConnect(config){
     quickstart: "https://ken9jrw9tg.execute-api.us-east-1.amazonaws.com/quickstart/proxy"
   };
 
-  var _self = this;
+  _self = this;
 
   this.post = function(data, callback, handler){
     var type = data.type || "API";
@@ -537,13 +537,17 @@ function BaseConnect(config){
       contentType: "text/xml"
     };
 
-    if(this.username || this.quickstartConfig){
+    //local development
+    if(this.username){
       data["realm"] = this.realm;
       data["call"] = action;
       data["apptoken"] = this.apptoken;
       postData["dataType"] = "text";
+      postData["url"] = this.proxies.local + dbid + "?act=" + action;
+      postData["data"] = data.xml;
     };
 
+    //quickstart development
     if(this.quickstartConfig){
       data = {
         dbid: dbid,
@@ -553,12 +557,9 @@ function BaseConnect(config){
         xml: data.xml
       };
 
+      //console.log(data);
+      postData["data"] = data;
       postData["url"] = this.proxies.quickstart;
-    };
-
-    if(this.username){
-      postData["url"] = this.proxies.local + dbid + "?act=" + action;
-      postData["data"] = data.xml;
     };
 
     if(this.quickstartConfig){

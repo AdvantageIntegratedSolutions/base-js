@@ -1,6 +1,7 @@
 $(document).ready(function(){		
 	var config = {
 		quickstart: true,
+		realm: "ais",
 	  async: "callback",
 	  databaseId: "bkqdhycdy",
 	  tables: {
