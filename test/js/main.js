@@ -38,6 +38,10 @@ $(document).ready(function(){
 	// 	console.log(response);
 	// });
 
+	client.customers.doQueryCount({ rid: { XEX: "" }}, function(count){
+		console.log(count);
+	});
+
 	client.customers.doQuery({ rid: { XEX: "" }}, {}, function(customers){
 		console.log(customers);
 	});

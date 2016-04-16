@@ -527,6 +527,11 @@ function BaseConnect(config){
     };
 
     postData["success"] = function(xml){
+      if(xml == ""){
+        callback("Unauthorized");
+        return false;
+      };
+
       return callback(handler(xml));
     };
 
