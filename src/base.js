@@ -500,18 +500,27 @@ function BaseConnect(config){
     return output;
   };
 
-  this.quickstartPost = function(data, callback, handler, proxy){
+  this.quickstartPost = function(data, callback, handler, dbid, action, proxy){
     if(proxy){ 
-      data = data.data 
-      data["quickstartAction"] = "Proxy";
-      data["ticket"] = "placeholderTicket";
-    };
+      var json = {
+        dbid: dbid,
+        realm: this.realm,
+        action: action,
+        apptoken: this.apptoken
+      };
 
-    data = JSON.stringify(data);
+      json["xml"] = data.xml;
+      json["quickstartAction"] = "Proxy";
+      json["ticket"] = "placeholderTicket";
+    }else{
+      var json = data;
+    };
     
+    json = JSON.stringify(json)
+
     var postData = {
-      url: _self.proxies.quickstart,
-      data: data,
+      url: this.proxies.quickstart,
+      data: json,
       dataType: "json",
       type: "POST",
       contentType: "application/json"
@@ -521,12 +530,16 @@ function BaseConnect(config){
       return callback(handler(xml));
     };
 
-    console.log(postData);
-
     $.ajax(postData);
   };
 
   this.xmlPost = function(dbid, action, data, callback, handler){
+
+    if(this.quickstartConfig){
+      _self.quickstartPost(data, callback, handler, dbid, action, true);
+      return false;
+    };
+
     var url = "/db/" + dbid + "?act=" + action;
     var postData = {
       url: url,
@@ -547,50 +560,31 @@ function BaseConnect(config){
       postData["data"] = data.xml;
     };
 
-    //quickstart development
-    if(this.quickstartConfig){
-      data = {
-        dbid: dbid,
-        realm: this.realm,
-        action: action,
-        apptoken: this.apptoken,
-        xml: data.xml
+    if(this.async == "callback"){
+      postData["success"] = function(xml){
+        return callback(handler(xml));
       };
 
-      //console.log(data);
-      postData["data"] = data;
-      postData["url"] = this.proxies.quickstart;
-    };
+      $.ajax(postData);
 
-    if(this.quickstartConfig){
-      _self.quickstartPost(postData, callback, handler, true);
+    } else if(this.async == "promise"){
+      postData["dataType"] = "text";
+      postData["dataFilter"] = handler;
+
+      return $.ajax(postData);
     }else{
-      if(this.async == "callback"){
-        postData["success"] = function(xml){
-          return callback(handler(xml));
-        };
+      var response = null;
 
-        $.ajax(postData);
+      postData["success"] = function(xml){
+        response = handler(xml);
+      };
 
-      } else if(this.async == "promise"){
-        postData["dataType"] = "text";
-        postData["dataFilter"] = handler;
+      postData["async"] = false;
 
-        return $.ajax(postData);
-      }else{
-        var response = null;
+      $.ajax(postData);
 
-        postData["success"] = function(xml){
-          response = handler(xml);
-        };
-
-        postData["async"] = false;
-
-        $.ajax(postData);
-
-        return response;
-      };      
-    }
+      return response;
+    };
   };
 }
 
