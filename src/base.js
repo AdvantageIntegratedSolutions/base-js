@@ -1420,6 +1420,8 @@ function Base(config){
       };
 
       data["quickstartAction"] = "SignIn";
+      data["dbid"] = config.databaseId;
+
       _self.quickstartPost(data, callback, this.handler);
     },
 
