@@ -1420,6 +1420,7 @@ function Base(config){
       };
 
       data["quickstartAction"] = "SignIn";
+      data["realm"] = config.realm;
       data["dbid"] = config.databaseId;
 
       _self.quickstartPost(data, callback, this.handler);
