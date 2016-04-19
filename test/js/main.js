@@ -26,23 +26,31 @@ $(document).ready(function(){
 
 	var client = new Base(config);
 	var user = {
-		username: "kith",
-		password: "jasMine5281"
+		username: "kit_test@gmail.com",
+		password: "jasMine5282"
 	};
 
-	client.quickstart.register(user, function(response){
-		console.log(response);
+	client.quickstart.signIn({username: "kit_test@gmail.com", password: "jasMine5282"}, function(result)
+		{ console.log(result); 
 	});
 
-	client.quickstart.signIn(user, function(response){
-		console.log(response);
-	});
+	// client.quickstart.changePassword({newPassword: "jasMine5283", currentPassword: "jasMine5282"}, function(result)
+	// 	{ console.log(result); 
+	// });
 
-	client.customers.doQueryCount({ rid: { XEX: "" }}, function(count){
-		console.log(count);
-	});
+	// client.quickstart.register(user, function(response){
+	// 	console.log(response);
+	// });
 
-	client.customers.doQuery({ rid: { XEX: "" }}, {}, function(customers){
-		console.log(customers);
-	});
+	// client.quickstart.signIn(user, function(response){
+	// 	console.log(response);
+	// });
+
+	// client.customers.doQueryCount({ rid: { XEX: "" }}, function(count){
+	// 	console.log(count);
+	// });
+
+	// client.customers.doQuery({ rid: { XEX: "" }}, {}, function(customers){
+	// 	console.log(customers);
+	// });
 });

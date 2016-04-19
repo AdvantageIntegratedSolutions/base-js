@@ -511,7 +511,7 @@ function BaseConnect(config){
 
       json["xml"] = data.xml;
       json["quickstartAction"] = "Proxy";
-      json["ticket"] = "placeholderTicket";
+      json["ticket"] = BaseHelpers.getCookie("quickstart_session");
     }else{
       var json = data;
     };
@@ -526,13 +526,14 @@ function BaseConnect(config){
       contentType: "application/json"
     };
 
-    postData["success"] = function(xml){
-      if(xml == ""){
+    postData["success"] = function(json){
+      if(json == ""){
         callback("Unauthorized");
         return false;
       };
 
-      return callback(handler(xml));
+      json = JSON.parse(json);
+      return callback(handler(json));
     };
 
     console.log(postData.data)
@@ -1416,6 +1417,10 @@ function Base(config){
 
     signIn: function(data, callback){
       this.handler = function(response){
+        if(response.ticket){
+          BaseHelpers.setCookie("quickstart_session", response.ticket);
+        };
+
         return response;
       };
 
@@ -1431,7 +1436,7 @@ function Base(config){
         return response;
       };
 
-      data["ticket"] = "";
+      data["ticket"] = BaseHelpers.getCookie("quickstart_session");
       data["quickstartAction"] = "ChangePassword";
       data["realm"] = config.realm;
       data["dbid"] = config.databaseId;
@@ -1449,6 +1454,30 @@ var BaseHelpers = {
   options: {
     timeZone: 'utc',
     format: 'hours'
+  },
+
+  setCookie: function(name, value, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+ d.toUTCString();
+
+    document.cookie = name + "=" + value + "; " + expires;
+  },
+
+  getCookie: function(name) {
+    var name = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0)==' ') {
+        c = c.substring(1);
+      };
+      
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length,c.length);
+      };
+    }
+    return "";
   },
 
   inverseTables: function(config){
