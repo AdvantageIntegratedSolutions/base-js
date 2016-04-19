@@ -30,11 +30,7 @@ $(document).ready(function(){
 
 	client.quickstart.signIn(currentUser, function(result){ 
 
-		console.log(result); 
-
-		client.quickstart.signOut(function(response){
-			console.log(response)
-		});
+		console.log(result);
 
 		client.customers.doQueryCount({ rid: { XEX: "" }}, function(count){
 			console.log(count);
@@ -60,6 +56,4 @@ $(document).ready(function(){
 	// client.quickstart.signIn(user, function(response){
 	// 	console.log(response);
 	// });
-
-
 });

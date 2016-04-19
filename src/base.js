@@ -532,11 +532,9 @@ function BaseConnect(config){
         return false;
       };
 
-      json = JSON.parse(json);
       return callback(handler(json));
     };
 
-    console.log(postData.data)
     $.ajax(postData);
   };
 
@@ -1417,6 +1415,8 @@ function Base(config){
 
     signIn: function(data, callback){
       this.handler = function(response){
+        response = JSON.parse(response);
+        
         if(response.ticket){
           BaseHelpers.setCookie("quickstart_session", response.ticket, 2);
         };
