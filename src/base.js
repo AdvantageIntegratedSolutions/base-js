@@ -1418,7 +1418,7 @@ function Base(config){
     signIn: function(data, callback){
       this.handler = function(response){
         if(response.ticket){
-          BaseHelpers.setCookie("quickstart_session", response.ticket);
+          BaseHelpers.setCookie("quickstart_session", response.ticket, 2);
         };
 
         return response;
@@ -1429,6 +1429,11 @@ function Base(config){
       data["dbid"] = config.databaseId;
 
       _self.quickstartPost(data, callback, this.handler);
+    },
+
+    signOut: function(callback){
+      BaseHelpers.setCookie("quickstart_session", "", -1);
+      callback(true);
     },
 
     changePassword: function(data, callback){
@@ -1442,10 +1447,6 @@ function Base(config){
       data["dbid"] = config.databaseId;
 
       _self.quickstartPost(data, callback, this.handler);
-    },
-
-    signOut: function(){
-
     }
   }
 }
@@ -1456,9 +1457,9 @@ var BaseHelpers = {
     format: 'hours'
   },
 
-  setCookie: function(name, value, exdays) {
+  setCookie: function(name, value, hours) {
     var d = new Date();
-    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    d.setTime(d.getTime() + (hours*60*60*1000));
     var expires = "expires="+ d.toUTCString();
 
     document.cookie = name + "=" + value + "; " + expires;

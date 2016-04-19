@@ -25,14 +25,29 @@ $(document).ready(function(){
 	};
 
 	var client = new Base(config);
-	var user = {
-		username: "kit_test@gmail.com",
-		password: "jasMine5282"
-	};
 
-	client.quickstart.signIn({username: "kit_test@gmail.com", password: "jasMine5282"}, function(result)
-		{ console.log(result); 
+	var currentUser = {username: "kit_test@gmail.com", password: "jasMine5282"};
+
+	client.quickstart.signIn(currentUser, function(result){ 
+
+		console.log(result); 
+
+		client.quickstart.signOut(function(response){
+			console.log(response)
+		});
+
+		client.customers.doQueryCount({ rid: { XEX: "" }}, function(count){
+			console.log(count);
+		});
+
+		client.customers.doQuery({ rid: { XEX: "" }}, {}, function(customers){
+			console.log(customers);
+		});
 	});
+
+	// client.quickstart.signOut(function(response){
+	// 	console.log(response)
+	// });
 
 	// client.quickstart.changePassword({newPassword: "jasMine5283", currentPassword: "jasMine5282"}, function(result)
 	// 	{ console.log(result); 
@@ -46,11 +61,5 @@ $(document).ready(function(){
 	// 	console.log(response);
 	// });
 
-	// client.customers.doQueryCount({ rid: { XEX: "" }}, function(count){
-	// 	console.log(count);
-	// });
 
-	// client.customers.doQuery({ rid: { XEX: "" }}, {}, function(customers){
-	// 	console.log(customers);
-	// });
 });
