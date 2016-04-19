@@ -1426,6 +1426,19 @@ function Base(config){
       _self.quickstartPost(data, callback, this.handler);
     },
 
+    changePassword: function(data, callback){
+      this.handler = function(response){
+        return response;
+      };
+
+      data["ticket"] = "";
+      data["quickstartAction"] = "ChangePassword";
+      data["realm"] = config.realm;
+      data["dbid"] = config.databaseId;
+
+      _self.quickstartPost(data, callback, this.handler);
+    },
+
     signOut: function(){
 
     }
