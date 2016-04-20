@@ -527,11 +527,13 @@ function BaseConnect(config){
     };
 
     postData["success"] = function(json){
-      if(json == ""){
-        callback("Unauthorized");
-        return false;
-      };
+      json = JSON.parse(json);
 
+      console.log(json)
+      if(proxy){
+        json = json.data; //let base handle the xml if no error
+      };
+      
       return callback(handler(json));
     };
 
@@ -1414,11 +1416,11 @@ function Base(config){
     },
 
     signIn: function(data, callback){
-      this.handler = function(response){
-        response = JSON.parse(response);
-        
-        if(response.ticket){
-          BaseHelpers.setCookie("quickstart_session", response.ticket, 2);
+      this.handler = function(response){        
+        if(response.data){
+          BaseHelpers.setCookie("quickstart_session", response.data.ticket, 2);
+        }else{
+          BaseHelpers.setCookie("quickstart_session", "", -1);
         };
 
         return response;
@@ -1433,6 +1435,7 @@ function Base(config){
 
     signOut: function(callback){
       BaseHelpers.setCookie("quickstart_session", "", -1);
+      console.log("Here")
       callback(true);
     },
 
