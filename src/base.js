@@ -529,7 +529,8 @@ function BaseConnect(config){
     postData["success"] = function(json){
       json = JSON.parse(json);
 
-      console.log(json)
+      console.log("RESPONSE: " + JSON.stringify(json));
+
       if(proxy){
         json = json.data; //let base handle the xml if no error
       };
@@ -537,6 +538,7 @@ function BaseConnect(config){
       return callback(handler(json));
     };
 
+    console.log("POST DATA: " + JSON.stringify(postData));
     $.ajax(postData);
   };
 
@@ -1435,7 +1437,6 @@ function Base(config){
 
     signOut: function(callback){
       BaseHelpers.setCookie("quickstart_session", "", -1);
-      console.log("Here")
       callback(true);
     },
 
