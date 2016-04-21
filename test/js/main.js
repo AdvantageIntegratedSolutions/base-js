@@ -8,32 +8,28 @@ $(document).ready(function(){
 	    customers: {
 	    	dbid: "bkqdhyceg",
 	    	rid: 3,
-	    	name: 6,
-	    	quickstart_users: true,
-	    	quickstart_username: 37,
-	    	quickstart_password: 38,
-	    	quickstart_key: 36
+	    	name: 6
 	    },
 
 	    activities: {
 	    	dbid: "bkqdhycek",
 	    	rid: 3,
 	    	type: 7,
-	    	quickstart_key: 33
+	    	notes: 14
 	    }
 	  }
 	};
 
 	var client = new Base(config);
 
-	var currentUser = { username: "kit_test@gmail.com", password: "jasMine5284" };
+	var currentUser = { username: "kithensel@gmail.com", password: "test1" };
 
 	client.quickstart.signIn(currentUser, function(result){ 
-		// client.customers.doQuery({ rid: { XEX: "" }}, {}, function(customers){
-		// 	console.log(customers);
-		// });
+		client.activities.doQuery({ rid: { XEX: "" }}, {}, function(activities){
+			console.log(activities);
+		});
 
-		// client.customers.editRecord(2, { name: "Alden2" }, function(response){
+		// client.activities.editRecord(8, { notes: "Test Notes" }, function(response){
 		// 	console.log(response);
 		// });
 
@@ -41,13 +37,22 @@ $(document).ready(function(){
 		// 	console.log(count);
 		// });
 
+		// var csvArray = [
+		// 	{ name: 'Mike"s' },
+		// 	{ name: "Step,hani'e" },
+		// 	{ name: "Jackson" },
+		// 	{ name: "Martin" }
+		// ];
+
+		// client.customers.importFromCSV(csvArray, function(){});
+
 		// client.customers.doQuery({ name: { CT: "A" }}, {}, function(customers){
 		// 	console.log(customers);
 		// });
 
-		client.quickstart.changePassword({newPassword: "jasMine5285", currentPassword: "jasMine5284"}, function(result)
-			{ console.log(result); 
-		});
+		// client.quickstart.changePassword({newPassword: "test1", currentPassword: "test"}, function(result)
+		// 	{ console.log(result); 
+		// });
 
 		// client.quickstart.signOut(function(response){
 		// 	console.log(response)

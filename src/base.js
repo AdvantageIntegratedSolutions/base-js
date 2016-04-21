@@ -538,7 +538,7 @@ function BaseConnect(config){
       return callback(handler(json));
     };
 
-    console.log("POST DATA: " + JSON.stringify(postData));
+    console.log(postData)
     $.ajax(postData);
   };
 
