@@ -11,7 +11,7 @@ function BaseConnect(config){
   this.realm = config.realm;
   this.proxies = {
     local: "https://3soqpphli2.execute-api.us-east-1.amazonaws.com/testing/qbase/db/",
-    quickstart: "https://zzcogtljc7.execute-api.us-east-1.amazonaws.com/prod"
+    quickstart: "https://zzcogtljc7.execute-api.us-east-1.amazonaws.com/prod/proxy"
   };
 
   _self = this;
