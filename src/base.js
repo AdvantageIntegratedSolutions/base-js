@@ -529,8 +529,6 @@ function BaseConnect(config){
     postData["success"] = function(json){
       json = JSON.parse(json);
 
-      console.log("RESPONSE: " + JSON.stringify(json));
-
       if(proxy){
         json = json.data; //let base handle the xml if no error
       };
@@ -538,7 +536,6 @@ function BaseConnect(config){
       return callback(handler(json));
     };
 
-    console.log(postData)
     $.ajax(postData);
   };
 
