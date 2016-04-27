@@ -3,7 +3,7 @@
 QuickBase API Javascript Library w/ JSON
 
 Versions
-* 4.8 - https://s3.amazonaws.com/ais_libraries/BaseJS/4.7/base.min.js (quickstart)
+* 4.8 - https://s3.amazonaws.com/ais_libraries/BaseJS/4.8/base.min.js (quickstart)
 * 4.7 - https://s3.amazonaws.com/ais_libraries/BaseJS/4.7/base.min.js (http proxy)
 * 4.6 - https://s3.amazonaws.com/ais_libraries/BaseJS/4.6/base.min.js (change structure of .getTableFields response)
 
