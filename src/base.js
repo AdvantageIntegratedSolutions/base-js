@@ -526,25 +526,40 @@ function BaseConnect(config){
       contentType: "application/json"
     };
 
-    postData["success"] = function(json){
-      json = JSON.parse(json);
-      json = json.data || json;
+    if(this.async == "callback"){
+    	postData["success"] = function(json){
+    	  json = JSON.parse(json);
+    	  json = json.data || json;
 
-    	if(json.error){
-    		return callback(json);
-    	} else {
-    		return callback(handler(json));
-    	}
+    		if(json.error){
+    			return callback(json);
+    		} else {
+    			return callback(handler(json));
+    		}
+    	};
+
+    	$.ajax(postData);
+
+    } else if(this.async == "promise"){
+      postData["dataType"] = "text";
+      postData["dataFilter"] = function(json){
+    	  json = JSON.parse(json);
+    	  json = json.data || json;
+
+    		if(json.error){
+    			return json;
+    		} else {
+    			return handler(json);
+    		}
+    	};
+
+      return $.ajax(postData);
     };
-
-    $.ajax(postData);
   };
 
   this.xmlPost = function(dbid, action, data, callback, handler){
-
     if(this.quickstartConfig){
-      _self.quickstartPost(data, callback, handler, dbid, action, true);
-      return false;
+      return _self.quickstartPost(data, callback, handler, dbid, action, true);
     };
 
     var url = "/db/" + dbid + "?act=" + action;
@@ -1408,8 +1423,8 @@ function Base(config){
   this.quickstart = {
     register: function(data, callback){
       this.handler = function(response){
-        if(response.data){
-          BaseHelpers.setCookie("quickstart_session", response.data.ticket, 2);
+        if(response.ticket){
+          BaseHelpers.setCookie("quickstart_session", response.ticket, 2);
         }else{
           BaseHelpers.setCookie("quickstart_session", "", -1);
         };
@@ -1421,13 +1436,13 @@ function Base(config){
       data["realm"] = config.realm;
       data["dbid"] = config.databaseId;
 
-      _self.quickstartPost(data, callback, this.handler);
+      return _self.quickstartPost(data, callback, this.handler);
     },
 
     signIn: function(data, callback){
-      this.handler = function(response){        
-        if(response.data){
-          BaseHelpers.setCookie("quickstart_session", response.data.ticket, 2);
+      this.handler = function(response){
+        if(response.ticket){
+          BaseHelpers.setCookie("quickstart_session", response.ticket, 2);
         }else{
           BaseHelpers.setCookie("quickstart_session", "", -1);
         };
@@ -1439,12 +1454,15 @@ function Base(config){
       data["realm"] = config.realm;
       data["dbid"] = config.databaseId;
 
-      _self.quickstartPost(data, callback, this.handler);
+      return _self.quickstartPost(data, callback, this.handler);
     },
 
     signOut: function(callback){
       BaseHelpers.setCookie("quickstart_session", "", -1);
-      callback(true);
+
+      if(callback){
+      	callback(true);
+      }
     },
 
     changePassword: function(data, callback){
@@ -1457,7 +1475,7 @@ function Base(config){
       data["realm"] = config.realm;
       data["dbid"] = config.databaseId;
 
-      _self.quickstartPost(data, callback, this.handler);
+      return _self.quickstartPost(data, callback, this.handler);
     }
   }
 }
