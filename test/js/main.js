@@ -22,20 +22,20 @@ $(document).ready(function(){
 
 	var client = new Base(config);
 
-	var currentUser = { username: "kithensel@gmail.com", password: "test1" };
+	var currentUser = { username: "kithensel@gmail.com", password: "test" };
 
 	client.quickstart.signIn(currentUser, function(result){ 
 		client.activities.doQuery({ rid: { XEX: "" }}, {}, function(activities){
 			console.log(activities);
 		});
 
-		// client.activities.editRecord(8, { notes: "Test Notes" }, function(response){
-		// 	console.log(response);
-		// });
+		client.activities.editRecord(8, { notes: "Test Notes" }, function(response){
+			console.log(response);
+		});
 
-		// client.customers.doQueryCount({ rid: { XEX: "" }}, function(count){
-		// 	console.log(count);
-		// });
+		client.customers.doQueryCount({ rid: { XEX: "" }}, function(count){
+			console.log(count);
+		});
 
 		// var csvArray = [
 		// 	{ name: 'Mike"s' },
