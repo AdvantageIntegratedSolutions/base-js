@@ -528,12 +528,13 @@ function BaseConnect(config){
 
     postData["success"] = function(json){
       json = JSON.parse(json);
+      json = json.data || json;
 
-      if(proxy){
-        json = json.data; //let base handle the xml if no error
-      };
-      
-      return callback(handler(json));
+    	if(json.error){
+    		return callback(json);
+    	} else {
+    		return callback(handler(json));
+    	}
     };
 
     $.ajax(postData);

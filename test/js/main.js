@@ -24,18 +24,18 @@ $(document).ready(function(){
 
 	var currentUser = { username: "kithensel@gmail.com", password: "test" };
 
-	client.quickstart.signIn(currentUser, function(result){ 
+	client.quickstart.signIn(currentUser, function(result){
 		client.activities.doQuery({ rid: { XEX: "" }}, {}, function(activities){
-			console.log(activities);
+			console.log("Activities:", activities);
 		});
 
-		client.activities.editRecord(8, { notes: "Test Notes" }, function(response){
-			console.log(response);
-		});
+		// client.activities.editRecord(8, { notes: "Test Notes" }, function(response){
+		// 	console.log(response);
+		// });
 
-		client.customers.doQueryCount({ rid: { XEX: "" }}, function(count){
-			console.log(count);
-		});
+		// client.customers.doQueryCount({ rid: { XEX: "" }}, function(count){
+		// 	console.log(count);
+		// });
 
 		// var csvArray = [
 		// 	{ name: 'Mike"s' },
@@ -54,9 +54,9 @@ $(document).ready(function(){
 		// 	{ console.log(result); 
 		// });
 
-		// client.quickstart.signOut(function(response){
-		// 	console.log(response)
-		// });
+		client.quickstart.signOut(function(response){
+			console.log(response)
+		});
 	});
 
 	// client.quickstart.register(user, function(response){
