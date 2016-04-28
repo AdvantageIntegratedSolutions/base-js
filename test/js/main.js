@@ -22,9 +22,10 @@ $(document).ready(function(){
 
 	var client = new Base(config);
 
-	var currentUser = { username: "kithensel@gmail.com", password: "test" };
+	var currentUser = { username: "kit@gmail.com", password: "jasMine5281" };
 
 	client.quickstart.signIn(currentUser, function(result){
+		console.log()
 		client.activities.doQuery({ rid: { XEX: "" }}, {}, function(activities){
 			console.log("Activities:", activities);
 		});
