@@ -511,7 +511,7 @@ function BaseConnect(config){
 
       json["xml"] = data.xml;
       json["quickstartAction"] = "Proxy";
-      json["ticket"] = JSON.parse(BaseHelpers.getCookie("quickstart_session")).ticket
+      json["ticket"] = BaseHelpers.getCookie("quickstart_session");
     }else{
       var json = data;
     };
@@ -1424,7 +1424,7 @@ function Base(config){
     register: function(data, callback){
       this.handler = function(response){
         if(response.ticket){
-          BaseHelpers.setCookie("quickstart_session", JSON.stringify(response), 2);
+          BaseHelpers.setCookie("quickstart_session", response.ticket, 2);
         }else{
           BaseHelpers.setCookie("quickstart_session", "", -1);
         };
@@ -1433,6 +1433,7 @@ function Base(config){
       };
 
       data["quickstartAction"] = "Register";
+      data["appToken"] = config.token;
       data["realm"] = config.realm;
       data["dbid"] = config.databaseId;
 
@@ -1442,7 +1443,7 @@ function Base(config){
     signIn: function(data, callback){
       this.handler = function(response){
         if(response.ticket){
-          BaseHelpers.setCookie("quickstart_session", JSON.stringify(response), 2);
+          BaseHelpers.setCookie("quickstart_session", response.ticket, 2);
         }else{
           BaseHelpers.setCookie("quickstart_session", "", -1);
         };
@@ -1451,6 +1452,7 @@ function Base(config){
       };
 
       data["quickstartAction"] = "SignIn";
+      data["appToken"] = config.token;
       data["realm"] = config.realm;
       data["dbid"] = config.databaseId;
 
@@ -1470,7 +1472,7 @@ function Base(config){
         return response;
       };
 
-      data["ticket"] = JSON.parse(BaseHelpers.getCookie("quickstart_session")).ticket;
+      data["ticket"] = BaseHelpers.getCookie("quickstart_session");
       data["quickstartAction"] = "ChangePassword";
       data["realm"] = config.realm;
       data["dbid"] = config.databaseId;
