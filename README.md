@@ -12,6 +12,8 @@ Related Libraries
 * bootstrap.css - https://s3.amazonaws.com/ais_libraries/Bootstrap/3.2/css/bootstrap.min.css
 * bootstrap.js - https://s3.amazonaws.com/ais_libraries/Bootstrap/3.2/js/bootstrap.min.js
 
+To deploy a new version use `gulp deploy`. For upload to S3 this requires you have a `~/.aws/credentials` file present.
+
 ##Documentation
 
 * **Main**
