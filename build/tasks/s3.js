@@ -10,7 +10,7 @@ function logMessage(fileName, update){
 	console.log("================================================");
 };
 
-gulp.task("s3-upload", function() {
+gulp.task("s3-upload", ["js-deploy"], function() {
   gulp.src(`${paths.output}/${app.version}/*.js`)
   	.pipe(s3({ 
   		Bucket: `${paths.s3}/${app.version}`, 
