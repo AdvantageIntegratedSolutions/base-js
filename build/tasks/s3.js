@@ -11,11 +11,19 @@ function logMessage(fileName, update){
 };
 
 gulp.task("s3-upload", ["js-deploy"], function() {
-  gulp.src(`${paths.output}/${app.version}/*.js`)
+  gulp.src(`${paths.output}/${app.version}/**`)
   	.pipe(s3({ 
   		Bucket: `${paths.s3}/${app.version}`, 
   		ACL: 'public-read',
-			onChange: function(fileName){ logMessage(fileName, true); },
-  		onNew: function(fileName){ logMessage(fileName, false); }},
+			onChange: function(fileName){ 
+				if(fileName=="base.min.js"){ 
+					logMessage(fileName, true);
+				} 
+			},
+  		onNew: function(fileName){
+  			if(fileName=="base.min.js"){ 
+  				logMessage(fileName, false);
+  			} 
+  		}},
   		{ maxRetries: 5 }));
 });
