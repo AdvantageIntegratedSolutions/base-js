@@ -587,6 +587,10 @@ function BaseConnect(config){
         return callback(handler(xml));
       };
 
+      postData["error"] = function(xml){
+        return callback({ error: { code: "503", message: "Service Unavailable."}})
+      };
+
       $.ajax(postData);
 
     } else if(this.async == "promise"){
@@ -599,6 +603,10 @@ function BaseConnect(config){
 
       postData["success"] = function(xml){
         response = handler(xml);
+      };
+
+      postData["error"] = function(xml){
+        return callback({ error: { code: "503", message: "Service Unavailable."}})
       };
 
       postData["async"] = false;
