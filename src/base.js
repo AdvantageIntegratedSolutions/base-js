@@ -10,7 +10,7 @@ function BaseConnect(config){
   this.ticket = config.ticket;
   this.realm = config.realm;
   this.proxies = {
-    local: "https://3soqpphli2.execute-api.us-east-1.amazonaws.com/testing/qbase/db/",
+    local: "https://zi05s4jaj5.execute-api.us-east-1.amazonaws.com/prod/proxy",
     quickstart: "https://zzcogtljc7.execute-api.us-east-1.amazonaws.com/prod/proxy"
   };
 
@@ -176,10 +176,6 @@ function BaseConnect(config){
 
     if(this.ticket){
       postData.push(this.createParameter("ticket", this.ticket));
-    };
-
-    if(this.realm){
-      postData.push(this.createParameter("realmhost", this.realm + ".quickbase.com"));
     };
 
     for(var key in data.params){
@@ -577,9 +573,11 @@ function BaseConnect(config){
       data["realm"] = this.realm;
       data["call"] = action;
       data["apptoken"] = this.apptoken;
+      data["dbid"] = dbid;
+
       postData["dataType"] = "text";
-      postData["url"] = this.proxies.local + dbid + "?act=" + action;
-      postData["data"] = data.xml;
+      postData["url"] = this.proxies.local;
+      postData["data"] = data;
     };
 
     if(this.async == "callback"){
