@@ -1,6 +1,8 @@
 $(document).ready(function(){		
 	var config = {
-		quickstart: true,
+		username: "kith",
+		password: "jasMine5281",
+		token: "dw9ziewyeardxswcy7driw4ci",
 		realm: "ais",
 	  async: "callback",
 	  databaseId: "bkqdhycdy",
@@ -22,43 +24,34 @@ $(document).ready(function(){
 
 	var client = new Base(config);
 
-	var currentUser = { username: "kit@gmail.com", password: "jasMine5281" };
-
-	client.quickstart.signIn(currentUser, function(result){
-		console.log()
-		client.activities.doQuery({ rid: { XEX: "" }}, {}, function(activities){
-			console.log("Activities:", activities);
-		});
-
-		// client.activities.editRecord(8, { notes: "Test Notes" }, function(response){
-		// 	console.log(response);
-		// });
-
-		// client.customers.doQueryCount({ rid: { XEX: "" }}, function(count){
-		// 	console.log(count);
-		// });
-
-		// var csvArray = [
-		// 	{ name: 'Mike"s' },
-		// 	{ name: "Step,hani'e" },
-		// 	{ name: "Jackson" },
-		// 	{ name: "Martin" }
-		// ];
-
-		// client.customers.importFromCSV(csvArray, function(){});
-
-		// client.customers.doQuery({ name: { CT: "A" }}, {}, function(customers){
-		// 	console.log(customers);
-		// });
-
-		// client.quickstart.changePassword({newPassword: "test1", currentPassword: "test"}, function(result)
-		// 	{ console.log(result); 
-		// });
-
-		client.quickstart.signOut(function(response){
-			console.log(response)
-		});
+	client.activities.doQuery({ rid: { XEX: "" }}, {}, function(activities){
+		console.log("Activities:", activities);
 	});
+
+	// client.activities.editRecord(8, { notes: "Test Notes" }, function(response){
+	// 	console.log(response);
+	// });
+
+	// client.customers.doQueryCount({ rid: { XEX: "" }}, function(count){
+	// 	console.log(count);
+	// });
+
+	// var csvArray = [
+	// 	{ name: 'Mike"s' },
+	// 	{ name: "Step,hani'e" },
+	// 	{ name: "Jackson" },
+	// 	{ name: "Martin" }
+	// ];
+
+	// client.customers.importFromCSV(csvArray, function(){});
+
+	// client.customers.doQuery({ name: { CT: "A" }}, {}, function(customers){
+	// 	console.log(customers);
+	// });
+
+	// client.quickstart.changePassword({newPassword: "test1", currentPassword: "test"}, function(result)
+	// 	{ console.log(result); 
+	// });
 
 	// client.quickstart.register(user, function(response){
 	// 	console.log(response);

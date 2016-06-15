@@ -10,7 +10,7 @@ function BaseConnect(config){
   this.ticket = config.ticket;
   this.realm = config.realm;
   this.proxies = {
-    local: "https://zi05s4jaj5.execute-api.us-east-1.amazonaws.com/prod/proxy",
+    local: "https://i460ti6d92.execute-api.us-east-1.amazonaws.com/prod",
     quickstart: "https://zzcogtljc7.execute-api.us-east-1.amazonaws.com/prod/proxy"
   };
 
@@ -572,12 +572,14 @@ function BaseConnect(config){
     if(this.username){
       data["realm"] = this.realm;
       data["call"] = action;
-      data["apptoken"] = this.apptoken;
+      data["apptoken"] = this.apptoken || "";
       data["dbid"] = dbid;
 
       postData["dataType"] = "text";
+      postData["contentType"] = "application/json";
+
       postData["url"] = this.proxies.local;
-      postData["data"] = data;
+      postData["data"] = JSON.stringify(data);
     };
 
     if(this.async == "callback"){
