@@ -553,6 +553,13 @@ function BaseConnect(config){
     };
   };
 
+  this.qbaseResponseCode = function(response){
+    var code = $(response).find("errcode").text();
+    var message = $(response).find("errtext").text();
+
+    return { error: { code: code, message: message }};
+  };
+
   this.xmlPost = function(dbid, action, data, callback, handler){
     if(this.quickstartConfig){
       return _self.quickstartPost(data, callback, handler, dbid, action, true);
@@ -584,7 +591,13 @@ function BaseConnect(config){
 
     if(this.async == "callback"){
       postData["success"] = function(xml){
-        return callback(handler(xml));
+        var qbaseResponse = this.qbaseResponseCode(xml);
+
+        if(qbaseResponse.error.code != "0"){
+          return callback(qbaseResponse);
+        }else{
+          return callback(handler(xml));
+        };
       };
 
       postData["error"] = function(xml){
@@ -595,14 +608,29 @@ function BaseConnect(config){
 
     } else if(this.async == "promise"){
       postData["dataType"] = "text";
-      postData["dataFilter"] = handler;
+
+      postData["dataFilter"] = function(xml){
+        var qbaseResponse = _self.qbaseResponseCode(xml);
+        
+        if(qbaseResponse.error.code != "0"){
+          return qbaseResponse;
+        }else{
+          return handler(xml);
+        };
+      };
 
       return $.ajax(postData);
     }else{
       var response = null;
 
       postData["success"] = function(xml){
-        response = handler(xml);
+        var qbaseResponse = this.qbaseResponseCode(xml);
+
+        if(qbaseResponse.error.code != "0"){
+          response = qbaseResponse;
+        }else{
+          response = handler(xml);
+        };
       };
 
       postData["error"] = function(xml){
