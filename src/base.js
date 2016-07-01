@@ -556,6 +556,7 @@ function BaseConnect(config){
   this.qbaseResponseCode = function(response){
     var code = $(response).find("errcode").text();
     var message = $(response).find("errtext").text();
+    message += ", " + $(response).find("errdetail").text();
 
     return { error: { code: code, message: message }};
   };
