@@ -158,7 +158,7 @@ function BaseConnect(config){
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&apos;')
     };
-    
+
     return string;
   };
 
@@ -305,33 +305,33 @@ function BaseConnect(config){
   };
 
   this.getFields = function(schema){
-    var fields = $(schema).find("fields").find("field");
+    var fields = $(schema + ', fields').find("field");
     var fieldsObj = {};
 
     for(var i=0; i < fields.length; i++){
-      var field = fields[i];
+      var $field = $(fields[i]);
 
       var fieldHash = {
-        "fid": $(field).attr("id"),
-        "fieldType": $(field).attr("field_type"),
-        "label": $(field).find("label").text(),
-        "nowrap": $(field).find("nowrap").text(),
-        "bold": $(field).find("bold").text(),
-        "required": $(field).find("required").text(),
-        "appears_by_default": $(field).find("appears_by_default").text(),
-        "find_enabled": $(field).find("find_enabled").text(),
-        "allow_new_choices": $(field).find("allow_new_choices").text(),
-        "sort_as_given": $(field).find("sort_as_given").text(),
-        "carrychoices": $(field).find("carrychoices").text(),
-        "foreignkey": $(field).find("foreignkey").text(),
-        "unique": $(field).find("unique").text(),
-        "doesdatacopy": $(field).find("doesdatacopy").text(),
-        "fieldhelp": $(field).find("fieldhelp").text(),
-        "display_user": $(field).find("display_user").text(),
-        "default_kind": $(field).find("default_kind").text()
+        "fid": $field.attr("id"),
+        "fieldType": $field.attr("field_type"),
+        "label": $field.find("label").text(),
+        "nowrap": $field.find("nowrap").text(),
+        "bold": $field.find("bold").text(),
+        "required": $field.find("required").text(),
+        "appears_by_default": $field.find("appears_by_default").text(),
+        "find_enabled": $field.find("find_enabled").text(),
+        "allow_new_choices": $field.find("allow_new_choices").text(),
+        "sort_as_given": $field.find("sort_as_given").text(),
+        "carrychoices": $field.find("carrychoices").text(),
+        "foreignkey": $field.find("foreignkey").text(),
+        "unique": $field.find("unique").text(),
+        "doesdatacopy": $field.find("doesdatacopy").text(),
+        "fieldhelp": $field.find("fieldhelp").text(),
+        "display_user": $field.find("display_user").text(),
+        "default_kind": $field.find("default_kind").text()
       }
 
-      var choices = $(field).find("choices").find("choice");
+      var choices = $field.find("choices").find("choice");
 
       if(choices.length > 0){
         var fieldChoices = [];
@@ -344,7 +344,7 @@ function BaseConnect(config){
         fieldHash["choices"] = fieldChoices;
       };
 
-      fieldsObj[$(field).attr("id")] = fieldHash;
+      fieldsObj[$field.attr("id")] = fieldHash;
     };
 
     return fieldsObj;
@@ -497,7 +497,7 @@ function BaseConnect(config){
   };
 
   this.quickstartPost = function(data, callback, handler, dbid, action, proxy){
-    if(proxy){ 
+    if(proxy){
       var json = {
         dbid: dbid,
         realm: this.realm,
@@ -511,7 +511,7 @@ function BaseConnect(config){
     }else{
       var json = data;
     };
-    
+
     json = JSON.stringify(json)
 
     var postData = {
@@ -612,7 +612,7 @@ function BaseConnect(config){
 
       postData["dataFilter"] = function(xml){
         var qbaseResponse = _self.qbaseResponseCode(xml);
-        
+
         if(qbaseResponse.error.code != "0"){
           return qbaseResponse;
         }else{
@@ -1281,7 +1281,7 @@ function Base(config){
 
   this.getTables = function(callback){
     this.handle = function(schema){
-      var tables = $(schema).find("table").find("chdbid");
+      var tables = $(schema).find("chdbid");
       var tablesObj = {};
 
       for(var i=0; i < tables.length; i++){
@@ -1465,7 +1465,7 @@ function Base(config){
         }else{
           BaseHelpers.setCookie("quickstart_session", "", -1);
         };
-        
+
         return response;
       };
 
@@ -1541,7 +1541,7 @@ var BaseHelpers = {
       while (c.charAt(0)==' ') {
         c = c.substring(1);
       };
-      
+
       if (c.indexOf(name) == 0) {
         return c.substring(name.length,c.length);
       };
