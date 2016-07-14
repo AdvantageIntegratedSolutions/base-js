@@ -3,6 +3,8 @@
 QuickBase API Javascript Library w/ JSON
 
 Versions
+* 4.9.1 - https://s3.amazonaws.com/ais_libraries/BaseJS/4.9.1/base.min.js (fix .getTables() function)
+* 4.9.0 - https://s3.amazonaws.com/ais_libraries/BaseJS/4.9.0/base.min.js (add an error property to response obj in failed calls)
 * 4.8.2 - https://s3.amazonaws.com/ais_libraries/BaseJS/4.8.2/base.min.js (update local proxy)
 * 4.8.1 - https://s3.amazonaws.com/ais_libraries/BaseJS/4.8.1/base.min.js (return json errors)
 * 4.8.0 - https://s3.amazonaws.com/ais_libraries/BaseJS/4.8.0/base.min.js (quickstart)
@@ -393,8 +395,8 @@ var userInfo = db.changeUserRole("57527431.cnhu", "12", "11");
 **getTables()** => **{obj}**
 ```javascript
 var tables = db.getTables();
-=> {_dbid_customers: "bj3xvxt6t", 
-    _dbid_activities: "bj3xvxt68", 
+=> {_dbid_customers: "bj3xvxt6t",
+    _dbid_activities: "bj3xvxt68",
     _dbid_documents: "bj3xvxt69"}
 ````
 
