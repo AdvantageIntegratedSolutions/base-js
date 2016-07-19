@@ -304,6 +304,22 @@ function BaseConnect(config){
     return ridsArray;
   };
 
+  this.getTableSchema = function(schema) {
+    var tableSchema = {
+      dbid: '',
+      tableName: '',
+      keyFid: '',
+      fields: this.getFields(schema)
+    };
+
+    var $schema = $(schema);
+    tableSchema.dbid = $schema.find('table_id').text();
+    tableSchema.tableName = $schema.find('name').text();
+    tableSchema.keyFid = $schema.find('key_fid').text();
+
+    return tableSchema;
+  };
+
   this.getFields = function(schema){
     var fields = $(schema + ', fields').find("field");
     var fieldsObj = {};
@@ -997,7 +1013,7 @@ function Base(config){
 
     this.getTableFields = function(callback){
       this.handle = function(response){
-        return BaseConnectInstance.getFields(response);
+        return BaseConnectInstance.getTableSchema(response);
       };
 
       var data = {
