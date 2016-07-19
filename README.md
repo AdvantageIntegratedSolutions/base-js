@@ -3,6 +3,7 @@
 QuickBase API Javascript Library w/ JSON
 
 Versions
+* 4.10.0 - https://s3.amazonaws.com/ais_libraries/BaseJS/4.10.0/base.min.js (.getTableFields() returns table meta data)
 * 4.9.1 - https://s3.amazonaws.com/ais_libraries/BaseJS/4.9.1/base.min.js (fix .getTables() function)
 * 4.9.0 - https://s3.amazonaws.com/ais_libraries/BaseJS/4.9.0/base.min.js (add an error property to response obj in failed calls)
 * 4.8.2 - https://s3.amazonaws.com/ais_libraries/BaseJS/4.8.2/base.min.js (update local proxy)
