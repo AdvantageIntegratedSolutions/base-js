@@ -966,6 +966,21 @@ function Base(config){
       return BaseConnectInstance.post(data, callback, this.handle);
     };
 
+    this.runImport = function(id, callback){
+      this.handle = function(response){
+        var numberOfRecordsImported = BaseConnectInstance.getNode(response, "import_status").match(/\d+/)[0];
+        return parseInt(numberOfRecordsImported);
+      };
+
+      var data = {
+        dbid: this.tableName,
+        action: "RunImport",
+        params: {"id": id}
+      };
+
+      return BaseConnectInstance.post(data, callback, this.handle);
+    };
+
     this.importFromCSV = function(csvArray, callback){
       this.handle = function(response){
         return BaseConnectInstance.getNewRids(response);

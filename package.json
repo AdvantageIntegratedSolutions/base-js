@@ -1,6 +1,6 @@
 {
   "name": "base-js",
-  "version": "4.10.0",
+  "version": "4.11.0",
   "description": "JS Library for QuickBase",
   "engines": {
     "node": "5.5",
