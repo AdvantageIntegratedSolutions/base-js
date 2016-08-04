@@ -1,4 +1,4 @@
-#AIS QuickBase JavaScript Library
+#base-js
 
 <p>
   <b>base-js</b> is a JavaScript library built for the QuickBase API.
