@@ -331,7 +331,11 @@ function BaseConnect(config){
       for (var j = 0; j < fields[i].attributes.length; j++) {
         var prop = fields[i].attributes[j].name;
         var val = fields[i].attributes[j].value;
-        fieldHash[prop] = val;
+        if (prop == 'id') {
+          fieldHash['fid'] = val;
+        } else {
+          fieldHash[prop] = val;
+        }
       }
 
       $field.children().each(function(i, childNode) {
