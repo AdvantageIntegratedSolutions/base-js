@@ -324,32 +324,24 @@ function BaseConnect(config){
     var fields = $(schema + ', fields').find("field");
     var fieldsObj = {};
 
-    for(var i=0; i < fields.length; i++){
+    for (var i=0; i < fields.length; i++){
       var $field = $(fields[i]);
+      var fieldHash = {};
 
-      var fieldHash = {
-        "fid": $field.attr("id"),
-        "fieldType": $field.attr("field_type"),
-        "label": $field.find("label").text(),
-        "nowrap": $field.find("nowrap").text(),
-        "bold": $field.find("bold").text(),
-        "required": $field.find("required").text(),
-        "appears_by_default": $field.find("appears_by_default").text(),
-        "find_enabled": $field.find("find_enabled").text(),
-        "allow_new_choices": $field.find("allow_new_choices").text(),
-        "sort_as_given": $field.find("sort_as_given").text(),
-        "carrychoices": $field.find("carrychoices").text(),
-        "foreignkey": $field.find("foreignkey").text(),
-        "unique": $field.find("unique").text(),
-        "doesdatacopy": $field.find("doesdatacopy").text(),
-        "fieldhelp": $field.find("fieldhelp").text(),
-        "display_user": $field.find("display_user").text(),
-        "default_kind": $field.find("default_kind").text()
+      for (var j = 0; j < fields[i].attributes.length; j++) {
+        var prop = fields[i].attributes[j].name;
+        var val = fields[i].attributes[j].value;
+        fieldHash[prop] = val;
       }
 
-      var choices = $field.find("choices").find("choice");
+      $field.children().each(function(i, childNode) {
+        var prop = childNode.nodeName.toLowerCase();
+        var val = childNode.innerText;
+        if (prop != 'choices') fieldHash[prop] = val;
+      })
 
-      if(choices.length > 0){
+      var choices = $field.find("choices").find("choice");
+      if (choices.length > 0){
         var fieldChoices = [];
         for(var j=0; j < choices.length; j++){
 
