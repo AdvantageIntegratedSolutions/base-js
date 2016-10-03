@@ -207,7 +207,7 @@ function BaseConnect(config){
     };
 
     for(field in data.fieldParams){
-      if(this.config){
+      if(this.config && parseInt(field).toString() == "NaN"){
         var fid = this.config.tables[dbid][field];
       }else{
         var fid = field;
