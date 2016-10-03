@@ -661,6 +661,8 @@ function BaseConnect(config){
 
 function Base(config){
   var BaseConnectInstance = new BaseConnect(config);
+
+  this.baseConnectInstance = BaseConnectInstance;
   this.databaseId = config.databaseId;
 
   this.Table = function(key, config){

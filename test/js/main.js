@@ -1,7 +1,7 @@
 $(document).ready(function(){		
 	var config = {
 		username: "kith",
-		password: "jasMine5281",
+		password: "angular2.0",
 		token: "dw9ziewyeardxswcy7driw4ci",
 		realm: "ais",
 	  async: "callback",
@@ -24,7 +24,7 @@ $(document).ready(function(){
 
 	var client = new Base(config);
 
-	client.activities.doQuery({ rid: { XEX: "" }}, {}, function(activities){
+	client.activities.doQuery({ rid: { XEX: "" }}, { options: "num-1" }, function(activities){
 		console.log("Activities:", activities);
 	});
 
