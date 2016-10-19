@@ -1126,7 +1126,7 @@ function Base(config){
     };
 
     if(auth.ticket){
-      data["ticket"] = auth.ticket;
+      data.params.ticket = auth.ticket;
     };
 
     if(auth.username && auth.password){
