@@ -11,7 +11,8 @@ function BaseConnect(config){
   this.realm = config.realm;
   this.proxies = {
     local: "https://i460ti6d92.execute-api.us-east-1.amazonaws.com/prod",
-    quickstart: "https://zzcogtljc7.execute-api.us-east-1.amazonaws.com/prod/proxy"
+    quickstart: "https://zzcogtljc7.execute-api.us-east-1.amazonaws.com/prod/proxy",
+    quickstartDev: "https://zzcogtljc7.execute-api.us-east-1.amazonaws.com/dev/proxy"
   };
 
   _self = this;
@@ -527,7 +528,8 @@ function BaseConnect(config){
     json = JSON.stringify(json)
 
     var postData = {
-      url: this.proxies.quickstart,
+      // url: this.proxies.quickstart,
+      url: this.proxies.quickstartDev,
       data: json,
       dataType: "text",
       type: "POST",
@@ -1542,6 +1544,36 @@ function Base(config){
       data["quickstartAction"] = "ChangePassword";
       data["realm"] = config.realm;
       data["dbid"] = config.databaseId;
+
+      return _self.quickstartPost(data, callback, this.handler);
+    },
+
+    forgotPassword: function(emailObj, callback) {
+      this.handler = function(response) {
+        return response;
+      };
+
+      var data = {
+        email: emailObj
+      };
+
+      data.quickstartAction = "ForgotPassword";
+      data.realm = config.realm;
+      data.dbid = config.databaseId;
+      data.appToken = config.token;
+
+      return _self.quickstartPost(data, callback, this.handler);
+    },
+
+    resetPassword: function(data, callback) {
+      this.handler = function(response) {
+        return response;
+      };
+
+      data.quickstartAction = "ResetPassword";
+      data.realm = config.realm;
+      data.dbid = config.databaseId;
+      data.appToken = config.token;
 
       return _self.quickstartPost(data, callback, this.handler);
     }
