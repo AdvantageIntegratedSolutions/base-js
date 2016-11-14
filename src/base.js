@@ -1491,7 +1491,7 @@ function Base(config){
     register: function(data, callback){
       this.handler = function(response){
         if(response.ticket){
-          BaseHelpers.setCookie("quickstart_session", JSON.stringify(response), 2);
+          BaseHelpers.setCookie("quickstart_session", JSON.stringify(response), 12);
         }else{
           BaseHelpers.setCookie("quickstart_session", "", -1);
         };
