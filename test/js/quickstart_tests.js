@@ -34,14 +34,14 @@ var config = {
 // quickstartBase.quickstart.forgotPassword({
 //   to: 'cjett@advantagequickbase.com',
 //   subject: 'QuickStart Password Reset Test',
-//   url: "https://www.google.com",
+//   callbackUrl: "https://www.google.com",
 //   html: "<h1>Quickstart PW Reset Test</h1><a href='https://www.google.com'>Click here to reset your password</a>"
 // }).then(res => {
 //   console.log("ForgotPassword res:", res)
 // })
 
 // quickstartBase.quickstart.resetPassword({
-//   resetID: '44616e2e31783ae6d236f0eab1458f27f7876188bd2a53fb82dc3898ee3533e7',
+//   sessionID: '44616e2e31783ae6d236f0eab1458f27f7876188bd2a53fb82dc3898ee3533e7',
 //   newPassword: 'Aw350m3Pa55w0rd'
 // }).then(res => {
 //   console.log("ResetPassword res:", res)

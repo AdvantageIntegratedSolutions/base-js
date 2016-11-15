@@ -528,7 +528,7 @@ function BaseConnect(config){
     json = JSON.stringify(json)
 
     var postData = {
-      url: this.proxies.quickstart,
+      url: this.proxies.quickstartDev,
       data: json,
       dataType: "text",
       type: "POST",
@@ -1488,6 +1488,10 @@ function Base(config){
   };
 
   this.quickstart = {
+    // data = {
+    //   username: 'test@example.com',
+    //   password: 'password123'
+    // }
     register: function(data, callback){
       this.handler = function(response){
         if(response.ticket){
@@ -1499,14 +1503,18 @@ function Base(config){
         return response;
       };
 
-      data["quickstartAction"] = "Register";
-      data["appToken"] = config.token;
-      data["realm"] = config.realm;
-      data["dbid"] = config.databaseId;
+      data.quickstartAction = "Register";
+      data.appToken = config.token;
+      data.realm = config.realm;
+      data.dbid = config.databaseId;
 
       return _self.quickstartPost(data, callback, this.handler);
     },
 
+    // data = {
+    //   username: 'test@example.com',
+    //   password: 'password123'
+    // }
     signIn: function(data, callback){
       this.handler = function(response){
         if(response.ticket){
@@ -1518,10 +1526,10 @@ function Base(config){
         return response;
       };
 
-      data["quickstartAction"] = "SignIn";
-      data["appToken"] = config.token;
-      data["realm"] = config.realm;
-      data["dbid"] = config.databaseId;
+      data.quickstartAction = "SignIn";
+      data.appToken = config.token;
+      data.realm = config.realm;
+      data.dbid = config.databaseId;
 
       return _self.quickstartPost(data, callback, this.handler);
     },
@@ -1534,19 +1542,29 @@ function Base(config){
       }
     },
 
+    // data = {
+    //   currentPassword: 'password123',
+    //   newPassword: 'notPassword123'
+    // }
     changePassword: function(data, callback){
       this.handler = function(response){
         return response;
       };
 
-      data["ticket"] = JSON.parse(BaseHelpers.getCookie("quickstart_session")).ticket;
-      data["quickstartAction"] = "ChangePassword";
-      data["realm"] = config.realm;
-      data["dbid"] = config.databaseId;
+      data.quickstartAction = "ChangePassword";
+      data.ticket = JSON.parse(BaseHelpers.getCookie("quickstart_session")).ticket;
+      data.realm = config.realm;
+      data.dbid = config.databaseId;
 
       return _self.quickstartPost(data, callback, this.handler);
     },
 
+    // emailObj = {
+    //   to: 'test@example.com',
+    //   subject: 'email subject'
+    //   callbackUrl: 'callbackUrl',
+    //   html: 'body of the email with link that matches the callbackUrl'
+    // }
     forgotPassword: function(emailObj, callback) {
       this.handler = function(response) {
         return response;
@@ -1564,6 +1582,10 @@ function Base(config){
       return _self.quickstartPost(data, callback, this.handler);
     },
 
+    // data = {
+    //   sessionID: 'sessionID pulled from url params',
+    //   newPassword: 'users new password'
+    // }
     resetPassword: function(data, callback) {
       this.handler = function(response) {
         return response;
