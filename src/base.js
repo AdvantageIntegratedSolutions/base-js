@@ -1,7 +1,8 @@
 function BaseConnect(config){
   this.config = config;
   this.inverseTables = BaseHelpers.inverseTables(config.tables);
-  this.apptoken = config.token;
+  this.apptoken = config.apptoken;
+  this.usertoken = config.usertoken;
   this.async = config.async || false;
   this.databaseId = config.databaseId;
   this.username = config.username;
@@ -170,12 +171,16 @@ function BaseConnect(config){
       postData.push(this.createParameter("apptoken", this.apptoken));
     };
 
-    if(this.username && !this.ticket){
+    if(this.usertoken){
+      postData.push(this.createParameter("usertoken", this.usertoken));
+    }
+
+    if(this.username && !this.ticket && !this.usertoken){
       postData.push(this.createParameter("username", this.username));
       postData.push(this.createParameter("password", this.password));
     };
 
-    if(this.ticket){
+    if(this.ticket && !this.usertoken){
       postData.push(this.createParameter("ticket", this.ticket));
     };
 
@@ -1504,7 +1509,7 @@ function Base(config){
       };
 
       data.quickstartAction = "Register";
-      data.appToken = config.token;
+      data.appToken = config.apptoken;
       data.realm = config.realm;
       data.dbid = config.databaseId;
 
@@ -1527,7 +1532,7 @@ function Base(config){
       };
 
       data.quickstartAction = "SignIn";
-      data.appToken = config.token;
+      data.appToken = config.apptoken;
       data.realm = config.realm;
       data.dbid = config.databaseId;
 
@@ -1577,7 +1582,7 @@ function Base(config){
       data.quickstartAction = "ForgotPassword";
       data.realm = config.realm;
       data.dbid = config.databaseId;
-      data.appToken = config.token;
+      data.appToken = config.apptoken;
 
       return _self.quickstartPost(data, callback, this.handler);
     },
@@ -1594,7 +1599,7 @@ function Base(config){
       data.quickstartAction = "ResetPassword";
       data.realm = config.realm;
       data.dbid = config.databaseId;
-      data.appToken = config.token;
+      data.appToken = config.apptoken;
 
       return _self.quickstartPost(data, callback, this.handler);
     }

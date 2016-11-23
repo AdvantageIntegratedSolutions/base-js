@@ -2,7 +2,6 @@ $(document).ready(function(){
 	var config = {
 		username: "kith",
 		password: "angular2.0",
-		token: "dw9ziewyeardxswcy7driw4ci",
 		realm: "ais",
 	  async: "callback",
 	  databaseId: "bkqdhycdy",
