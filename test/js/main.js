@@ -27,6 +27,10 @@ $(document).ready(function(){
 		console.log("Activities:", activities);
 	});
 
+	client.getAppTables((result) => {
+		console.log(result);
+	});
+
 	// client.activities.editRecord(8, { notes: "Test Notes" }, function(response){
 	// 	console.log(response);
 	// });
