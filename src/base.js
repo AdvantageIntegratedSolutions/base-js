@@ -326,6 +326,23 @@ function BaseConnect(config){
     return tableSchema;
   };
 
+  this.getAppSchemaInfo = function(schema) {
+    var $schema = $(schema);
+    var tables = $schema.find("chdbid");
+    var tableSchema = [];
+
+    for(var i=0; i < tables.length; i++){
+      var currentTable = $(tables[i]);
+
+      tableSchema.push({
+        name: currentTable.attr("name"),
+        dbid: currentTable.text()
+      });
+    }
+
+    return tableSchema;
+  };
+
   this.getFields = function(schema){
     var fields = $(schema + ', fields').find("field");
     var fieldsObj = {};
@@ -1108,6 +1125,19 @@ function Base(config){
   };
 
   this.setTables(config.tables);
+
+  this.getAppTables = function(callback){
+    this.handle = function(response){
+      return BaseConnectInstance.getAppSchemaInfo(response);
+    };
+
+    var data = {
+      dbid: this.databaseId,
+      action: "GetSchema"
+    };
+
+    return BaseConnectInstance.post(data, callback, this.handle);
+  };
 
   this.getOneTimeTicket = function(callback){
     this.handle = function(response){
