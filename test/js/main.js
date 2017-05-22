@@ -23,11 +23,11 @@ $(document).ready(function(){
 
 	var client = new Base(config);
 
-	client.activities.doQuery({ rid: { XEX: "" }}, { options: "num-1" }, function(activities){
-		console.log("Activities:", activities);
-	});
+	// client.activities.doQuery({ rid: { XEX: "" }}, { options: "num-1" }, function(activities){
+	// 	console.log("Activities:", activities);
+	// });
 
-	client.getAppTables((result) => {
+	client.getAppTables('bcyfufihf', (result) => {
 		console.log(result);
 	});
 
