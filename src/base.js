@@ -1126,13 +1126,13 @@ function Base(config){
 
   this.setTables(config.tables);
 
-  this.getAppTables = function(dbid, callback){
+  this.getAppTables = function(callback){
     this.handle = function(response){
       return BaseConnectInstance.getAppSchemaInfo(response);
     };
 
     var data = {
-      dbid: dbid || this.databaseId,
+      dbid: this.databaseId,
       action: "GetSchema"
     };
 
