@@ -1,4 +1,4 @@
-#base-js
+<h1>base-js</h1>
 
 <p>
   <b>base-js</b> is a JavaScript library built for the QuickBase API.
