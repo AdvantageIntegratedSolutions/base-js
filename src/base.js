@@ -1,3 +1,6 @@
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+var XML = require("pixl-xml");
+
 function BaseConnect(config) {
   this.config = config;
   this.inverseTables = BaseHelpers.inverseTables(config.tables);
