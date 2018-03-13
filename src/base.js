@@ -257,7 +257,23 @@ function BaseConnect(config) {
   };
 
   this.getNode = function (response, tag) {
-      return $(response).find(tag).text();
+    var parsed;
+
+    if(tag){
+      tag = tag.split(">");
+
+      for(var i=0;i<tag.length;i++){
+        var current_tag = tag[i];
+        if(typeof response[current_tag] == "string"){
+          parsed = response[current_tag];
+          break;
+        } else {
+          response = response[current_tag]
+        }
+      }
+    }
+
+    return parsed;
   };
 
   this.getRecords = function (dbid, response) {
