@@ -1,4 +1,4 @@
-function BaseConnect(config) {
+gacpfunction BaseConnect(config) {
   this.config = config;
   this.inverseTables = BaseHelpers.inverseTables(config.tables);
   this.apptoken = config.apptoken;
@@ -8,7 +8,7 @@ function BaseConnect(config) {
   this.username = config.username;
   this.password = config.password;
   this.quickstartConfig = config.quickstart || false;
-  this.ticket = config.ticket;
+  this.ticket = config.ticket || BaseHelpers.getUrlParam('ticket');
   this.realm = config.realm;
 
   this.cookieDbid = config.cookieDbid;
