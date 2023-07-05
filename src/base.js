@@ -1,4 +1,4 @@
-gacpfunction BaseConnect(config) {
+function BaseConnect(config) {
   this.config = config;
   this.inverseTables = BaseHelpers.inverseTables(config.tables);
   this.apptoken = config.apptoken;
